@@ -1,0 +1,1 @@
+<b>Solution:</b> For this problem, the substitution property and the distributive property will both be referenced. Together, both principles offer the particular functionality to stratify the <b>0</b> vector into the basis components (we assume a 2D vector) and elucidate its equivalence to the left hand value.

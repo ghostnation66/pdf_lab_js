@@ -1,0 +1,95 @@
+document.getElementById('loadDataBtn').addEventListener('click', () => {
+    // Get the selected file from the input
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert('Please select a file.');
+        return;
+    }
+
+    // Read the file using FileReader API
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const bitstrings = event.target.result.trim().split('\n');
+
+        // Array to store Hamming distances
+        const distances = [];
+
+        // Calculate Hamming distance for each pair of bitstrings
+        for (let i = 0; i < bitstrings.length - 1; i++) {
+            for (let j = i + 1; j < bitstrings.length; j++) {
+                const distance = hammingDistance(bitstrings[i], bitstrings[j]);
+                distances.push(distance);
+            }
+        }
+
+        const distancesCount = {}; // Empty JavaScript object to store counts
+
+        // Iterate over the distances array
+        distances.forEach(distance => {
+            // Check if the property already exists in the object
+            if (distancesCount[distance]) {
+                // If the property exists, increment its value by one
+                distancesCount[distance]++;
+            } else {
+                // If the property doesn't exist, create a new property with value 1
+                distancesCount[distance] = 1;
+            }
+        });
+
+        //Evaluating the mean
+
+        var histogramTotal = 0;
+        var histogramAvg = 0;
+        for (const key in distancesCount) {
+            histogramTotal += key * distancesCount[key];
+        };
+        histogramAvg = histogramTotal / distances.length;
+
+        //Evaluating the standard Deviation
+
+        var histogramVar = 0; //A total sum of the variances augmented by their respective weights (frequency of occurence)
+        var histogramVarNorm = 0; //Normalizes the augmented weighted variance against the frequency counts
+        var histogramStdDev = 0;
+
+        for (const key in distancesCount) {
+            histogramVar += ((key - histogramAvg)**2) * distancesCount[key];
+        };
+        histogramVarNorm = histogramVar / distances.length;
+        histogramStdDev = Math.sqrt(histogramVarNorm);
+
+        // Generate histogram using plotly.js
+        const trace = {
+            x: distances,
+            type: 'histogram',
+            marker: {color: '#2e9f40'}
+        };
+        const layout = {
+            title: 'Hamming Distance Histogram',
+            xaxis: {
+                title: 'Hamming Distance (864 bit length)',
+                tickmode: 'linear', // Set tick mode to linear
+                tick0: 0, // Start the ticks at 0
+                dtick: 25, // Set the tick interval to 1
+            },
+            yaxis: { title: 'Frequency' },
+        };
+        Plotly.newPlot('histogram', [trace], layout);
+    };
+
+    reader.readAsText(file);
+});
+
+function hammingDistance(str1, str2) {
+    if (str1.length !== str2.length) {
+        throw new Error('Bitstrings must have the same length');
+    }
+    let distance = 0;
+    for (let i = 0; i < str1.length; i++) {
+        if (str1[i] !== str2[i]) {
+            distance++;
+        }
+    }
+    return distance;
+}

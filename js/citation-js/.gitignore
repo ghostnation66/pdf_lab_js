@@ -1,0 +1,28 @@
+# node
+npm-debug.log
+npm-debug.log.*
+node_modules/
+
+# dev
+dev/
+profile/
+isolate-0x*
+debug.html
+lerna-debug.log
+/saveConfig.js
+/packages/*/dev.js
+/packages/*/test.js
+
+# generated content
+build/
+coverage/
+jsdoc/
+lib/
+lib-mjs/
+
+# coverage
+.nyc_output/
+coverage.lcov
+
+# not really needed, is it?
+.directory
