@@ -40,7 +40,7 @@
 								<table style="width:100%;">
 								  <tr>
 								    <td><b>file_name</b></td>
-								    <td>final_project.pdf</td>
+								    <td>pdf_lab_js_wiki</td>
 								  </tr>
 								  <tr>
 								    <td><b>author</b></td>
@@ -63,23 +63,19 @@
 								<span>
 									<div class="slashtab-number">1</div>
 								</span>
-								<div class='slashtab-text'>Mathematical Background: SLPs</div>
+								<div class='slashtab-text'>slashtab-text</div>
 							</div>
 							<div class="numberingGrid">
-                The Sturm-Liouville Problem (SLP) is a type of boundary value problem in mathematics that involves a second-order linear differential equation of a specific form, along with boundary conditions. These problems arise in various areas of physics and engineering, such as the study of vibrating strings, heat conduction, and quantum mechanics. The SLP formula typically takes the form shown below:
+                This document provides a visual reference for the CSS utilities of pdf_lab_js. As the project develops, elements will be integrated into the wiki so users may browse through the document for specific structures of interest. It is recommended that user open inspect element to identify the underlying elements that build up composite structures.
+
+								Below is an example of a MathJAX equation rendering within the <code>numberingGrid</code> element:
                 <br>
                 \(\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 \)
                 <br>
-                In addition to the equation itself, the SLP is comprised of several constituents that characterize its utility.
-                <ul>
-                 <li>y(x) is the unknown function.</li>
-                 <li>p(x), q(x), and w(x) are known functions of x.</li>
-                 <li>λ is a parameter (often called the eigenvalue).</li>
-                 <li>The equation is defined on an interval [a,b].</li>
-                 <li>Boundary conditions are specified at the endpoints x=a and x=b. These boundary conditions typically involve the function y(x) and its derivative y′(x).</li>
-              </ul>
-              SLPs are associated with Green's functions because of their very nature, being second order differential equations that may exist as either homogenous (source-free) or non-homogenous (source-driven) systems. In the case of the former, the SLP is an eigenvalue problem, in which solving for y yields an infinite set of solutions for an associated \(\lambda \), of which there are may be inifnite number, at least in continuous systems for that matter (\(y = y_n ~ \text{for every} ~ \lambda_n \)). The functions of \(y_n\) are denoted as eigenfunctions and each corresponding \(\lambda_n\) value is an eigenvalue. This permits the construction of a complete set of orthogonal eigenfunctions, which can then be used to represent a wide range of functions as a series expansion. This is analogous to how Fourier series use sine and cosine functions (which are orthogonal) to represent periodic functions. The eigenfunctions are orthogonal, and such a property is salient because it affords the capacity to "degenerate" the function into a summation of it's constitutent eigenfunctions, which is imperative for modeling. The set of eigenfunctions of a Sturm-Liouville problem is complete. This means that any "well-behaved" function (satisfying certain conditions) can be represented as a series expansion in terms of these eigenfunctions. Even for non-homogenous Sturm-Liouville problems (with a non-zero right-hand side), the orthogonality property is used to find the solution by expanding both the non-homogenous term (forcing element) and the non-homogenous term in the eigenfunction representation. Green's Functions are utilized for solving this class of SLPs extensively because they allow for the evaluation solve non-homogenous differential equations. For a linear differential operator L, the Green's function G(x, ξ) satisfies: \( L G(x, \xi) = \delta(x - \xi) \). Green's Functions essentially allow rendering any field distribution excited by a physical source as a superposition of point sources.
+                If desired, elements can be placed outside of the numberingGrid box which prevents the lines from being numbered. Below, a <code>proof</code> element in displayed outside of the <code>numberingGrid</code> element:
 							</div>
+							<br>
+							<div class="proof">Insert Mathematical Proof Here</div>
 							<br>
 					</div>
 					<div class="column">
