@@ -330,11 +330,7 @@ for (var partitionsIndex = 0; partitionsIndex < partitions.length; partitionsInd
             if(statusTxt == "error"){
                 // console.log("Error loading content for element: ", container, " Error: " + xhr.status + ": " + xhr.statusText);
             }
-
-
-
         });
-
     });
 
 

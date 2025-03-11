@@ -63,50 +63,69 @@
 								<span>
 									<div class="slashtab-number">1</div>
 								</span>
-								<div class='slashtab-text'>slashtab-text</div>
+								<div class='slashtab-text'>Components of pdf_lab_js</div>
 							</div>
 							<div class="numberingGrid">
-                This document provides a visual reference for the CSS utilities of pdf_lab_js. As the project develops, elements will be integrated into the wiki so users may browse through the document for specific structures of interest. It is recommended that user open inspect element to identify the underlying elements that build up composite structures.
+                This document provides a visual reference for the CSS utilities of pdf_lab_js. As the project develops, elements will be integrated into the wiki so users may browse through the document for specific structures of interest. It is recommended that user be familiar with the "Inspect Element" tool to directly identify the underlying elements that build up composite structures.
 
 								Below is an example of a MathJAX equation rendering within the <code>numberingGrid</code> element:
                 <br>
                 \(\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 \)
                 <br>
-                If desired, elements can be placed outside of the numberingGrid box which prevents the lines from being numbered. Below, a <code>proof</code> element in displayed outside of the <code>numberingGrid</code> element:
+                Rendering notation in MathJAX is equivalent to working entirely in a LaTeX block math environment, and appropriate considerations must be made in order to feature text and math together. MathJAX boxes do not currently have the ability for reflow, and thus will cause the column width to extend if the content is not formatted so that it renders within the default column width. If desired, elements can be placed outside of the numberingGrid box which prevents the lines from being numbered. Below, a <code>proof</code> element in displayed outside of the <code>numberingGrid</code> element. Proofs do not line have line numbers and are intended to be separate blocks from the document:
 							</div>
 							<br>
-							<div class="proof">Insert Mathematical Proof Here</div>
+							<div class="proof">Example Mathematical Proof
+							\(
+								\textbf{Theorem 4.2.} ~\text{For any } ~n \in \mathbb{N}, ~\text{64 is a factor of}~ 3^{2n+2} - 8n - 9.
+							\)
+							</div>
 							<br>
+							<div class="numberingGrid">
+								The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is designated by the <code>language-css</code> and <code>line-numbers</code> classes. The former can be altered for the language coloring of choice, and the latter can be removed in order to relinquish the prism number lines.
+							</div>
+ 							<pre class="language-css line-numbers" ><code>p { color: red; }</code></pre>
+							<div class="numberingGrid">
+								Here we show the utilities of the <code>figure</code> class to render figure boxes that are automatically tracked throughout the document. Currently, the figure management system is not managed by the same mechanism (the primary index is managed by CSS, the secondary, subsection label is managed by javascript), and this will need to be adjusted in a future patch. It is recommended that code and image assets for figures are maintained in the /assets/code/
+							</div>
 					</div>
 					<div class="column">
+						<div class="numberingGrid">
+							directory for easy management of the figures. Several figure examples are rendered below for inspection:
+						</div>
+						<div class="figure">
+							<div class="figure-label">Conflation of \(\xi\) to x as V \(\rightarrow\) 0</div>
+							<div class="figure-content">
+								<img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+							</div>
+						</div>
+						<div class="figure">
+							<div class="figure-label">pdf_lab_js import function</div>
+							<div class="figure-content">
+								<pre class="language-js line-numbers" ><code class="import">$(".import").each(function () {
+	let container = $(this);
+	let path = container.text();
+	container.load(path, function(responseTxt, statusTxt, xhr){
+			if(statusTxt == "success"){
+				console.log("Content loaded successfully for element: ", container);
+			}
+			if(statusTxt == "error"){
+				console.log("Error loading content for element:
+				", container, " Error: " +
+				xhr.status + ": " +
+				xhr.statusText);
+			}
+	});
+});</code></pre>
+							</div>
+						</div>
             <div class="slashtab">
               <span>
                 <div class="slashtab-number">2</div>
               </span>
-              <div class='slashtab-text'> Structure of Green's Functions</div>
+              <div class='slashtab-text'> Importing Data</div>
               <div></div>
             </div>
-						<div class="numberingGrid">
-							Green's Functions (GFs) are useful because they exploit both the properties of linearity as well as the concept of the delta function. The intuition behind GFs is perhaps best elucidated when analyzing the electric potential at a particular point within a charged space; the equation takes the form:
-              \(-\nabla^2 \phi = \frac{\rho}{\varepsilon_0} \)
-              <ul>
-               <li> \(-\nabla^2 \): Laplacian Operator (inverted as per convention) that represents the divergence of the gradient. This is essentially that rate of change of the gradient, summed up for the unmixed dimensions of the space, shown below:
-               \(
-               \Delta f = -\nabla^2 f = \sum_{i=1}^{n} \frac{\partial^2 f}{\partial x_i^2}
-               \)
-                </li>
-               <li>\( \phi\): electric potential as a function of location (in many cases the location of interest is represented by the variable x)</li>
-                <li>\( \rho\): charge density within the region</li>
-               <li>\(\varepsilon_0\): Permittivity of the space, essentially a scaling factor, and treated as a constant</li>
-            </ul>
-            The electric potential equation aforementioned is formally denoted as <b>Poisson's Equation for Electrostatics</b>, and is used in this exposition to develop the idea for the implementation of Green's functions. Particular attention must be directed toward the charge density term, \(\rho\), as it essentially describes the presence of charge per unit volume, \(\rho = \frac{charge}{volume}\). Now, the linearity of \(\nabla^2\) indicates that when the electric potential \( \phi\) for two separate "particles" is determined separately, they may simply be added together in order to obtain the final electric potential of the space itself. Thus, point charges (in the discrete sense) may be evaluated individually and summed via integration (in a continuous sense) to calculate the electric potential, and the Laplacian may be taken subsequently. This understanding permits us to focus on the charge density term itself. A charged object will possess a specific charge density at any point within its space as a plane if 2D, otherwise volume (typically a sphere to simplify calculations) if 3D. The charge may therefore be conceived as a continuous sum of point charges within a charged space, and when divided by the space dimensions, which is commonly volume, the charge density renders out. The charge equation can now be presented as such: \(\rho(x) = \int_{\mathbb{R}^3} \rho(\xi) \delta(x - \xi) \, d\xi\), where \( \xi \) is the location of a point source or particle some distance from the point x at which we expect to determine the electrical charge. The \(\delta\) function serves as an "indicator" element that allows for the infinitesimal reduction in volume around the individual charged point, and evaluates to \(\infty\) only when x = \(\xi\); the phenomena is mathematically represented as: \(\delta(x-\xi) = \lim_{V \to 0} \frac{\mathbf{1}_{D}(\xi)}{V} \). When \(\xi\) is not within some distance bound D from x, it is not acknowledged and evaluates to 0, effectively contributing no charge outside of the domain D. As the volume is progressively reduced, we expect that the domain D remains within the volume and begins to "shrinkwrap" on the point x, further excluding regions outside of the boundary. This has the effect of isolating a charge to the utmost individual region (at the point where it is defined by itself as a point in space), and nowhere else; such a condition will enable us to integrate all charges over the volume, as indicated in the previous equation for \(\rho(x) \). The shrinking region around the charged point source is presented in the figure below (note that although perhaps not shown precisely, the delta function is symmetric, show x should be in the center of D):
-          </div>
-          <div class="figure">
-            <div class="figure-label">Conflation of \(\xi\) to x as V \(\rightarrow\) 0</div>
-            <div class="figure-content">
-              <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
-            </div>
-          </div>
           <br>
           </div>
 				</div>
