@@ -424,7 +424,7 @@ function executeCitation(){
 
 
 
-//This is the line numbering function. It essentially exploits the span elements special property where individual clientRects are generated per reflow within a container and identifies only the first "box" in a row, preventing multiple line numbers from being rendered on the same y axis position, permitting the use of other HTML elements such as <b></b> without such overlapping rendiring issues
+//This is the line numbering function. It essentially exploits the span elements special property where individual clientRects are generated per reflow within a container and identifies only the first "box" in a row, preventing multiple line numbers from being rendered on the same y axis position, permitting the use of other HTML elements such as <b></b> without such overlapping rendering issues
 window.addEventListener("DOMContentLoaded", function () {
     // Get the <span> element by its class name and have the function return a NodeList
     const delay = 2000;

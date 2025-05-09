@@ -1,1 +1,3 @@
 The article discusses Spanner, Google's globally-distributed SQL database system, known for achieving both strong consistency (all nodes agree on data state) and high availability (operations continue during network issues) – a combination seemingly at odds with the CAP theorem. The following sections elucidate the factors that contribute to Spanner's efficacy as a highly scalable database service.
+
+This is not the ideal scenario for line numbers in js. Render mathjax $$A = \sigma$$

@@ -1,0 +1,268 @@
+import * as utility from "./utilityFunctions.js";
+// Set up export help function (JS modules )
+export function help(){
+  console.log("textReflow.js manages reflow functionality of pdf_lab_js. It identifies a specific reflowable element 'numberingGrid' in this case, and allows text to be passed to subsequent grids if certain text is identified to exceed the vertical limit of the document.");
+};
+
+let pageHeightInPixels=1000;
+let page;
+let delay=3000;
+
+// Finds numberingGrid elements that violate a height constraint (default 1000px). Collectes the node elements that are admissible and those that are not, and removes the node elements that are not admissible.
+export function numberingGridReflow(){
+    let numberingGrids = document.querySelectorAll(".numberingGrid");
+    // Obtain the pages in the DOM to be used to reallocated oversized text to new columns
+    let pages = document.querySelectorAll(".page");
+    // console.log(numberingGrids);
+    for (let i = 0; i < numberingGrids.length; i++) {
+        const element = numberingGrids[i];
+        // console.log('Element at index', i, ':', element);
+        // Because getBoundingClientRect is dependent on the scroll position, it needs to be accounted for in the assignment
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        let rectBox = element.getBoundingClientRect();
+        // Collect the page container of the numberingGrid element. Use the top value of the current element to determine which page it is localized on
+        let pageIndex = Math.floor((rectBox.top + scrollTop)/pageHeightInPixels) + 1;
+        // Checks the rectBox of the numberingGrid to see if there a candidates for reflow. This is determined by dividing the bottom of the rectBox bottom value by the pageHeight (based on page since HTML is rendered as a single document), and subtractd by 1000, which should make all non-violating elements subzero valued.
+        if ((rectBox.bottom+scrollTop) - pageHeightInPixels * pageIndex > 0){
+            let excess_height = rectBox.bottom+scrollTop - (pageHeightInPixels*pageIndex);
+            // This will extract the numberingSpan element within the grid, which contains our content ( a mix of text, spans, and other node types)
+            let numberedSpan = element.children[2].children[0];
+            let goodChildren, badChildren
+            [goodChildren, badChildren]= spanSeparator(numberedSpan, excess_height);
+            // Create two new numbering grid elements with goodChildren, to replace the original numberingGrid at this iteration, and one containing badChildren, to be inserted before the next numbering grid element
+            let goodGrid = utility.createNumberingGrid(goodChildren);
+            let badGrid = utility.createNumberingGrid(badChildren);
+            // debugger
+            // numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', badGrid);
+            // Looping through the badChildren in revese and inserting each individual element into the subsequent numberingGrid
+            for(let child of badChildren.reverse()){
+              numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', child);
+            }
+            element.replaceWith(goodGrid);
+
+        }
+    };
+}
+
+// Separates span elements within a span element based on admissibility to a vertical constraint. Returns an array of admissible nodes and inadmissible nodes
+export function spanSeparator(spanElement, excess_height){
+    const vertical_offset = window.scrollY;
+    const span_height = spanElement.getBoundingClientRect().height;
+    const span_top = spanElement.getBoundingClientRect().top + vertical_offset;
+    let span_children = spanElement.childNodes;
+    let cumulative_height = 0;
+    let goodChildren = [];
+    let badChildren = [];
+    let index = 0;
+    // Collect rectBoxes of spanElement children
+    for(let child of span_children){
+      // debugger
+        let rect_box, push_node
+        [rect_box, push_node] = boundingBox(child, spanElement);
+        // debugger
+        cumulative_height += rect_box.height;
+        if(cumulative_height + span_top > pageHeightInPixels){
+            console.log("textReflow.js:spanSeparator:Violating child @ ", child);
+            badChildren.push(push_node);
+        }else{
+            goodChildren.push(push_node);
+        }
+        index++;
+    }
+    return [goodChildren,badChildren];
+}
+// In place bounding box checker, converts any text nodes to individual span elements. Returns an array of the DOMrect of the node, and the usable node (converts text nodes to span of spans)
+export function boundingBox(original_node, spanElement, index) {
+    let rect
+    // If text node is identified, split the entire text string into disparate span elements
+    if(original_node.nodeType ==3){
+      // Clone the original node to remove reference smashing
+      let cloned_original_node = original_node.cloneNode(true);
+        // debugger
+        // Extract text data
+        let node_text_string = cloned_original_node.data;
+        const fragment = document.createElement('span');
+        let words = node_text_string.split(/\s+/);
+        words.forEach((word, index) => {
+          const span = document.createElement('span');
+          span.textContent = word;
+          fragment.appendChild(span);
+
+          // Add a space after each word, except the last one
+          if (index < words.length - 1) {
+            fragment.appendChild(document.createTextNode(' '));
+          }
+        });
+        // Create a temporary span element
+        const text_block_span = document.createElement('span');
+        // Append the Text Node to the span
+        text_block_span.appendChild(cloned_original_node.cloneNode());
+        // Append the span to the original node to realize the instance
+        original_node.parentElement.appendChild(text_block_span);
+
+        // Get the bounding rectangle of the span
+        rect = text_block_span.getBoundingClientRect();
+
+        // Remove the temporary span
+        original_node.parentElement.removeChild(text_block_span);
+        // Replace text node with span of spans
+        spanElement.replaceChild(fragment, original_node);
+        cloned_original_node = fragment;
+        return [rect, cloned_original_node];
+    }else{
+        rect = original_node.getBoundingClientRect();
+        return [rect, original_node];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function rangeExtractor(spanElement, excess_height) {
+    const span_height = spanElement.getBoundingClientRect().height;
+    const range = document.createRange();
+    // The scroll position can influence the y value of rectboxes, so we offset with the position of the window
+    const vertical_offset = window.scrollY;
+    range.selectNodeContents(spanElement);
+    let total_offset = range.endOffset;
+    let full_span_contents = range.cloneRange();
+    let span_children = spanElement.childNodes;
+    debugger
+    let has_already_violated = 0;
+    let unviolating_document_fragments = [];
+    let violating_document_fragments = [];
+    for(let i = 0; i<total_offset; i++){
+        range.setStart(spanElement,i);
+        range.setEnd(spanElement, i+1);
+        // We need to snapshot the range as it is a pointer by default, which would mean the last range in the iteration is the one that applies to all of them.
+        let range_snapshot = range.cloneRange();
+        var rectBox = range_snapshot.getBoundingClientRect();
+        let rectBoxClients = range_snapshot.getClientRects();
+        // console.log(rectBox);
+        if (has_already_violated){
+            // console.log("previous violation occurred, storing the remaining ranges as document fragments");
+            violating_document_fragments.push(range_snapshot.cloneContents());
+            // Passes the for loop
+            continue;
+        }
+        unviolating_document_fragments.push(range_snapshot.cloneContents());
+        // If a range violates the height constraint
+        if(rectBox.bottom + vertical_offset > 1000){
+            console.log("FOUND A RECTBOX RANGE ELEMENT THAT VIOLATES CONSTRAINT");
+            let document_fragment = range_snapshot.cloneContents();
+            // If overflow is text based, handle it with this special case. Basically all characters are individually inserted into a numberedSpan element and sized and measured, until they violate the height constraint
+            if(document_fragment.firstChild.nodeType == 3){
+                console.log("this was a text OOB, extracting text");
+                // Initialize height from the top of the span plus scroll position
+                let cumulative_height = rectBox.y + vertical_offset;
+                let text = document_fragment.textContent;
+                // Track how many lines you have passed
+                let line_eater_value = 0;
+                //Initialize first rectBoxes element to begin subtraction
+                let line_width_of_rect = rectBoxClients[line_eater_value].width;
+                // Prefix data array for storing non-violating chars
+                let prefix = []
+                for(let char in text){
+                    console.log(text[char]);
+                    let temporary_span = document.createElement('span');
+                    temporary_span.classList.add('numberedSpan');
+                    temporary_span.innerText = `${text[char]}`;
+                    // debugger
+                    spanElement.insertAdjacentElement('beforebegin', temporary_span);
+                    // Collect clientRect of an individual char
+                    let char_box = temporary_span.getClientRects();
+                    // Extract individual char width. Whitespace is not perceived to have any width, so we force it with a width of 5
+                    let char_width = char_box[0].width;
+                    if(char_width ==0){
+                        console.log("must be a whitespace, adding hardcoded space value");
+                        char_width = 3.6;
+                    }
+                    // Subtract character width from current rectBoxClient width. If line width of current rect was 0 or below last iteration, reassign it. We arbitrary design this so that anything less than a character width would floor to 0.
+                    prefix.push(text[char]);
+                    if (line_width_of_rect <= char_width){
+                        line_eater_value++;
+                        line_width_of_rect = rectBoxClients[line_eater_value].width;
+                        cumulative_height += char_box[0].height;
+                        if(cumulative_height >= 1000){
+                            console.log("violated height @ character", text[char], "in line ", line_eater_value);
+                            debugger;
+                            //Slice prefix and suffix
+                            prefix = prefix.join('');
+                            let prefixFragment = document.createTextNode(prefix);
+                            unviolating_document_fragments.push(prefixFragment);
+                            let suffix = text.slice(char);
+                            let suffixFragment = document.createTextNode(suffix);
+                            violating_document_fragments.push(suffixFragment);
+                            //Set the violation switch to on after the first violation. This will tell the for loop to clone everything else into a new array.
+                            has_already_violated = 1;
+                            break;
+
+
+                        }
+                    }
+                    line_width_of_rect -= char_width;
+                    // Remove temporary span element from DOM
+                    temporary_span.remove();
+                }
+
+            }
+            console.log(range_snapshot.getClientRects());
+        }
+        // span_range_constituents.push(range_snapshot);
+        // span_range_constituents_boxes.push(rectBox);
+        let rect;
+        // for(rect of rectBox){
+        //     if (rect.y != y_axis_filter){
+        //         cumulative_height += rect.height;
+        //         console.log("y axis change, height increase", rect.height);
+        //         y_axis_filter = rect.y;
+        //     }
+        // }
+        // console.log("range bounding box ", rectBox);
+        // debugger
+        // window.getSelection().addRange(range_snapshot);
+        // debugger
+        // range_snapshot.extractContents();
+    }
+    // console.log(span_range_constituents);
+    // console.log(span_range_constituents_boxes);
+    // let total_offsets = range.endOffset;
+    // range.setStart(spanElement, 0);
+    // range.setEnd(spanElement, 3);
+    // Get the bounding rectangle for the range
+    const rect = range.getClientRects();
+    // Clean up the range (optional but good practice)
+    range.detach();
+    return unviolating_document_fragments, violating_document_fragments;
+    // return range;
+}
