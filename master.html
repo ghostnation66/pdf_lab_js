@@ -79,12 +79,16 @@
                     \)
                     </div>
                     <div class="numberingGrid">
-                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</span> for more information.
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Another useful utility is the ability select a range of lines using the <code>data-range</code> field. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</span> for more information.
                     </div>
                      <pre class="language-html line-numbers" data-src="/assets/text/prism_code_example.html" style="white-space:pre-line; font-size: 6px;" ></pre>
                 </div>
           <div class="column">
             <!-- <div class="numberingGrid"></div> -->
+            <div class="numberingGrid">
+                The prism.js library can also render filesystem contents, such as the very filsystem structure implemented in pdf_lab_js_wiki
+            </div>
+            <pre class="language-treeview no-invisibles" data-src="/assets/text/pdf_lab_js_filesystem_tree.txt" style="white-space:pre-line; font-size: 6px;" ></pre>
             <div class="slashtab">
               <span>
                 <div class="slashtab-number">2.0</div>
@@ -99,8 +103,8 @@
               <div>index.js</div>
             </div>
             <div class="numberingGrid"> All function operations are contained within modules, and the modules are import into index.js, which will call specific utilities to properly render the document. All modules are equipped with a <code>.help()</code> method that enables the user to examine the scope of functions within the document, although              </div>
-            <div class="subsection">
-              <div>2.1</div>
+            <div class="subsection-label">
+              <div>2.2</div>
               <div>textReflow.js</div>
             </div>
             <div class="numberingGrid"> The management and rearrangmenet of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint
@@ -112,6 +116,63 @@
             <div class="page-break" contentEditable="true"></div>
             <div class="dual-column">
                 <div class="column">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Description</th>
+                <th>Default Felsen Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>plate height</td>
+                <td>distance between top and bottom plate of the waveguide</td>
+                <td align="center">1 m</td>
+              </tr>
+              <tr>
+                <td>source height</td>
+                <td>height of transmitted wave within the waveguide (vertical axis)</td>
+                <td align="center">0.2 m</td>
+              </tr>
+              <tr>
+                <td>observer height</td>
+                <td>height of wave receiver within the waveguide (vertical axis)</td>
+                <td align="center">0.5 m</td>
+              </tr>
+              <tr>
+                <td>first range</td>
+                <td>lower bound region of the horizontal analysis domain</td>
+                <td align="center">5 m</td>
+              </tr>
+              <tr>
+                <td>last range</td>
+                <td>upper bound region of the horizontal analysis domain</td>
+                <td align="center">6.5</td>
+              </tr>
+              <tr>
+                <td>range increments</td>
+                <td>step size of field calculation when traversing the horizontal axis. Increased performance with reduced step size</td>
+                <td align="center">0.01</td>
+              </tr>
+              <tr>
+                <td>sector minimum</td>
+                <td>sector of angular spectrum to fix for lower order modes bound (eigenrays are automatically added within the mode bandwidth) </td>
+                <td align="center">2</td>
+              </tr>
+              <tr>
+                <td>sector maximum</td>
+                <td>sector of angular spectrum to fix for higher order modes bound (eigenrays are automatically added within the mode bandwidth)</td>
+                <td align="center">4</td>
+              </tr>
+              <tr>
+                <td>frequency</td>
+                <td>initial frequency of the wave </td>
+                <td align="center">2400 MHz</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-label"> HYBRID-GUI parameters</div>
                   <div class="numberingGrid">
                     directory for easy management of the figures. Several figure examples are rendered below for inspection:
                   </div>
@@ -120,30 +181,13 @@
                     <div class="figure-content">
                       <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
                     </div>
-                  </div>
-                  <div class="figure">
-                    <div class="figure-label">pdf_lab_js import function</div>
-                    <div class="figure-content">
-                      <pre class="language-js line-numbers" ><code class="import">$(".import").each(function () {
-                        let container = $(this);
-                        let path = container.text();
-                        container.load(path, function(responseTxt, statusTxt, xhr){
-                          if(statusTxt == "success"){
-                            console.log("Content loaded successfully for element: ", container);
-                          }
-                          if(statusTxt == "error"){
-                            console.log("Error loading content for element:
-                            ", container, " Error: " +
-                            xhr.status + ": " +
-                            xhr.statusText);
-                          }
-                        });
-                      });</code></pre>
+                    <div></div>
+                    <div>This is a caption element. We attempt to see if it can reflow because if it cannot then we are in a massive amount of trouble anyway here is the checkbox. Please let us know if this is reflowing or not. Thank you.
                     </div>
                   </div>
-                    <div class="numberingGrid">
-                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
-                    </div>
+                  <div class="numberingGrid">
+                      The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                  </div>
                 </div>
                 <div class="column">
                     <div class="numberingGrid">

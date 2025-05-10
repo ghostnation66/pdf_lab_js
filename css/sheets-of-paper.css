@@ -203,7 +203,7 @@ table {
 .primeLines{
     display: inline-block;
     position: absolute;
-    color: #30A944;
+    color: #2e9f40;
     font-family: monospace;
     font-size: 4pt;
     /* Fine adjustment for y axis of the line numbers because they don't look natively aligned. Use if necessary */
@@ -261,7 +261,7 @@ table {
 	font-size: 10pt;
 	/* text-align: center; */
 	/* top: 50%; */
-    /* background: #30A944; */
+    /* background: #2e9f40; */
 	transform: translate(0, -50%);
 	font-family: 'icebreaker';
     /* text-decoration: underline; */
@@ -533,10 +533,10 @@ img.svg{
 
 .figure-label{
     width: 100%;
-    border-top: 2px solid grey;
+    border-top: 2px solid #2e9f40;
     /* top-left, top-right, bottom-right, bottom-left */
     border-radius: 7px 7px 0px 0px;
-    background: grey;
+    background: #2e9f40;
     text-align: left;
     font-size: 8pt;
     color: white;
@@ -810,7 +810,7 @@ th, td {
     font-size: 10pt;
 	/* transform: translate(900%, 120%); */
 	/* background: black; */
-	color: #30A944;
+	color: #2e9f40;
 }
 
 .equation{
@@ -911,19 +911,19 @@ th, td {
 
 .slashtab{
   display:grid;
-  border-bottom: 2px solid #30A944;
+  border-bottom: 2px solid #2e9f40;
   line-height: 5px;
 	padding: 0px;
 	font-family: 'Courier';
 	overflow: hidden;
 	z-index: 1;
 	grid-template-columns: 1fr 3fr;
-  margin-bottom: 0px;
+  margin-top: 10px;
 }
 
 
 .slashtab span{
-    background: #30A944;
+    background: #2e9f40;
 		width: 60%;
 		display: inline-block;
 		padding-left: 15px;
@@ -941,7 +941,7 @@ th, td {
 .slashtab span:before{
 	width: 60px;
 	height: 40px;
-  background: #30A944;
+  background: #2e9f40;
 	content: "";
 	position: absolute;
 	display: inline-block;
@@ -951,7 +951,7 @@ th, td {
 
 .slashtab-number{
   color: white;
-  background:#30A944;
+  background:#2e9f40;
 	border-radius: 0px;
 	padding-left: 13px;
   padding-top: 3px;
@@ -988,10 +988,10 @@ th, td {
 	height: 50%;
 	width: 100%;
 	font-size: 10pt;
-	color: #30A944;
+	color: #2e9f40;
 
 
-	border-top: 5px solid #30A944;
+	border-top: 5px solid #2e9f40;
 	line-height: 10px;
 	/* padding: 0px; */
 	font-family: 'Courier';
@@ -1000,7 +1000,7 @@ th, td {
 }
 
 .slashNumber span{
-		background: #30A944;
+		background: #2e9f40;
 		width: 15%;
 		left: 295px;
 		/* top: 10px; */
@@ -1020,7 +1020,7 @@ th, td {
 .slashNumber span:before{
 	width: 60px;
 	height: 30px;
-	background: #30A944;
+	background: #2e9f40;
 	content: "";
 	position: absolute;
 	display: inline-block;
@@ -1030,7 +1030,7 @@ th, td {
 
 .slashNumber-number{
   color: white;
-  background:#30A944;
+  background:#2e9f40;
 	width: 60%;
 	border-radius: 10px;
 	padding-left: 0px;
@@ -1050,8 +1050,8 @@ th, td {
 	/* margin-left: 25px; */
 	/* margin-right: 30px; */
 	/* width: 90%; */
-	border-top: 2px dashed #30A944;
-	border-bottom: 2px dashed #30A944;
+	border-top: 2px dashed #2e9f40;
+	border-bottom: 2px dashed #2e9f40;
 	font-size: 7pt;
 	padding-left: 5px;
 	padding-top: 10px;
@@ -1078,7 +1078,7 @@ th, td {
 	border-right: 5px solid black;
 	padding: 6px;
 	font-weight: bold;
-	background: #30A944;
+	background: #2e9f40;
 	color:black;
 	align-self: center;
 	border-top-left-radius: 10px;
@@ -1127,8 +1127,8 @@ th, td {
 }
 
 .titletab-number{
-  color: #30A944;
-  background: white;
+  color: white;
+  background: #2e9f40;
 	border-radius: 10px;
 	padding-left: 13px;
 	padding-top: 2px;
@@ -1139,7 +1139,7 @@ th, td {
 }
 
 .titletab-text{
-	color: #30A944;
+	color: #2e9f40;
 	background:white;
 	border-radius: 10px;
 	padding-left: 5px;
@@ -1149,9 +1149,9 @@ th, td {
 	font-size: 10px;
 }
 
-/* Changes to color of the marker to #30A944 */
+/* Changes to color of the marker to #2e9f40 */
 li::marker {
-  color: #30A944;
+  color: #2e9f40;
 }
 
 /* .numberedSpan{
@@ -1217,7 +1217,7 @@ li::marker {
 }
 
 .section-tab-number{
-  color: #30A944;
+  color: #2e9f40;
   background: white;
 	border-radius: 10px;
   padding-left: 20px;
@@ -1230,7 +1230,7 @@ li::marker {
 }
 
 .section-tab-text{
-  color: #30A944;
+  color: #2e9f40;
 	background:white;
 	border-radius: 10px;
 	padding-left: 5px;
@@ -1288,7 +1288,7 @@ li::marker {
 }
 
 .subsection-tab-number{
-  color: #30A944;
+  color: #2e9f40;
   background: white;
 	border-radius: 10px;
   padding-left: 20px;
@@ -1315,8 +1315,8 @@ li::marker {
 
 
 .subsection{
-  border-left: 2px solid #30A944;
-  border-bottom: 2px solid #30A944;
+  border-left: 2px solid #2e9f40;
+  border-bottom: 2px solid #2e9f40;
   border-radius: 0px;
   /* border-bottom-left-radius: 0%; */
   transform: translate(6px, 0px);
@@ -1327,11 +1327,11 @@ li::marker {
 
 .subsection div:nth-child(1){
   color:white;
-  background: #30A944;
-  border-left: 2px solid #30A944;
-  border-right: 2px solid #30A944;
-  border-top: 2px solid #30A944;
-  border-bottom: 2px solid #30A944;
+  background: #2e9f40;
+  border-left: 2px solid #2e9f40;
+  border-right: 2px solid #2e9f40;
+  border-top: 2px solid #2e9f40;
+  border-bottom: 2px solid #2e9f40;
   /* border-radius: 10px; */
   transform: translate(-15px, -10px);
   font-size: 8px;
@@ -1356,8 +1356,8 @@ li::marker {
 
 
 .subsection-label{
-  border-left: 2px solid #30A944;
-  border-bottom: 2px solid #30A944;
+  border-left: 2px solid #2e9f40;
+  border-bottom: 2px solid #2e9f40;
   border-radius: 0px;
   /* border-bottom-left-radius: 0%; */
   transform: translate(13px, 0px);
@@ -1368,11 +1368,8 @@ li::marker {
 
 .subsection-label div:nth-child(1){
   color:white;
-  background: #30A944;
-  border-left: 2px solid #30A944;
-  border-right: 2px solid #30A944;
-  border-top: 2px solid #30A944;
-  border-bottom: 2px solid #30A944;
+  background: grey;
+  border: 2px solid grey;
   /* border-radius: 10px; */
   transform: translate(-15px, -5px);
   font-size: 8px;
@@ -1393,4 +1390,28 @@ li::marker {
   /* border-bottom: 2px solid grey; */
   font-size: 10px;
   font-weight: bold;
+}
+
+.figure div:nth-child(3){
+  display: inline;
+  /* border-bottom: 2px solid #2e9f40; */
+  border-bottom: 2px solid grey;
+  width: 10%;
+  /* border-left: 2px solid #2e9f40; */
+  border-left: 2px solid grey;
+  height: 20px;
+  transform: translate(20px, 0px);
+}
+
+.figure div:nth-child(4){
+  display: inline;
+  background: grey;
+  color:white;
+  /* border: 2px solid #2e9f40; */
+  border: 2px solid grey;
+  width: 270px;
+  font-size: 8px;
+  padding: 5px;
+  transform: translate(40px, -15px);
+  border-radius: 7px;
 }

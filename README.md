@@ -12,9 +12,10 @@ Because the margins are so large, using the pdfcrop utility provided by a tex li
 
 Patch: Alphabetize all CSS rules
 Patch: Reduce HTML footprint of slashtabs, rename to section-tab
-Patch: Generate subsection tabs
-[COMPLETED] Patch: Rework numberingGrid to reduce HTML footprint
-[COMPLETED] Patch: Separate all source.js functions into modules
+Patch: Generate quad-figure CSS object (4 equally spaced regions to insert images, with independent scalability)
+Patch: Generate HTML line rendering; instead of rendering sequential line numbers, we need to implement line numbers that utilize a regex function to screen the raw HTML file and output a line number for each new line in document, correlating them to the page render lines.
+
+
 
 # Upcoming major updates
 
