@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--
+ * HTML-Sheets-of-Paper (https://github.com/delight-im/HTML-Sheets-of-Paper)
+ * Copyright (c) delight.im (https://www.delight.im/)
+ * Licensed under the MIT License (https://opensource.org/licenses/MIT)
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Emulating real sheets of paper in web documents (using HTML and CSS)">
+    <title>pdf_lab_js</title>
+    <link rel="stylesheet" type="text/css" href="css/prism_local/prism.css">
+    <link rel="stylesheet" type="text/css" href="css/sheets-of-paper-a4.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/citation-js" type="text/javascript"></script>
+
+    <!-- Mathjax CDN -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  </head>
+    <body class="document">
+      <div class="page" contenteditable="true">
+        <div class="dual-column">
+          <div class="column">
+            <div>
+              <img class="svg" src="assets/images/mj-logo-prime.png" alt="Description of the SVG image">
+            </div>
+            <br>
+            <div class="header-table">
+              <div class="titletab">
+                <span>
+                  <div class="titletab-number">file_data</div>
+                </span>
+                <div class='titletab-text'></div>
+              </div>
+              <div>
+              <table style="width:100%;">
+                              <tr>
+                                <td><b>file_name</b></td>
+                                <td>pdf_lab_js_wiki</td>
+                              </tr>
+                              <tr>
+                                <td><b>author</b></td>
+                                <td>ghostnation</td>
+                              </tr>
+                              <tr>
+                                <td><b>course</b></td>
+                                <td>ECE555</td>
+                              </tr>
+                              <tr>
+                                <td><b>date</b></td>
+                                <td>07MAY2025</td>
+                              </tr>
+                            </table>
+                    </div>
+
+                    </div>
+                    <div class="slashtab">
+                        <span>
+                            <div class="slashtab-number">1.0</div>
+                        </span>
+                        <div class='slashtab-text'>Components of pdf_lab_js</div>
+                    </div>
+                    <div class="numberingGrid">
+                        This document provides a visual reference for the CSS utilities of pdf_lab_js. As the project develops, elements will be integrated into the wiki so users may browse through the document for specific structures of interest. It is recommended that user be familiar with the "Inspect Element" tool to directly identify the underlying elements that build up composite structures.
+
+                        Below is an example of a MathJAX equation rendering within the <code>numberingGrid</code> element. By default, it renders as an inline element, where typset values can be placed directly in a sentence, such as \(\sigma^2\), but, below, we show the block syntax:
+                        <br>
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        <br>
+                        Rendering notation in MathJAX is equivalent to working entirely in a LaTeX block math environment, and appropriate considerations must be made in order to feature text and math together. MathJAX boxes do not currently have the ability for reflow, and thus will cause the column width to extend if the content is not formatted so that it renders within the default column width. If desired, elements can be placed outside of the <code>numberingGrid</code> box which prevents the lines from being numbered. Below, a <code>proof</code> element in displayed outside of the <code>numberingGrid</code> element. Proofs do not line have line numbers and are intended to be separate blocks from the document:
+                    </div>
+                    <div class="proof">Example Mathematical Proof
+                    \(
+                        \textbf{Theorem 4.2.} ~\text{For any } ~n \in \mathbb{N}, ~\text{64 is a factor of}~ 3^{2n+2} - 8n - 9.
+                    \)
+                    </div>
+                    <div class="numberingGrid">
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Another useful utility is the ability select a range of lines using the <code>data-range</code> field. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</span> for more information.
+                    </div>
+                     <pre class="language-html line-numbers" data-src="/assets/text/prism_code_example.html" style="white-space:pre-line; font-size: 6px;" ></pre>
+                </div>
+          <div class="column">
+            <!-- <div class="numberingGrid"></div> -->
+            <div class="numberingGrid">
+                The prism.js library can also render filesystem contents, such as the very filsystem structure implemented in pdf_lab_js_wiki
+            </div>
+            <pre class="language-treeview no-invisibles" data-src="/assets/text/pdf_lab_js_filesystem_tree.txt" style="white-space:pre-line; font-size: 6px;" ></pre>
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">2.0</div>
+              </span>
+              <div class='slashtab-text'>Function Protocols</div>
+              <div></div>
+            </div>
+            <div class="numberingGrid"> The structure of pdf_lab_js is designed to represent website codebases, with primary HTML file, a source module js file (index.js), and a source CSS file (). The functionality of pdf_lab_js is separated into separate script files which define the protocol for a specific task. The script tasks and functions are elucidated below:
+            </div>
+            <div class="subsection-label">
+              <div>2.1</div>
+              <div>index.js</div>
+            </div>
+            <div class="numberingGrid"> All function operations are contained within modules, and the modules are import into index.js, which will call specific utilities to properly render the document. All modules are equipped with a <code>.help()</code> method that enables the user to examine the scope of functions within the document, although              </div>
+            <div class="subsection-label">
+              <div>2.2</div>
+              <div>textReflow.js</div>
+            </div>
+            <div class="numberingGrid"> The management and rearrangmenet of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint
+            </div>
+            <div class="subsection-label">
+              <div>2.2</div>
+              <div>textReflow.js</div>
+            </div>
+            <div class="numberingGrid"> The management and rearrangement of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint blah blah blah blah reflow reflow reflow violation violation violation check check check this this this reflow reflow reflow violation violation violation. Testing a <code>element</code>.
+            </div>
+          </div>
+                </div>
+
+
+            <div class="page-break" contentEditable="true"></div>
+            <div class="dual-column">
+                <div class="column">
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Description</th>
+                <th>Default Felsen Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>plate height</td>
+                <td>distance between top and bottom plate of the waveguide</td>
+                <td align="center">1 m</td>
+              </tr>
+              <tr>
+                <td>source height</td>
+                <td>height of transmitted wave within the waveguide (vertical axis)</td>
+                <td align="center">0.2 m</td>
+              </tr>
+              <tr>
+                <td>observer height</td>
+                <td>height of wave receiver within the waveguide (vertical axis)</td>
+                <td align="center">0.5 m</td>
+              </tr>
+              <tr>
+                <td>first range</td>
+                <td>lower bound region of the horizontal analysis domain</td>
+                <td align="center">5 m</td>
+              </tr>
+              <tr>
+                <td>last range</td>
+                <td>upper bound region of the horizontal analysis domain</td>
+                <td align="center">6.5</td>
+              </tr>
+              <tr>
+                <td>range increments</td>
+                <td>step size of field calculation when traversing the horizontal axis. Increased performance with reduced step size</td>
+                <td align="center">0.01</td>
+              </tr>
+              <tr>
+                <td>sector minimum</td>
+                <td>sector of angular spectrum to fix for lower order modes bound (eigenrays are automatically added within the mode bandwidth) </td>
+                <td align="center">2</td>
+              </tr>
+              <tr>
+                <td>sector maximum</td>
+                <td>sector of angular spectrum to fix for higher order modes bound (eigenrays are automatically added within the mode bandwidth)</td>
+                <td align="center">4</td>
+              </tr>
+              <tr>
+                <td>frequency</td>
+                <td>initial frequency of the wave </td>
+                <td align="center">2400 MHz</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-label"> HYBRID-GUI parameters</div>
+                  <div class="numberingGrid">
+                    directory for easy management of the figures. Several figure examples are rendered below for inspection:
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">Conflation of \(\xi\) to x as V \(\rightarrow\) 0</div>
+                    <div class="figure-content">
+                      <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                    </div>
+                    <div></div>
+                    <div>This is a caption element. We attempt to see if it can reflow because if it cannot then we are in a massive amount of trouble anyway here is the checkbox. Please let us know if this is reflowing or not. Thank you.
+                    </div>
+                  </div>
+                  <div class="numberingGrid">
+                      The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                  </div>
+                </div>
+                <div class="column">
+                    <div class="numberingGrid">
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="page-break" contentEditable="true"></div>
+            
+            <div class="page-break" contentEditable="true"></div>
+
+      <div>Appendix</div>
+      <br>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">MATLAB module for the calculation of eigenrays and their field contributions for given source/receiver locations</div>
+        <div class="appendix-figure-content"><pre class="language-js line-numbers" data-start="0"><code class="import">/assets/code/module_2.js</code></pre></div>
+
+      </div>
+
+
+        </div>
+    </body>
+
+<script type="module" src="js/index.js"></script>
+<script src="js/bibliography.js"></script>
+<script src="js/prism_local/prism.js"></script>
+<!-- Link JS module script -->
+<!-- <script src="js/source.js"></script> -->
+</html>
+
+
+<!--
+References
+<div class="bibliography-underline"></div>
+<div id="citations"></div> -->
+
+<link rel="stylesheet" href="js/prism/assets/style.css" />
+<link rel="stylesheet" href="js/prism/themes/prism.css" data-noprefix />
+<link rel="stylesheet" href="js/prism/plugins/line-numbers/prism-line-numbers.css" data-noprefix />
+<script src="js/prism/assets/vendor/prefixfree.min.js"></script>

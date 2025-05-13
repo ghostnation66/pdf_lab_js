@@ -1,0 +1,36 @@
+% Program: MODE.m
+
+% Mode summation inside a 2D-PED parallel plate waveguide
+% Supply: Waveguide height (a), frequency (f) in MHz,
+%         source height (xk), range (z), # of modes (mm)
+
+% --Calculate propagating modes and propagation constants, beta--
+k0=2*pi*f/300;                % wavenumber
+mp=0;                         % number of propagating mode counter
+for m=1:mm
+    beta(m)=complex(0,0);
+    if (k0^2-(m*pi/a)^2) > 0
+        beta(m)=sqrt(k0^2-(m*pi/a)^2);
+        mp=mp+1;
+    else
+        beta(m)=i*sqrt((m*pi/a)^2-k0^2);
+    end
+end
+
+% --
+nx=100;                      % Number of height points
+delx=a/(nx-1);                % Height increments
+
+for n=1:nx
+    xx(n)=(n-1)*delx;
+    yr(n)=complex(0,0);
+    for m=1:mm
+        yr(n)=yr(n)+cos(m*pi*xk/a)*cos(m*pi*xx(n)/a)*exp(i*beta(m)*(z))/(2*i*beta(m));
+    end
+    yr(n)=yr(n)*(2/a)+(1/a)*exp(i*k0*z)/(2*i*k0);
+end
+
+% --Plot mode fields vs. height--
+plot(abs(yr),xx);
+
+% --End of module--

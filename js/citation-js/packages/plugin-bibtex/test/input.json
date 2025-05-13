@@ -1,0 +1,779 @@
+{
+  "@biblatex/text": {
+    "with one simple entry": [
+      null,
+      [
+        {
+          "citation-key": "Steinbeck2003",
+          "PMID": "12653513",
+          "type": "article-journal",
+          "author": [
+            {"given": "Christoph", "family": "Steinbeck"},
+            {"given": "Yongquan", "family": "Han"},
+            {"given": "Stefan", "family": "Kuhn"},
+            {"given": "Oliver", "family": "Horlacher"},
+            {"given": "Edgar", "family": "Luttmann"},
+            {"given": "Egon", "family": "Willighagen"}
+          ],
+          "title": "The Chemistry Development Kit (CDK): an open-source Java library for Chemo- and Bioinformatics.",
+          "container-title": "Journal of chemical information and computer sciences",
+          "issued": {"date-parts": [[2003]]},
+          "volume": "43",
+          "issue": "2",
+          "page": "493-500",
+          "DOI": "10.1021/ci025584y",
+          "ISBN": "2214707786",
+          "ISSN": "0095-2338",
+          "URL": "http://www.ncbi.nlm.nih.gov/pubmed/12653513",
+          "id": "Steinbeck2003"
+        }
+      ]
+    ],
+    "with whitespace and unknown fields": [
+      null,
+      [
+        {
+          "citation-key": "Ekstrand:2009:RYD",
+          "number-of-pages": "10",
+          "type": "paper-conference",
+          "author": [
+            {"given": "Michael D.", "family": "Ekstrand"},
+            {"given": "John T.", "family": "Riedl"}
+          ],
+          "title": "rv you're dumb: Identifying Discarded Work in Wiki Article History",
+          "container-title": "Proceedings of the 5th International Symposium on Wikis and Open Collaboration",
+          "collection-title": "WikiSym '09",
+          "issued": {"date-parts": [[2009]]},
+          "ISBN": "978-1-60558-730-1",
+          "keyword": "Wiki,Wikipedia,article history,visualization",
+          "publisher-place": "New York, NY, USA",
+          "page": "4:1-4:10",
+          "URL": "https://dx.doi.org/10.1145/1641309.1641317",
+          "DOI": "10.1145/1641309.1641317",
+          "publisher": "ACM",
+          "id": "Ekstrand:2009:RYD"
+        }
+      ]
+    ],
+    "with unicode and capitalized types": [
+      null,
+      [{
+        "author": [
+          {"given": "J.W.", "family": "Goethe"}
+        ],
+        "title": "Faust. Der Tragödie Erster Teil",
+        "publisher": "Reclam",
+        "issued": {"date-parts": [[1986]]},
+        "publisher-place": "Stuttgart",
+        "type": "book",
+        "id": "Fau86",
+        "citation-key": "Fau86"
+      }]
+    ],
+    "with escaped characters": [
+      null,
+      [
+        {"type": "article-journal", "id": "escape", "citation-key": "escape", "title": "a&b%c$d#e_f~^\\"},
+        {"type": "article-journal", "id": "ligature", "citation-key": "ligature", "title": "\u2014\u00A0"}
+      ]
+    ],
+    "with commands": [
+      null,
+      [
+        {"type": "document", "id": "a", "citation-key": "a", "title": "url: https://example.org"},
+        {"type": "document", "id": "b", "citation-key": "b", "title": "href: https://example.org"},
+        {"type": "document", "id": "c", "citation-key": "c", "title": "ElsevierGlyph: \u2014"},
+        {"type": "document", "id": "d", "citation-key": "d", "title": "unknown: \\unknown"},
+        {"type": "document", "id": "e", "citation-key": "e", "title": "Phi: Φ"}
+      ]
+    ],
+    "with uri": [
+      null,
+      [
+        {"type": "book", "id": "a", "citation-key": "a", "URL": "https://example.org/ru/docs/JavaScript_%D1%88%D0%B5%D0%BB%D0%BB%D1%8B"},
+        {"type": "book", "id": "b", "citation-key": "b", "URL": "https://example.org/ru/docs/JavaScript_%D1%88%D0%B5%D0%BB%D0%BB%D1%8B"},
+        {"type": "book", "id": "c", "citation-key": "c", "URL": "%25E0%25A4%25A"}
+      ]
+    ],
+    "with math": [
+      null,
+      [
+        {"type": "article-journal", "id": "math", "citation-key": "math", "title": "e=mc²"}
+      ]
+    ],
+    "with rich text": [
+      null,
+      [
+        {"type": "document", "id": "ibscsupsub", "citation-key": "ibscsupsub", "title": "<i>i</i><b>b</b><sup>sup</sup><sub>sub</sub>"},
+        {"type": "document", "id": "sc", "citation-key": "sc", "container-title": "<span style=\"font-variant:small-caps;\">sc</span>"},
+        {"type": "document", "id": "env", "citation-key": "env", "title": "a<i>b<b>c</b></i>"},
+        {"type": "document", "id": "beginend", "citation-key": "beginend", "title": "a<i>b</i>c"},
+        {"type": "document", "id": "none", "citation-key": "none", "title": "test"},
+        {"type": "document", "id": "math", "citation-key": "math", "title": "<sup>sup</sup><sub>sub</sub>"},
+        {"type": "document", "id": "mathcommand", "citation-key": "mathcommand", "title": "<sup>sup</sup><sub>sub</sub>"}
+      ]
+    ],
+    "with literals": [
+      null,
+      [{
+        "citation-key": "b",
+        "id": "b",
+        "type": "document",
+        "author": [
+          {"family": "a and b"},
+          {"family": "c"},
+          {"given": "D", "family": "E"}
+        ],
+        "issued": {
+          "literal": "13th Century"
+        }
+      }]
+    ],
+    "with authors with non-ASCII characters": [
+      null,
+      [
+        {
+          "citation-key": "myarticle",
+          "id": "myarticle",
+          "type": "article-journal",
+          "author": [
+            {"family": "Helmholtz", "given": "Hermann", "non-dropping-particle": "von"},
+            {"family": "Helmhöltz", "given": "Hermänñ", "non-dropping-particle": "von"},
+            {"family": "Helmhöltz", "given": "Hermänñ", "non-dropping-particle": "von"},
+            {"family": "Helmhöltz", "given": "Hermänñ", "non-dropping-particle": "von"}
+          ]
+        }
+      ]
+    ],
+    "with an author that has a braced family name": [
+      "@article{myarticle, author={Hermann {von Helmholtz}}}",
+      [
+        {
+          "citation-key": "myarticle",
+          "id": "myarticle",
+          "type": "article-journal",
+          "author": [
+            {"family": "von Helmholtz", "given": "Hermann"}
+          ]
+        }
+      ]
+    ],
+    "with an author in braces": [
+      "@article{myarticle, author={{Acme Inc.}}}",
+      [
+        {
+          "citation-key": "myarticle",
+          "id": "myarticle",
+          "type": "article-journal",
+          "author": [
+            {"family": "Acme Inc."}
+          ]
+        }
+      ]
+    ],
+    "with nameparts": [
+      null,
+      [
+        {"id": "a", "citation-key": "a", "type": "document", "author": [{"family": "B", "given": "A"}]},
+        {"id": "b", "citation-key": "b", "type": "document", "author": [{"family": "C"}]},
+        {"id": "c", "citation-key": "c", "type": "document", "author": [{"family": "B", "given": "C"}]},
+        {"id": "d", "citation-key": "d", "type": "document", "author": [{"family": "C", "given": "A-B"}]},
+        {"id": "e", "citation-key": "e", "type": "document", "author": [{
+          "family": "C",
+          "given": "D",
+          "non-dropping-particle": "A-b"
+        }]},
+        {"id": "f", "citation-key": "f", "type": "document", "author": [{"family": "B-C", "given": "A"}]},
+        {"id": "g", "citation-key": "g", "type": "document", "author": [{"family": "A"}, {}]},
+        {"id": "h", "citation-key": "h", "type": "document", "author": [{"family": "B", "given": "A-12"}]}
+      ]
+    ],
+    "with year and month without date": [
+      null,
+      [{
+        "citation-key": "b",
+        "id": "b",
+        "type": "document",
+        "issued": {
+          "date-parts": [[2017, 8]]
+        }
+      }]
+    ],
+    "with year and month with date": [
+      null,
+      [{
+        "citation-key": "b",
+        "id": "b",
+        "type": "document",
+        "issued": {
+          "date-parts": [[2016, 12, 13]]
+        }
+      }]
+    ],
+    "with date-range": [
+      null,
+      [{
+        "citation-key": "b",
+        "id": "b",
+        "type": "document",
+        "issued": {
+          "date-parts": [[2016], [2017]]
+        }
+      }]
+    ],
+    "with string and preamble": [
+      null,
+      [{
+        "citation-key": "b",
+        "id": "b",
+        "type": "document",
+        "title": "Foobar"
+      }]
+    ],
+    "with crossref": [
+      null,
+      [
+        {
+          "id": "a",
+          "citation-key": "a",
+          "type": "book",
+          "title": "Foo",
+          "author": [{"given": "First", "family": "Last"}],
+          "issued": { "date-parts": [[2021]] }
+        },
+        {
+          "id": "b",
+          "citation-key": "b",
+          "type": "book",
+          "title": "Bar",
+          "author": [{"given": "First", "family": "Last"}]
+        },
+        {
+          "id": "c",
+          "citation-key": "c",
+          "type": "chapter",
+          "title": "Baz",
+          "container-title": "Bar",
+          "author": [{"given": "Given", "family": "Family"}],
+          "container-author": [{"given": "First", "family": "Last"}]
+        },
+        {
+          "id": "d",
+          "citation-key": "d",
+          "type": "article-journal",
+          "title": "Bar",
+          "author": [{"given": "First", "family": "Last"}]
+        },
+        {
+          "id": "e",
+          "citation-key": "e",
+          "type": "periodical",
+          "title": "Foo"
+        },
+        {
+          "id": "f",
+          "citation-key": "f",
+          "type": "article-journal",
+          "container-title": "Foo"
+        }
+      ]
+    ],
+    "with different delimiters": [
+      null,
+      [
+        {
+          "id": "a",
+          "citation-key": "a",
+          "type": "book",
+          "title": "Title",
+          "author": [{"given": "First", "family": "Last"}],
+          "issued": { "date-parts": [[2021]] }
+        },
+        {
+          "id": "b",
+          "citation-key": "b",
+          "type": "book",
+          "title": "Title",
+          "author": [{"given": "First", "family": "Last"}],
+          "issued": { "date-parts": [[2021]] }
+        }
+      ]
+    ],
+    "with a complete article": [
+      null,
+      [{
+        "type": "article-journal",
+        "id": "Article",
+        "citation-key": "Article",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "container-title": "The BibTeX Journal",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "volume": "5",
+        "issue": "6",
+        "page": "200-210",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete book": [
+      null,
+      [{
+        "type": "book",
+        "id": "Book",
+        "citation-key": "Book",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "editor": [
+          { "family": "Coburn", "given": "Carol" }
+        ],
+        "title": "Lorem Ipsum",
+        "publisher": "BibTeX Publishers",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "volume": "5",
+        "collection-number": "6",
+        "collection-title": "Good Series",
+        "publisher-place": "Goodville",
+        "edition": "Second",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete booklet": [
+      null,
+      [{
+        "type": "book",
+        "id": "Booklet",
+        "citation-key": "Booklet",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "publisher": "BibTeX",
+        "publisher-place": "Goodville",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete inbook": [
+      null,
+      [{
+        "type": "chapter",
+        "id": "InBook",
+        "citation-key": "InBook",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "editor": [
+          { "family": "Coburn", "given": "Carol" }
+        ],
+        "title": "Lorem Ipsum",
+        "chapter-number": "3",
+        "page": "200-210",
+        "publisher": "BibTeX Publishers",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "volume": "5",
+        "collection-number": "6",
+        "collection-title": "Good Series",
+        "genre": "Section",
+        "publisher-place": "Goodville",
+        "edition": "Second",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete incollection": [
+      null,
+      [{
+        "type": "chapter",
+        "id": "InCollection",
+        "citation-key": "InCollection",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "container-title": "Dolor Sit Amet",
+        "publisher": "BibTeX Publishers",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "editor": [
+          { "family": "Coburn", "given": "Carol" }
+        ],
+        "volume": "5",
+        "collection-number": "6",
+        "collection-title": "Good Series",
+        "genre": "Section",
+        "chapter-number": "3",
+        "page": "200-210",
+        "publisher-place": "Goodville",
+        "edition": "Second",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete inproceedings": [
+      null,
+      [{
+        "type": "paper-conference",
+        "id": "InProceedings",
+        "citation-key": "InProceedings",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "container-title": "Dolor Sit Amet",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "editor": [
+          { "family": "Coburn", "given": "Carol" }
+        ],
+        "volume": "5",
+        "issue": "6",
+        "collection-title": "Good Series",
+        "page": "200-210",
+        "publisher-place": "Goodville",
+        "publisher": "BibTeX Publishers",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete manual": [
+      null,
+      [{
+        "type": "report",
+        "id": "Manual",
+        "citation-key": "Manual",
+        "title": "Lorem Ipsum",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "publisher": "The Organizers",
+        "publisher-place": "Goodville",
+        "edition": "Second",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete mastersthesis": [
+      null,
+      [{
+        "type": "thesis",
+        "id": "MastersThesis",
+        "citation-key": "MastersThesis",
+        "author": [
+          { "family": "Adams", "given": "Alice" }
+        ],
+        "title": "Lorem Ipsum",
+        "publisher": "The University",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "genre": "Diploma Thesis",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete misc": [
+      null,
+      [{
+        "type": "document",
+        "id": "Misc",
+        "citation-key": "Misc",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "publisher": "Online",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete phdthesis": [
+      null,
+      [{
+        "type": "thesis",
+        "id": "PhdThesis",
+        "citation-key": "PhdThesis",
+        "author": [
+          { "family": "Adams", "given": "Alice" }
+        ],
+        "title": "Lorem Ipsum",
+        "publisher": "The University",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "genre": "Doctoral Thesis",
+        "publisher-place": "Goodville",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete proceedings": [
+      null,
+      [{
+        "type": "book",
+        "id": "Proceedings",
+        "citation-key": "Proceedings",
+        "title": "Lorem Ipsum",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "editor": [
+          { "family": "Coburn", "given": "Carol" }
+        ],
+        "volume": "5",
+        "collection-number": "6",
+        "collection-title": "Good Series",
+        "publisher-place": "Goodville",
+        "publisher": "BibTeX Publishers",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete techreport": [
+      null,
+      [{
+        "type": "report",
+        "id": "TechReport",
+        "citation-key": "TechReport",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "publisher": "The Institution",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        },
+        "genre": "Recommendation",
+        "number": "ABC-123",
+        "publisher-place": "Goodville",
+        "note": "This is a note."
+      }]
+    ],
+    "with a complete unpublished": [
+      null,
+      [{
+        "type": "manuscript",
+        "id": "Unpublished",
+        "citation-key": "Unpublished",
+        "author": [
+          { "family": "Adams", "given": "Alice" },
+          { "family": "Brody", "given": "Bob" }
+        ],
+        "title": "Lorem Ipsum",
+        "note": "This is a note.",
+        "issued": {
+          "date-parts": [[ 2020, 2 ]]
+        }
+      }]
+    ],
+    "with uppercase and": [
+      null,
+      [{
+        "type": "paper-conference",
+        "id": "10.1145/1499402.1499562",
+        "citation-key": "10.1145/1499402.1499562",
+        "author": [
+          { "family": "Lesk", "given": "M. E." },
+          { "family": "Kernighan", "given": "B. W." }
+        ],
+        "title": "Computer Typesetting of Technical Journals on UNIX",
+        "issued": {
+          "date-parts": [[ 1977 ]]
+        },
+        "ISBN": "9781450379144",
+        "publisher": "Association for Computing Machinery",
+        "URL": "https://doi.org/10.1145/1499402.1499562",
+        "DOI": "10.1145/1499402.1499562",
+        "container-title": "Proceedings of the June 13-16, 1977, National Computer Conference",
+        "page": "879-888",
+        "number-of-pages": "10",
+        "publisher-place": "Dallas, Texas",
+        "collection-title": "AFIPS '77"
+      }]
+    ],
+    "with langid": [
+      null,
+      [{
+        "type": "book",
+        "id": "Valle2023",
+        "citation-key": "Valle2023",
+        "author": [
+          { "family": "Valle", "given": "Mario" },
+          { "family": "Galgano", "given": "Antonella" }
+        ],
+        "title": "La libertà",
+        "issued": {
+          "date-parts": [[ 2023, 3 ]]
+        },
+        "ISSN": "2532-64314",
+        "publisher": "Corriere della Sera",
+        "keyword": "montessori",
+        "volume": "19",
+        "collection-title": "Percorsi Montessori",
+        "language": "italian"
+      }]
+    ],
+    "with howpublished": [
+      null,
+      [{
+        "type": "document",
+        "id": "guidelinesdigedition",
+        "citation-key": "guidelinesdigedition",
+        "author": [
+          { "family": "Modern Language Association" }
+        ],
+        "title": "Guidelines for Editors of Scholarly Editions",
+        "issued": {"date-parts": [[2011]]},
+        "URL": "https://www.mla.org/Resources/Research/Surveys-Reports-and-Other-Documents/Publishing-and-Scholarship/Reports-from-the-MLA-Committee-on-Scholarly-Editions/Guidelines-for-Editors-of-Scholarly-Editions",
+        "note": "Accessed: 6th September 2021"
+      }]
+    ]
+  },
+  "@biblatex/entries+list": {
+    "simple": [
+      [{
+        "type": "article",
+        "label": "Steinbeck2003",
+        "properties": {
+          "author": "Christoph Steinbeck and Yongquan Han and Stefan Kuhn and Oliver Horlacher and Edgar Luttmann and Egon Willighagen",
+          "doi": "10.1021/ci025584y",
+          "isbn": "2214707786",
+          "issn": "0095-2338",
+          "pmid": "12653513",
+          "journal": "Journal of chemical information and computer sciences",
+          "issue": "2",
+          "pages": "493-500",
+          "title": "The Chemistry Development Kit (CDK): an open-source Java library for Chemo- and Bioinformatics.",
+          "volume": "43",
+          "year": "2003",
+          "url": "http://www.ncbi.nlm.nih.gov/pubmed/12653513"
+        }
+      }],
+      [
+        {
+          "citation-key": "Steinbeck2003",
+          "PMID": "12653513",
+          "type": "article-journal",
+          "author": [
+            {"given": "Christoph", "family": "Steinbeck"},
+            {"given": "Yongquan", "family": "Han"},
+            {"given": "Stefan", "family": "Kuhn"},
+            {"given": "Oliver", "family": "Horlacher"},
+            {"given": "Edgar", "family": "Luttmann"},
+            {"given": "Egon", "family": "Willighagen"}
+          ],
+          "title": "The Chemistry Development Kit (CDK): an open-source Java library for Chemo- and Bioinformatics.",
+          "container-title": "Journal of chemical information and computer sciences",
+          "issued": {"date-parts": [[2003]]},
+          "volume": "43",
+          "issue": "2",
+          "page": "493-500",
+          "DOI": "10.1021/ci025584y",
+          "ISBN": "2214707786",
+          "ISSN": "0095-2338",
+          "URL": "http://www.ncbi.nlm.nih.gov/pubmed/12653513",
+          "id": "Steinbeck2003"
+        }
+      ]
+    ]
+  },
+  "@bibtxt/text": {
+    "with one simple entry": [
+      null,
+      [{
+        "author": [
+          {"given": "J.W.", "family": "Goethe"}
+        ],
+        "title": "Faust. Der Tragödie Erster Teil",
+        "publisher": "Reclam",
+        "issued": {"date-parts": [[1986]]},
+        "publisher-place": "Stuttgart",
+        "type": "book",
+        "id": "Fau86",
+        "citation-key": "Fau86"
+      }]
+    ],
+    "with multiple entries": [
+      null,
+      [
+        {
+          "author": [
+            {"given": "J.W.", "family": "Goethe"}
+          ],
+          "title": "Faust. Der Tragödie Erster Teil",
+          "publisher": "Reclam",
+          "issued": {"date-parts": [[1986]]},
+          "publisher-place": "Stuttgart",
+          "type": "book",
+          "id": "Fau86",
+          "citation-key": "Fau86"
+        },
+        {
+          "citation-key": "Steinbeck2003",
+          "PMID": "12653513",
+          "type": "article-journal",
+          "author": [
+            {"given": "Christoph", "family": "Steinbeck"},
+            {"given": "Yongquan", "family": "Han"},
+            {"given": "Stefan", "family": "Kuhn"},
+            {"given": "Oliver", "family": "Horlacher"},
+            {"given": "Edgar", "family": "Luttmann"},
+            {"given": "Egon", "family": "Willighagen"}
+          ],
+          "title": "The Chemistry Development Kit (CDK): an open-source Java library for Chemo- and Bioinformatics.",
+          "container-title": "Journal of chemical information and computer sciences",
+          "issued": {"date-parts": [[2003]]},
+          "volume": "43",
+          "issue": "2",
+          "page": "493-500",
+          "DOI": "10.1021/ci025584y",
+          "ISBN": "2214707786",
+          "ISSN": "0095-2338",
+          "URL": "http://www.ncbi.nlm.nih.gov/pubmed/12653513",
+          "id": "Steinbeck2003"
+        }
+      ]
+    ],
+    "with whitespace": [
+      null,
+      [{
+        "author": [
+          {"given": "J.W.", "family": "Goethe"}
+        ],
+        "title": "Faust. Der Tragödie Erster Teil",
+        "publisher": "Reclam",
+        "issued": {"date-parts": [[1986]]},
+        "publisher-place": "Stuttgart",
+        "type": "book",
+        "id": "Fau86",
+        "citation-key": "Fau86"
+      }]
+    ],
+    "with nothing": [
+      null,
+      [
+        {},
+        { "type": "book", "id": "foo", "citation-key": "foo", "title": "foo" }
+      ]
+    ]
+  }
+}

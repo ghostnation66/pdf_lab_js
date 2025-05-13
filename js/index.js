@@ -1,0 +1,19 @@
+import * as pageBreak from "./functions/pageBreak.js";
+import * as lineNumber from "./functions/lineNumber.js";
+import * as textReflow from "./functions/textReflow.js";
+import * as utility from "./functions/utilityFunctions.js"
+// Run the help functions to obtain a description of the modules
+pageBreak.help()
+lineNumber.help()
+textReflow.help()
+
+window.addEventListener("DOMContentLoaded", () =>{
+    // Set up initial grid conditions
+    lineNumber.setUpGrids();
+    // Introduce delay in order to enable prism objects to render prior (for example, the filesystem view does not render before the textreflow, which can cause significant issues)
+    setTimeout(textReflow.numberingGridReflow, 2500);
+    // textReflow.numberingGridReflow();
+    // Introduce delay to enable MathJAX to render before numbering
+    setTimeout(utility.numberingOnNumberingGrid, 3000);
+    console.log("index.js ran");
+});
