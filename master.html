@@ -85,7 +85,8 @@
           <div class="column">
             <!-- <div class="numberingGrid"></div> -->
             <div class="numberingGrid">
-                The prism.js library can also render filesystem contents, such as the very filsystem structure implemented in pdf_lab_js_wiki
+                The prism.js library can also render filesystem contents, such as the very filsystem structure implemented in pdf_lab_js_wiki. The source file must be the output of the tree command, for example <code>tree -F -L 2 --charset=ascii</code>
+
             </div>
             <pre class="language-treeview no-invisibles" data-src="/assets/text/pdf_lab_js_filesystem_tree.txt" style="white-space:pre-line; font-size: 6px;" ></pre>
             <div class="slashtab">
@@ -95,7 +96,7 @@
               <div class='slashtab-text'>Function Protocols</div>
               <div></div>
             </div>
-            <div class="numberingGrid"> The structure of pdf_lab_js is designed to represent website codebases, with primary HTML file, a source module js file (index.js), and a source CSS file (). The functionality of pdf_lab_js is separated into separate script files which define the protocol for a specific task. The script tasks and functions are elucidated below:
+            <div class="numberingGrid"> The structure of pdf_lab_js is designed to represent website codebases, with primary HTML file, a source module js file (index.js), and a source CSS file (). The functionality of pdf_lab_js is separated into script files which define the protocol for a specific task. The script tasks and functions are elucidated below:
             </div>
             <div class="subsection-label">
               <div>2.1</div>
@@ -106,14 +107,9 @@
               <div>2.2</div>
               <div>textReflow.js</div>
             </div>
-            <div class="numberingGrid"> The management and arrangement of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint. The constraint itself is defined as the top coordinate (including margins) of the <code>slashNumber</code>
+            <div class="numberingGrid"> The management and arrangement of elements on the DOM is a sophisticated challenge due to complications when working with fleixble CSS elements; the pages of the document do not retain the same size prior to redistribution of inadmissible elements. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a text block based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint. The constraint itself is defined as the top coordinate (including margins) of the <code>page-number-marker</code> classed elements. In order to select the right marker, the page number must be obtained and via a utility function, which is able to backreference an arbitrary parent of the <code>numberingGrid</code> elements to identify <code>page</code> classed elements and loop through the list of pages, stopping at the matching page and providing an index value. The marker is then matched with the evaluated page index. The bounding rectangle of the marker (margins included) is evaluated via a utility function, and all text blocks that extend beynod the top coordinate of the counding box (plus some offset) are identified as candidates for reflow. Reflow candidates are further analyzed on a per-child basis; specifically, any text node children will have string data converted into constituent spans, delimited by whitespace characters, and prepended to the original parent element, while the text child is discarded; this is because text nodes do not have a <code>getBoundingClientRects()</code> method and must be converted to some other node type. Any non-text elements are simply prepended accordingly to maintain proper ordering of the data in the text block. All children are then passed to a utility function that splits data into two arrays, an admissible and an inadmissible set, based on an individual child's bounding box bottom coordinate relative to the marker top coordinate (plus some offset). Both arrays are then processed by the main reflow function and inadmissible children are simply prepended (in reverse order) to the next available text block, and are pulled away from the host text block. If a text block is left empty, it is removed from the DOM (and it's iteration value is deprecated once, to prevent skipping over an element). Finally, the all <code>numberingGrid</code> elements are queried again and the iteration continues until all blocks have been processed.
             </div>
-            <div class="subsection-label">
-              <div>2.2</div>
-              <div>textReflow.js</div>
-            </div>
-            <div class="numberingGrid"> The management and rearrangement of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint blah blah blah blah reflow reflow reflow violation violation violation check check check this this this reflow reflow reflow violation violation violation. Testing a <code>element</code>.
-            </div>
+            <!-- <div class="numberingGrid">HERROHERROHERRO</div> -->
           </div>
                 </div>
 
@@ -178,26 +174,47 @@
             </tbody>
           </table>
           <div class="table-label"> HYBRID-GUI parameters</div>
-                  <div class="numberingGrid">
-                    directory for easy management of the figures. Several figure examples are rendered below for inspection:
-                  </div>
-                  <div class="figure">
-                    <div class="figure-label">Conflation of \(\xi\) to x as V \(\rightarrow\) 0</div>
-                    <div class="figure-content">
-                      <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
-                    </div>
-                    <div></div>
-                    <div>This is a caption element. We attempt to see if it can reflow because if it cannot then we are in a massive amount of trouble anyway here is the checkbox. Please let us know if this is reflowing or not. Thank you.
-                    </div>
-                  </div>
+          <div class="numberingGrid"> </div>
+          <div class="subsection-label">
+            <div>2.3</div>
+            <div>globalReflow.js</div>
+          </div>
+          <div class="numberingGrid"> The management and rearrangement of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint blah blah blah blah reflow reflow reflow violation violation violation check check check this this this reflow reflow reflow violation violation violation. Testing a <code>element</code>.
+          </div>
+          <div class="numberingGrid">
+            directory for easy management of the figures. Several figure examples are rendered below for inspection:
+          </div>
                   <div class="numberingGrid">
                       The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
                   </div>
                 </div>
-                <div class="column">
-                    <div class="numberingGrid">
-                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
-                    </div>
+        <div class="column">
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">3.0</div>
+              </span>
+              <div class='slashtab-text'>Exporting and Rendering</div>
+              <div></div>
+            </div>
+          <div class="numberingGrid">
+              The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+          </div>
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">4.0</div>
+              </span>
+              <div class='slashtab-text'>Example CSS Objects</div>
+              <div></div>
+            </div>
+            <div class="figure">
+              <div class="figure-label">Conflation of \(\xi\) to x as V \(\rightarrow\) 0</div>
+              <div class="figure-content">
+                <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+              </div>
+              <div></div>
+              <div>This is a caption element. We attempt to see if it can reflow because if it cannot then we are in a massive amount of trouble anyway here is the checkbox. Please let us know if this is reflowing or not. Thank you.
+              </div>
+            </div>
                 </div>
             </div>
 

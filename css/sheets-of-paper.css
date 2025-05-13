@@ -1415,3 +1415,13 @@ li::marker {
   transform: translate(40px, -15px);
   border-radius: 7px;
 }
+
+.token.treeview-part .entry-name.dir::before {
+  content: "\ea02";
+  color: #2e9f40;
+}
+
+code{
+  color:#2e9f40;
+  font-size: 9px;
+}
