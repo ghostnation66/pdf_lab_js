@@ -7,69 +7,71 @@ export function help(){
 let pageHeightInPixels=1000;
 let page;
 let delay=3000;
+let page_bottom_offset = 190;
 
 // Finds numberingGrid elements that violate a height constraint (default 1000px). Collectes the node elements that are admissible and those that are not, and removes the node elements that are not admissible.
 export function numberingGridReflow(){
     let numberingGrids = document.querySelectorAll(".numberingGrid");
     // Obtain the pages in the DOM to be used to reallocated oversized text to new columns
     let pages = document.querySelectorAll(".page");
-    // console.log(numberingGrids);
+    // Iterate through the list of numberingGrids in the DOM, if any of them are inadmissible, pass them to the reflow condition
     for (let i = 0; i < numberingGrids.length; i++) {
-        const element = numberingGrids[i];
-        // console.log('Element at index', i, ':', element);
-        // Because getBoundingClientRect is dependent on the scroll position, it needs to be accounted for in the assignment
-        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        let rectBox = element.getBoundingClientRect();
-        // Collect the page container of the numberingGrid element. Use the top value of the current element to determine which page it is localized on
-        let pageIndex = Math.floor((rectBox.top + scrollTop)/pageHeightInPixels) + 1;
-        // Checks the rectBox of the numberingGrid to see if there a candidates for reflow. This is determined by dividing the bottom of the rectBox bottom value by the pageHeight (based on page since HTML is rendered as a single document), and subtractd by 1000, which should make all non-violating elements subzero valued.
-        if ((rectBox.bottom+scrollTop) - pageHeightInPixels * pageIndex > 0){
-            let excess_height = rectBox.bottom+scrollTop - (pageHeightInPixels*pageIndex);
-            // This will extract the numberingSpan element within the grid, which contains our content ( a mix of text, spans, and other node types)
-            let numberedSpan = element.children[2].children[0];
-            let goodChildren, badChildren
-            [goodChildren, badChildren]= spanSeparator(numberedSpan, excess_height);
-            // Create two new numbering grid elements with goodChildren, to replace the original numberingGrid at this iteration, and one containing badChildren, to be inserted before the next numbering grid element
-            let goodGrid = utility.createNumberingGrid(goodChildren);
-            let badGrid = utility.createNumberingGrid(badChildren);
-            // debugger
-            // numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', badGrid);
-            // Looping through the badChildren in revese and inserting each individual element into the subsequent numberingGrid
-            for(let child of badChildren.reverse()){
-              numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', child);
-            }
-            element.replaceWith(goodGrid);
+      const element = numberingGrids[i];
+      // Invoking the page finder function to get the element reference to the page that the numberingGrid is placed on
+      // debugger
+      let pageIndex = utility.page_indexer(numberingGrids[i], pages) + 1;
+      let page_node = utility.page_finder(numberingGrids[i], pages);
+      // Obtain the bottom positino of every page. Text reflow candidates will have a DOMRect bottom property that exceeds this value minus some offset (page_bottom_offset)
+      let page_node_rect = utility.marginBox(page_node);
+      // The marginBox utility function provides an augmented DOMRect that includes the margin sizes of any element, and also accounts for vertical offset of the scroll position
+      let bounding_box_with_margins = utility.marginBox(element);
+      // The pages of pdf_lab_js have static "gaps" between the pages and thus must be accountded for for every new page. This gap is scaled by the pageIndex value, because the page offset increases with each page and can be problematic as more and more pages incur a differential page height disparity
+      let page_gap = (pageIndex-1) * 150;
+      let page_bottom_with_offset = page_node_rect.bottom - page_bottom_offset;
 
+      // Reflow function begins here. Checks if the bottom position of the numberingGrid is inadmissible to the bottom of the page with some offset
+      // if(Math.floor(bounding_box_with_margins.bottom/((pageIndex*pageHeightInPixels) + page_gap)) >= 1){
+
+      if(bounding_box_with_margins.bottom > page_bottom_with_offset){
+        debugger
+
+        // This will extract the span element within the numberingGrid, which contains our content ( a mix of text, spans, and other node types)
+        let numberedSpan = element.children[2].children[0];
+        let goodChildren, badChildren
+        // [goodChildren, badChildren]= spanSeparator(numberedSpan, pageIndex, page_gap);
+        [goodChildren, badChildren]=spanSeparator(numberedSpan, page_bottom_with_offset);
+        // Create two new numbering grid elements with goodChildren, to replace the original numberingGrid at this iteration, and one containing badChildren, to be inserted before the next numbering grid element
+        let goodGrid = utility.createNumberingGrid(goodChildren);
+        let badGrid = utility.createNumberingGrid(badChildren);
+        // debugger
+        // numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', badGrid);
+        // Looping through the badChildren in revese and inserting each individual element into the subsequent numberingGrid
+        for(let child of badChildren.reverse()){
+          numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', child);
         }
+        // element.replaceWith(goodGrid);
+        // Reset the numbering grid array to obtain a new set of numberingGrids from the newly reflowed grid layout. The grid at the CURRENT step was just modified, and thus we are free to move onto the next numberingGrid element, which may have been enlarged when the badChildren were placed into it from the previous loop
+        numberingGrids = document.querySelectorAll(".numberingGrid");
+        // The index value is pulled back again to recheck the original numbering grid
+        // i--;
+
+      }
     };
 }
 
 // Separates span elements within a span element based on admissibility to a vertical constraint. Returns an array of admissible nodes and inadmissible nodes
-export function spanSeparator(spanElement, excess_height){
+export function spanSeparator(spanElement, page_bottom_with_offset){
+    let rect_box, push_node
     const vertical_offset = window.scrollY;
-    const span_height = spanElement.getBoundingClientRect().height;
-    const span_top = spanElement.getBoundingClientRect().top + vertical_offset;
-    let span_children = spanElement.childNodes;
-    let cumulative_height = 0;
+    // Convert all text data into a span bounded by each word
+    utility.spanGenerator(spanElement);
     let goodChildren = [];
     let badChildren = [];
-    let index = 0;
-    // Collect rectBoxes of spanElement children
-    for(let child of span_children){
-      // debugger
-        let rect_box, push_node
-        [rect_box, push_node] = boundingBox(child, spanElement);
-        // debugger
-        cumulative_height += rect_box.height;
-        if(cumulative_height + span_top > pageHeightInPixels){
-            console.log("textReflow.js:spanSeparator:Violating child @ ", child);
-            badChildren.push(push_node);
-        }else{
-            goodChildren.push(push_node);
-        }
-        index++;
-    }
+    // debugger
+    // [goodChildren, badChildren] = utility.spanSplitter(spanElement, 1000, vertical_offset, pageIndex, page_gap);
+    [goodChildren, badChildren]=utility.spanSplitter(spanElement, page_bottom_with_offset);
+
+    // The spanSplitter has provided the individual elements of the spanElement that are admissible and inadmissible. We return them here to pass back into the reflow function
     return [goodChildren,badChildren];
 }
 // In place bounding box checker, converts any text nodes to individual span elements. Returns an array of the DOMrect of the node, and the usable node (converts text nodes to span of spans)
@@ -115,6 +117,8 @@ export function boundingBox(original_node, spanElement, index) {
         return [rect, original_node];
     }
 }
+
+
 
 
 

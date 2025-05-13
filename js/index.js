@@ -8,10 +8,12 @@ lineNumber.help()
 textReflow.help()
 
 window.addEventListener("DOMContentLoaded", () =>{
-    console.log("index.js ran");
     // Set up initial grid conditions
     lineNumber.setUpGrids();
-    textReflow.numberingGridReflow();
+    // Introduce delay in order to enable prism objects to render prior (for example, the filesystem view does not render before the textreflow, which can cause significant issues)
+    setTimeout(textReflow.numberingGridReflow, 2500);
+    // textReflow.numberingGridReflow();
     // Introduce delay to enable MathJAX to render before numbering
-    setTimeout(utility.numberingOnNumberingGrid, 2000);
+    setTimeout(utility.numberingOnNumberingGrid, 3000);
+    console.log("index.js ran");
 });
