@@ -47,7 +47,7 @@ function pageNumberFunction(){
 // Applies manual and automatic page breaks. The HTML document primarily implements manual page breaking
 function applyPageBreaks() {
     applyManualPageBreaks();
-    applyAutomaticPageBreaks(Config.pixelsPerInch, Config.pageHeightInCentimeter, Config.pageMarginBottomInCentimeter);
+    // applyAutomaticPageBreaks(Config.pixelsPerInch, Config.pageHeightInCentimeter, Config.pageMarginBottomInCentimeter);
 
     document.querySelectorAll(".document .page").forEach(function (element) {
         if (!element.classList.contains("has-events")) {

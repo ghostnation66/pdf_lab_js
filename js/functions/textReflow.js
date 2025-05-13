@@ -25,9 +25,10 @@ export function numberingGridReflow(){
       let page_node_rect = utility.marginBox(page_node);
       // The marginBox utility function provides an augmented DOMRect that includes the margin sizes of any element, and also accounts for vertical offset of the scroll position
       let bounding_box_with_margins = utility.marginBox(element);
-      // The pages of pdf_lab_js have static "gaps" between the pages and thus must be accountded for for every new page. This gap is scaled by the pageIndex value, because the page offset increases with each page and can be problematic as more and more pages incur a differential page height disparity
+      // The pages of pdf_lab_js have static "gaps" between the pages and thus must be accountded for for every new page. This gap is scaled by the pageIndex value, because the page offset increases with each page and can be problematic as more and more pages incur a differential page height disparity. We also implement a page_gap_enforcer because pages, unfortunately, can be oversize past a default height.
+      let page_gap_enforcer = page_node_rect.bottom - (1197 * pageIndex);
       let page_gap = (pageIndex-1) * 150;
-      let page_bottom_with_offset = page_node_rect.bottom - page_bottom_offset;
+      let page_bottom_with_offset = page_node_rect.bottom - page_gap_enforcer - page_bottom_offset;
 
       // Reflow function begins here. Checks if the bottom position of the numberingGrid is inadmissible to the bottom of the page with some offset
       // if(Math.floor(bounding_box_with_margins.bottom/((pageIndex*pageHeightInPixels) + page_gap)) >= 1){
