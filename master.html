@@ -21,25 +21,26 @@
 
   </head>
     <body class="document">
-      <div class="page" contenteditable="true">
-        <div class="dual-column">
-          <div class="column">
-            <div>
-              <img class="svg" src="assets/images/mj-logo-prime.png" alt="Description of the SVG image">
-            </div>
-            <br>
-            <div class="header-table">
-              <div class="titletab">
-                <span>
-                  <div class="titletab-number">file_data</div>
-                </span>
-                <div class='titletab-text'></div>
-              </div>
-              <div>
-              <table style="width:100%;">
+        <div class="page" contenteditable="true">
+
+            <div class="dual-column">
+                <div class="column">
+                    <div>
+                        <img class="svg" src="assets/images/mj-logo-prime.png" alt="Description of the SVG image">
+                    </div>
+                    <br>
+                    <div class="header-table">
+                        <div class="titletab">
+                            <span>
+                                <div class="titletab-number">file_data</div>
+                            </span>
+                            <div class='titletab-text'></div>
+                        </div>
+                        <div>
+                            <table style="width:100%;">
                               <tr>
                                 <td><b>file_name</b></td>
-                                <td>pdf_lab_js_wiki</td>
+                                <td>assignment_2_1.pdf</td>
                               </tr>
                               <tr>
                                 <td><b>author</b></td>
@@ -47,11 +48,11 @@
                               </tr>
                               <tr>
                                 <td><b>course</b></td>
-                                <td>ECE555</td>
+                                <td>ECE595</td>
                               </tr>
                               <tr>
                                 <td><b>date</b></td>
-                                <td>07MAY2025</td>
+                                <td>10MAY2025</td>
                               </tr>
                             </table>
                     </div>
@@ -61,10 +62,10 @@
                         <span>
                             <div class="slashtab-number">1.0</div>
                         </span>
-                        <div class='slashtab-text'>Components of pdf_lab_js</div>
+                        <div class='slashtab-text'>Fundamentals and Neural Network Architecture </div>
                     </div>
                     <div class="numberingGrid">
-                        This document provides a visual reference for the CSS utilities of pdf_lab_js. As the project develops, elements will be integrated into the wiki so users may browse through the document for specific structures of interest. It is recommended that user be familiar with the "Inspect Element" tool to directly identify the underlying elements that build up composite structures.
+                        In order to implement optimizers within neural network training schemes, we must first define the effect of such techniques relative to unoptimized frameworks. Neural networks that do not optimize and use Vanilla Gradient Descent (VGD) have a stationary, predetermined learning rate (\(\alpha\)) that influences the degree to which a loss gradient contribute to the weight update step in backpropagation. Optimized learning methods implement a protocol by which the learning rate is modified based on the dynamics of the loss gradient; these methods typically utilize a momentum-based concept to influence the learning rate, in which the network is provided with introspection of the cumulative change of previous gradients (analogous to the "integral" term in PID control), and utilizes the information to accelerate or decelerate learning at specific regions of the loss landscape. In general, when large gradients are encountered, the learning rate will be downscaled to allow for more intensive training in a particular region exhibiting minimizing potential, so as to not overstep a potential minimum; the opposite is true for small gradients, where the learning rate is augmented to increase the traversal through the loss landscape where the loss is less dynamic, and can be "skipped" via large learning steps in order to more quickly encounter larger gradients. The implementation of this "self-optimizing" learning rate was
 
                         Below is an example of a MathJAX equation rendering within the <code>numberingGrid</code> element. By default, it renders as an inline element, where typset values can be placed directly in a sentence, such as \(\sigma^2\), but, below, we show the block syntax:
                         <br>
@@ -107,12 +108,6 @@
               <div>textReflow.js</div>
             </div>
             <div class="numberingGrid"> The management and rearrangmenet of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint
-            </div>
-            <div class="subsection-label">
-              <div>2.2</div>
-              <div>textReflow.js</div>
-            </div>
-            <div class="numberingGrid"> The management and rearrangement of elements on the DOM is a sophisticated challenge due to the plethora of elements that constitute the document. Currently, the document supports "soft" reflow of numberingGrid elements, and has the ability to slice a numbering grid based upon elements that are admissible or inadmissible to a vertical height constraint, placing the inadmissible contents in the subsequent numberingGrid element, and replacing the entire numbering grid element that violated the height constraint with the sliced container that contains an admissible subset of the elements with respect to the constraint blah blah blah blah reflow reflow reflow violation violation violation check check check this this this reflow reflow reflow violation violation violation. Testing a <code>element</code>.
             </div>
           </div>
                 </div>
@@ -193,8 +188,14 @@
                   <div class="numberingGrid">
                       The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
                   </div>
+                  <div class="numberingGrid">
+                      The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                  </div>
                 </div>
                 <div class="column">
+                    <div class="numberingGrid">
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                    </div>
                     <div class="numberingGrid">
                         The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
                     </div>
@@ -203,7 +204,64 @@
 
 
             <div class="page-break" contentEditable="true"></div>
-            
+            <div class="columnar">
+
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">2</div>
+              </span>
+              <div class='slashtab-text'> Function Protocols</div>
+              <div></div>
+            </div>
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">2</div>
+              </span>
+              <div class='slashtab-text'> Function Protocols</div>
+              <div></div>
+            </div>
+
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+                        The pdf_lab_js document also incorporates features from prism.js in rendering linted code in a block. Code cells that employ the prism.js functionality are written in the following example. The <code>&ltpre&gt</code> element is accompanied by the class that indicates the color scheme for the language contained within the block, in this case, <code>language-css</code>; line numbers can be features by including the <code>line-numbers</code> class. Prism enables elements to search for data following the "data-src" class path. We may also restyle the prism colored block with pre-wrap rearranging and reducing the font size. Please refer to the prism.js website @ <span style="color:blue;">https://prismjs.com/</style>
+
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+                        $$\frac{d}{dx} \left[ p(x) \frac{dy}{dx} \right] + q(x)y + \lambda w(x) y = 0 $$
+
+            </div>
+
+
             <div class="page-break" contentEditable="true"></div>
 
       <div>Appendix</div>
@@ -218,10 +276,10 @@
         </div>
     </body>
 
-<script type="module" src="js/index.js"></script>
 <script src="js/bibliography.js"></script>
 <script src="js/prism_local/prism.js"></script>
 <!-- Link JS module script -->
+<script type="module" src="js/index.js"></script>
 <!-- <script src="js/source.js"></script> -->
 </html>
 
