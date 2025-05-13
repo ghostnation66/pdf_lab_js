@@ -27,19 +27,19 @@ function pageNumberFunction(){
 
     for (page of pages){
 
-        const slashNumber = document.createElement('div');
-        slashNumber.classList.add("slashNumber");
+        const page_number_marker = document.createElement('div');
+        page_number_marker.classList.add("page-number-marker");
 
-        const slashNumberSpan = document.createElement('span');
+        const page_number_marker_span = document.createElement('span');
 
-        const slashNumberSpanDiv = document.createElement('div');
-        slashNumberSpanDiv.classList.add("slashNumber-number");
-        slashNumberSpanDiv.textContent = "P" + index;
+        const page_number_marker_index = document.createElement('div');
+        page_number_marker_index.classList.add("page-number-marker-index");
+        page_number_marker_index.textContent = "P" + index;
         index++;
 
-        slashNumberSpan.append(slashNumberSpanDiv);
-        slashNumber.append(slashNumberSpan);
-        page.prepend(slashNumber);
+        page_number_marker_span.append(page_number_marker_index);
+        page_number_marker.append(page_number_marker_span);
+        page.prepend(page_number_marker);
 
     }
 }

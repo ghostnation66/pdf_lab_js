@@ -7,11 +7,13 @@ export function help(){
 let pageHeightInPixels=1000;
 let page;
 let delay=3000;
-let page_bottom_offset = 190;
+let page_bottom_offset = 30;
 
 // Finds numberingGrid elements that violate a height constraint (default 1000px). Collectes the node elements that are admissible and those that are not, and removes the node elements that are not admissible.
 export function numberingGridReflow(){
     let numberingGrids = document.querySelectorAll(".numberingGrid");
+    // Obtain slashNumber objects in the DOM, we will use these as page boundaries
+    let page_boundary_list = document.querySelectorAll(".page-number-marker");
     // Obtain the pages in the DOM to be used to reallocated oversized text to new columns
     let pages = document.querySelectorAll(".page");
     // Iterate through the list of numberingGrids in the DOM, if any of them are inadmissible, pass them to the reflow condition
@@ -23,12 +25,17 @@ export function numberingGridReflow(){
       let page_node = utility.page_finder(numberingGrids[i], pages);
       // Obtain the bottom positino of every page. Text reflow candidates will have a DOMRect bottom property that exceeds this value minus some offset (page_bottom_offset)
       let page_node_rect = utility.marginBox(page_node);
+      //Get the slashNumber top rect bound and set as the page boundary
+      let page_boundary = page_boundary_list[(pageIndex - 1)];
+      let page_boundary_bounding_box = utility.marginBox(page_boundary);
+      let page_boundary_cutoff = page_boundary_bounding_box.top;
       // The marginBox utility function provides an augmented DOMRect that includes the margin sizes of any element, and also accounts for vertical offset of the scroll position
       let bounding_box_with_margins = utility.marginBox(element);
       // The pages of pdf_lab_js have static "gaps" between the pages and thus must be accountded for for every new page. This gap is scaled by the pageIndex value, because the page offset increases with each page and can be problematic as more and more pages incur a differential page height disparity. We also implement a page_gap_enforcer because pages, unfortunately, can be oversize past a default height.
       let page_gap_enforcer = page_node_rect.bottom - (1197 * pageIndex);
       let page_gap = (pageIndex-1) * 150;
-      let page_bottom_with_offset = page_node_rect.bottom - page_gap_enforcer - page_bottom_offset;
+      // let page_bottom_with_offset = page_node_rect.bottom - page_gap_enforcer - page_bottom_offset;
+      let page_bottom_with_offset = page_boundary_cutoff - page_bottom_offset;
 
       // Reflow function begins here. Checks if the bottom position of the numberingGrid is inadmissible to the bottom of the page with some offset
       // if(Math.floor(bounding_box_with_margins.bottom/((pageIndex*pageHeightInPixels) + page_gap)) >= 1){
@@ -46,9 +53,14 @@ export function numberingGridReflow(){
         let badGrid = utility.createNumberingGrid(badChildren);
         // debugger
         // numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', badGrid);
-        // Looping through the badChildren in revese and inserting each individual element into the subsequent numberingGrid
+        // Looping through the badChildren in revese and inserting each individual element into the subsequent numberingGrid. The original numberingGrid will remain, and whether or not we remove the original grid depends on the state of the goodChildren
         for(let child of badChildren.reverse()){
           numberingGrids[i+1].children[2].children[0].insertAdjacentElement('afterbegin', child);
+        }
+        // If the goodChildren array is empty, it means that the entire block was inadmissible. If this is the case, we will remove the numberingGrid, otherwise, the numbering mechanism will number an empty grid with a single, empty span with no text in it.
+        if(goodChildren.length == 0){
+          element.remove();
+          i--;
         }
         // element.replaceWith(goodGrid);
         // Reset the numbering grid array to obtain a new set of numberingGrids from the newly reflowed grid layout. The grid at the CURRENT step was just modified, and thus we are free to move onto the next numberingGrid element, which may have been enlarged when the badChildren were placed into it from the previous loop
