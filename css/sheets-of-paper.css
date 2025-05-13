@@ -969,8 +969,8 @@ th, td {
 	padding-left: 5px;
 	padding-top: 3px;
 	justify-self: start;
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 8px;
+  /* font-weight: 500; */
   transform: translate(0px,2px);
   font-family: none;
 
@@ -979,7 +979,7 @@ th, td {
 }
 
 
-.slashNumber{
+.page-number-marker{
 	position: relative;
 	/* Manually translates the pageNumber element to the page bottom */
 	top: 900px;
@@ -999,7 +999,7 @@ th, td {
 	z-index: 1;
 }
 
-.slashNumber span{
+.page-number-marker span{
 		background: #2e9f40;
 		width: 15%;
 		left: 295px;
@@ -1017,7 +1017,7 @@ th, td {
 		/* border: 10px solid white; */
 }
 
-.slashNumber span:before{
+.page-number-marker span:before{
 	width: 60px;
 	height: 30px;
 	background: #2e9f40;
@@ -1028,7 +1028,7 @@ th, td {
 	transform:translate(-86px, -20px) rotate(45deg);
 }
 
-.slashNumber-number{
+.page-number-marker-index{
   color: white;
   background:#2e9f40;
 	width: 60%;
@@ -1057,7 +1057,16 @@ th, td {
 	padding-top: 10px;
 	padding-bottom: 10px;
 	background: #D3D3D3;
+  overflow:hidden;
+}
 
+/* Styles the box number for proof elements */
+.proof div:nth-child(1){
+  color: white;
+  background: #2e9f40;
+  padding: 5px;
+  position:absolute;
+  transform:translate(294px, -12px)
 }
 
 .header-table{
@@ -1414,4 +1423,21 @@ li::marker {
   padding: 5px;
   transform: translate(40px, -15px);
   border-radius: 7px;
+}
+
+.token.treeview-part .entry-name.dir::before {
+  content: "\ea02";
+  color: #2e9f40;
+}
+
+code{
+  color:#2e9f40;
+  font-size: 9px;
+}
+
+/* Removes excessive margin in MathJAX block environments, may cause an issue with inline margins */
+mjx-container{
+  /* display: block; */
+  /* text-align: center; */
+  margin-top: 0px !important;
 }

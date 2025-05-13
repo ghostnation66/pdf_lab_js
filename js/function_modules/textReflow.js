@@ -7,13 +7,13 @@ export function help(){
 let pageHeightInPixels=1000;
 let page;
 let delay=3000;
-let page_bottom_offset = 30;
+let page_bottom_offset = 10;
 
 // Finds numberingGrid elements that violate a height constraint (default 1000px). Collectes the node elements that are admissible and those that are not, and removes the node elements that are not admissible.
 export function numberingGridReflow(){
     let numberingGrids = document.querySelectorAll(".numberingGrid");
     // Obtain slashNumber objects in the DOM, we will use these as page boundaries
-    let page_boundary_list = document.querySelectorAll(".slashNumber");
+    let page_boundary_list = document.querySelectorAll(".page-number-marker");
     // Obtain the pages in the DOM to be used to reallocated oversized text to new columns
     let pages = document.querySelectorAll(".page");
     // Iterate through the list of numberingGrids in the DOM, if any of them are inadmissible, pass them to the reflow condition
@@ -32,8 +32,6 @@ export function numberingGridReflow(){
       // The marginBox utility function provides an augmented DOMRect that includes the margin sizes of any element, and also accounts for vertical offset of the scroll position
       let bounding_box_with_margins = utility.marginBox(element);
       // The pages of pdf_lab_js have static "gaps" between the pages and thus must be accountded for for every new page. This gap is scaled by the pageIndex value, because the page offset increases with each page and can be problematic as more and more pages incur a differential page height disparity. We also implement a page_gap_enforcer because pages, unfortunately, can be oversize past a default height.
-      let page_gap_enforcer = page_node_rect.bottom - (1197 * pageIndex);
-      let page_gap = (pageIndex-1) * 150;
       // let page_bottom_with_offset = page_node_rect.bottom - page_gap_enforcer - page_bottom_offset;
       let page_bottom_with_offset = page_boundary_cutoff - page_bottom_offset;
 

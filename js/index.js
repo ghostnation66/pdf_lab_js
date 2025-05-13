@@ -1,7 +1,7 @@
-import * as pageBreak from "./functions/pageBreak.js";
-import * as lineNumber from "./functions/lineNumber.js";
-import * as textReflow from "./functions/textReflow.js";
-import * as utility from "./functions/utilityFunctions.js"
+import * as pageBreak from "./function_modules/pageBreak.js";
+import * as lineNumber from "./function_modules/lineNumber.js";
+import * as textReflow from "./function_modules/textReflow.js";
+import * as utility from "./function_modules/utilityFunctions.js"
 // Run the help functions to obtain a description of the modules
 pageBreak.help()
 lineNumber.help()
