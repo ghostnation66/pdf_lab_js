@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!--
+ * HTML-Sheets-of-Paper (https://github.com/delight-im/HTML-Sheets-of-Paper)
+ * Copyright (c) delight.im (https://www.delight.im/)
+ * Licensed under the MIT License (https://opensource.org/licenses/MIT)
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Emulating real sheets of paper in web documents (using HTML and CSS)">
+    <title>pdf_lab_js</title>
+    <link rel="stylesheet" type="text/css" href="css/prism_local/prism.css">
+    <link rel="stylesheet" type="text/css" href="css/sheets-of-paper-a4.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/citation-js" type="text/javascript"></script>
+
+    <!-- Mathjax CDN -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  </head>
+  <body class="document">
+        <div class="page" contenteditable="true">
+
+            <div class="dual-column">
+                <div class="column">
+                    <div>
+                        <img class="svg" src="assets/images/mj-logo-prime.png" alt="Description of the SVG image">
+                    </div>
+                    <br>
+                    <div class="header-table">
+                        <div class="titletab">
+                            <span>
+                                <div class="titletab-number">file_data</div>
+                            </span>
+                            <div class='titletab-text'></div>
+                        </div>
+                        <div>
+                            <table style="width:100%;">
+                              <tr>
+                                <td><b>file_name</b></td>
+                                <td>assignment_2_1.pdf</td>
+                              </tr>
+                              <tr>
+                                <td><b>author</b></td>
+                                <td>ghostnation</td>
+                              </tr>
+                              <tr>
+                                <td><b>course</b></td>
+                                <td>ECE595</td>
+                              </tr>
+                              <tr>
+                                <td><b>date</b></td>
+                                <td>10MAY2025</td>
+                              </tr>
+                            </table>
+                    </div>
+
+                    </div>
+                    <div class="slashtab">
+                        <span>
+                            <div class="slashtab-number">1.0</div>
+                        </span>
+                        <div class='slashtab-text'>Fundamentals of Neural Network Optimization </div>
+                    </div>
+                    <div class="numberingGrid">
+                      In order to implement optimizers within <span class="text-citation">1396737</span> neural network training schemes, we must first define the effect of such techniques relative to unoptimized frameworks. Neural networks that do not optimize and use Vanilla Gradient Descent (VGD) have a stationary, predetermined learning rate (\(\alpha\)) that influences the degree to which a loss gradient contribute to the weight update step in backpropagation. Optimized learning methods implement a protocol by which the learning rate is modified based on the dynamics of the loss gradient; these methods typically utilize a momentum-based concept to influence the learning rate, in which the network is provided with introspection of the cumulative change of previous gradients (analogous to the "integral" term in PID control), and utilizes the information to accelerate or decelerate learning at specific regions of the loss landscape. In general, when large gradients are encountered, the learning rate will be downscaled to allow for more intensive training in a particular region exhibiting minimizing potential, so as to not overstep a potential minimum; the opposite is true for small gradients, where the learning rate is augmented to increase the traversal through the loss landscape where the loss is less dynamic, and can be "skipped" via large learning steps in order to more quickly encounter larger gradients. The implementation of this "self-optimizing" learning rate was initially applied to SGD networks (the stochasticity alludes to the batching of input data to compute incremental gradients) by Polyak in 1964; a velocity term is applied to a weight update. The velocity term itself is influenced by the gradient term, and characterizes the "resistance" of the weight change to an experience of the gradient. The association is provided below:
+                    </div>
+                    <div class="proof">
+                      <div>1</div>
+                      SGD with momentum
+                      <br>
+                      $$
+                        \mathbf{w}_{t+1} = \mathbf{w_t} + \mathbf{v}_{t+1}
+                      $$
+                      <br>
+                      $$
+                        \mathbf{v}_{t+1} = \rho \mathbf{v}_t - \mu \nabla \mathbf{w}_t
+                      $$
+                    </div>
+                    <div class="numberingGrid">
+                        This "classical" momentum (which defines the weights as "particles in space") was improved by Nesterov via the implementation of "look-ahead" velocity, which evaluates \(\mathbf{v}_{t+1} = \rho \mathbf{v}_t - \mu \nabla (\mathbf{w}_t + \mathbf{v}_t ) \); With this parametrization, the weights are adjusted based upon a successor velocity state, allowing for more predictive adjustment of weight updates. Adaptive gradient methods (AdaGrad) utilize an expression that defines an operation for modulating the learning rate with respect to the gradient, permitting larger step sizes when the gradient is small, and forcing a reduction in the learning rate when the gradient grows, preventing an overshoot of  potential minima. The equations in Box 2 depcit the evaluation of succesor weight during each iteration of training in an AdaGrad training scheme, the first showing no veolcity implementation, the second showing a velocity implementation
+                    </div>
+                </div>
+          <div class="column">
+            <!-- <div class="numberingGrid"></div> -->
+            <div class="proof">
+              <div>2</div>
+              Adaptive Gradient (AdaGrad) without \(v\)
+              $$
+              \omega_{i, t+1} = \omega_{i, t} - \frac{\eta}{\sqrt{\varepsilon + \sum_{j=1}^{t} g(\omega_{i, j})^2}} g(\omega_{i, t})
+              $$
+              Adaptive Gradient (AdaGrad) with \(v\)
+              $$
+              \mathbf{v}_{t+1} = \mathbf{v}_{t} + g(\mathbf{w}_{t})^2
+              $$
+              $$
+              \mathbf{w}_{t+1} = \mathbf{w}_{t} - \frac{\eta}{\sqrt{\varepsilon + \mathbf{v}_{t+1}}} g(\mathbf{w}_{t})
+              $$
+            </div>
+            <div class="numberingGrid">
+              AdaGrad suffers from an egregious impairment that involves an asymptotically decaying learning rate due to the summatrion of cumulative gradients. In order to allow a network to have temporarily persistent memeory, RMSProp was developed to minimize the magnitude of the "integrator" term, along the training schedule, reforumlating the velocity update term with a discount factor \(\eta\), as shown in Box 3. The coefficient on \(v\) is not merely discounting, but obtianing a weighted average of the gradient and velocity term: if \(\beta\) is large, then the system will be "heavy", resistant to changes in the gradient, and vice-versa for the opposite case. One thing to note is that RMSProp applies gradients to each parameter separately, and can thus localize effective training rates per parameter, simultaneously (assuming parallel processing) during training.
+            </div>
+            <div class="proof">
+              <div>3</div>
+              RMSProp Discounted Velocity
+              $$
+              \mathbf{v}_{t+1} = \beta \mathbf{v}_{t} + (1 - \beta) g(\mathbf{w}_{t})^2
+              $$
+            </div>
+            <div class="numberingGrid">
+              The Adam optimizer was developed to address the shortcomings of RMSProp, and applies the classical momentum reformulation to the gradient term. Aptly named, the Adam optimizer provides adaptable reconfiguration of the moments of the gradient, as opposed to gradients themselves, resulting in smoothing of potentially unproductive oscialltory motion along eigenvectors of the weight matrix that do not move aggressively toward a minimum. The first and second moments are multiplied by respective bias correction terms to prevent initial training iterations from underestimating during the initial phase of training (\(\beta_1 \text{and}~\beta_2\) are generally set to 0.9 and 0.99 respectively, which can delay training without the bias correction terms. As is the case with all geometric series multipliers, the convergence to the reciprocal value is expected after some time).
+            </div>
+            <div class="proof">
+              <div>4</div>
+              Adam (RMSProp + Gradient Momentum)
+              $$
+              \mathbf{w}_{t+1} = \mathbf{w}_{t} - \frac{\eta}{\sqrt{\varepsilon + \mathbf{\hat{v}}_{t+1}}} \mathbf{\hat{m}}_{t+1}
+              $$
+              $$
+              \mathbf{m}_{t+1} = \beta_1 \mathbf{m}_{t} + (1 - \beta_1) g(\mathbf{w}_{t})
+              $$
+            </div>
+            <div class="numberingGrid">
+              The loss landscape (or error surface) will dictate the utility of either Vanilla SGD or any of the aforementioned techniques. Typically, sparse data tends to observe a significant performance loss in the latter as eigenvalues are generally inflated for one parameter over its partner parameters, and thus we may observe optimization along one feature against the others. The Adam optimizier implements a dual-moment technique where the first moment (mean) is acknowledged along with the second moment (uncentered variance).
+            </div>
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">2.0</div>
+              </span>
+              <div class='slashtab-text'>MNIST Dataset Analysis (numpy only)</div>
+              <div></div>
+            </div>
+            <div class="numberingGrid">
+              In the following sections, we outline the procedure to process the MNIST dataset, preparing it for training, and feeding the data into a neural network that only uses the numpy library (we do not utilize any prebuilt network functionality provided by external python libraries). We conclude with a demonstration of the training and loss minimization compared to Vanilla SGD.
+            </div>
+          </div>
+                </div>
+
+
+            <div class="page-break" contentEditable="true"></div>
+            <div class="dual-column">
+                <div class="column">
+                  <div class="subsection-label">
+                    <div>2.1</div>
+                    <div>Preprocessing MNIST Data</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The MNIST dataset requires converstion to a vectorized array to represent the 10 character classes via "one-hot" encoding. By default, the MNIST dataset output classes are provided as  \(y \in [0,10]\); however, the network requires the data outputs to be rendered in an array with a binary label indicating true classification value:
+                  </div>
+                  <pre class="language-python" data-src="/assets/code/one_hot_encoding.py" style="white-space:pre-line; font-size: 6px;" ></pre>
+                  <div class="numberingGrid">
+                    In order to reformat the data, the <code>to_categorical</code> method provided by the keras library will be invoked, and it performs the necessary structural alterations to provide categorical data as an array of binary values as expected in one-hot-encoding.
+                  </div>
+                  <div class="subsection-label">
+                    <div>2.2</div>
+                    <div>Neural Network Design</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The neural network is designed to implement 2 hidden layers, which have a specific dimensional strucutre at the input and output positions of each layer.
+                  </div>
+                  <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="146,151" style="font-size: 6px;" ></pre>
+                  <div class="numberingGrid">
+                    The first layer receives an input vector of 784 units, because the MNIST image samples are 28 x 28 pixels, resulting in a "linearized" array of 784 elements. The output layer must generate a 10 dimensional prediction, as there are 10 classes to evaluate in the dataset. The internal dimensions between the two hidden layers are semi-arbitrary, although there are many exmples of directed research toward setting up semantically effective hidden layer structures for classification objectives. In general, we see to to set up a hidden layer connection dimension that are powers of 2 (for computation efficiency) and to some value between the input dimension and the output dimension (in descending order) to abide by the general heuristic that the earlier layers (in this case, layer 1) are implemented for broad training/learning of features, and the later layers (layer 2) are deisgnated as "refinement" layers to train on aggregated feature characteristics.
+                  </div>
+                  <div class="subsection-label">
+                    <div>2.3</div>
+                    <div>Training on the MNIST Dataset</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The neural network implementation outputs a simple loss metric for the training data. Data is ingested from the provided <code>load_data()</code> method, and both a training set and testing set are rendered. We implement flattening and normalization (normalization tends to enhance the trianing effectiveness, so it is performed as per convention)
+                  </div>
+                  <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="129,141" style="font-size: 6px;" ></pre>
+                </div>
+                <div class="column">
+                  <div class="numberingGrid">
+                    The training outputs a simple metric that displays loss after a periodic number of training iterations; the loss represents the sum of the categorial cross entropies of the sample data, which are the objectives for the minimization of the maximum log-likelihood function (the softmax class contiains a built-in loss evaluation method that provides the predicted probability distribution of the class vector from sample data). Train/test sessions are provided in the figures below with and without Adam optimization. We note that the Adam optimizer provides nearly 8% accuracy boost to the classification prediction.
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Train and Test Session of MNIST-NN (Adam = True)
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      The output of a training session on the MNIST neural network, designated with two hidden layers (reLU) and an softmax output layer. Adam optimizer was toggled on.
+                    </div>
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Train and Test Session of MNIST-NN (Adam = False)
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python" data-src="/assets/code/MNIST_result_2.py" style="white-space:pre-line; font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      The output of a training session on the MNIST neural network, designated with two hidden layers (reLU) and an softmax output layer. Adam optimizer was toggled off.
+                    </div>
+                  </div>
+            <div class="slashtab">
+              <span>
+                <div class="slashtab-number">3.0</div>
+              </span>
+              <div class='slashtab-text'>MNIST Dataset Analysis (pytorch)</div>
+              <div></div>
+            </div>
+            <div class="numberingGrid">
+              In the following investigation, we reconstruct the previous neural architecture using pytorch, and perform testing to evaluate the performance of an adam optimized network to one without optimization on the learning rate. the pytorch implementation enables us to design a more compact network setup as it arrives with built in neural network modules (<code>nn.module</code>), and supplies classification loss methods,thus we will not need to programatically define a softmax function, parametrize a crossentropy loss, and other such auxiliary calculations).
+            </div>
+            <div class="subsection-label">
+              <div>3.1</div>
+              <div>MNIST Data Setup</div>
+            </div>
+            <div class="numberingGrid">
+              The pytorch module ships with an MNIST dataset and thus we are able to access it directly from the packaged <code>datasets</code> library. In this particular scenario, we choose not to normalize the data as it requires implementation of a pytorch pipeline which is out of the scope for the assignment, we expect to observe some detriment to the performance of the network. The train and test datasets are imported via similar funcitonality into the root of the script directory; the MNIST function requires several parameters to define the output (whether data is designated for training or testing), and the directory within which the information resides. The transform object simply converts the MNIST data into a pytorch compatible tensor object.
+            </div>
+                </div>
+            </div>
+            <div class="page-break" contentEditable="true"></div>
+            <div class="dual-column">
+                <div class="column">
+                  <pre class="language-python line-numbers" data-src="/assets/code/pytorch_network.py" data-range="8,16" style="font-size: 6px;" ></pre>
+                  <div class="numberingGrid">
+                    The batch size of the train and test dataset are designated accordingly (the batch size of 64 and toggled shuffle parameter imply that SGD, with a selectable optimizer, is set up automatically by the DataLoader utility function).
+                  </div>
+                  <div class="subsection-label">
+                    <div>3.2</div>
+                    <div>PyTorch Neural Network for MNIST data</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The neural network set up in pytorch is very compact, and the torch <code>functional</code> module supplies many essential components, including the relu activation function (we avoid using sigmoid in this network due to vanishing gradient challenges with sigmoid). In this implementation, the training scheme is applied outside of the class definition. The <code>train_model</code> function implements Adam optimization, and defaults to SGD without Adam. The <code>test_model</code> function allows for model evaluation in a separate environment space. The output is ultimately rendered via the <code>argmax()</code> method. The advantage offered by pytorch is that it provides high level abstraction of the neural network design, and enables the neural network to run on separate, non CPU devices. The training and testing mechanism, however, obfuscate the internals of the network functionality, so implementation of RNNs, reservoir networks, or inception network would require a large amount of repurposing or using a different framework, entirely. We reserve the implementation details of the testing and training mechanism for the code maintained within the <b>Appendix</b>. We show rapid convergence with merely 5 epoch in the PyTorch implementation, which attests to it's rapid characterization and well-designed framework that is built on the <code>nn</code> module, designed for optimized minimization of the objective function. In the model using the Adam optimizer, our accuracy was 97.64%, and in the subsequent training session, with vaniilla SGD, the accuracy dropped to 64.19%. Further testing would involve trianing over larger epoch ranges and testing other activation functions. It may also be salient to time the trianing sessions as there is considerable overhead in setting up the architecture in the GPUs provided by the Google Collab Workspace (which, by default, offers Tesla Nvidia GPUs).
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Train and Test Session of Pytorch Model (Adam = True)
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python line-numbers" data-src="/assets/code/pytorch_result_1.py" style="word-break:break-all;font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      Training and testing (test data originates from <code>test_loader</code> results for PyTorch neural network training on MNIST Handwriting Data), using the Adam Optimizer
+                    </div>
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="figure">
+                    <div class="figure-label">
+                      Train and Test Session of Pytorch Model (Adam = False)
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python line-numbers" data-src="/assets/code/pytorch_result_2.py" style="word-break:break-all; font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      Training and testing (test data originates from <code>test_loader</code> results for PyTorch neural network training on MNIST Handwriting Data), using vanilla SGD.
+                    </div>
+                    </div>
+                    <div class="bibliography-title">References</div>
+                    <div id="citations"></div>
+                  </div>
+                </div>
+
+
+
+            <div class="page-break" contentEditable="true"></div>
+
+      <div>Appendix</div>
+      <br>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="0,80" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+
+
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="81," style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">PyTorch MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/pytorch_network.py" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </body>
+
+<script src="js/bibliography.js"></script>
+<script src="js/prism_local/prism.js"></script>
+<!-- Link JS module script -->
+<script type="module" src="js/index.js"></script>
+<!-- <script src="js/source.js"></script> -->
+</html>
+
+
+<!--
+References
+<div class="bibliography-underline"></div>
+<div id="citations"></div> -->
+
+<link rel="stylesheet" href="js/prism/assets/style.css" />
+<link rel="stylesheet" href="js/prism/themes/prism.css" data-noprefix />
+<link rel="stylesheet" href="js/prism/plugins/line-numbers/prism-line-numbers.css" data-noprefix />
+<script src="js/prism/assets/vendor/prefixfree.min.js"></script>

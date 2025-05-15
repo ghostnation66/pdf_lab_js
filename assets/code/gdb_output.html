@@ -1,0 +1,29 @@
+<pre>(gdb) c
+Continuing.
+
+Hardware watchpoint 2: output
+
+Old value = &quot;J&lt;,4\n&quot;
+New value = &quot;J&lt;,4*&quot;
+
+Hardware watchpoint 3: output
+
+Old value = &quot;J&lt;,4\n&quot;
+New value = &quot;J&lt;,4*&quot;
+<font color="#A2734C">print_msg</font> () at <font color="#26A269">message.c</font>:28
+28	in <font color="#26A269">message.c</font>
+(gdb) c
+Continuing.
+
+Hardware watchpoint 2: output
+
+Old value = &quot;J&lt;,4*&quot;
+New value = &quot;S&lt;,4*&quot;
+
+Hardware watchpoint 3: output
+
+Old value = &quot;J&lt;,4*&quot;
+New value = &quot;S&lt;,4*&quot;
+<font color="#A2734C">print_msg</font> () at <font color="#26A269">message.c</font>:32
+32	in <font color="#26A269">message.c</font>
+</pre>
