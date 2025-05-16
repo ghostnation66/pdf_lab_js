@@ -1,0 +1,471 @@
+[
+  {
+    "type": "article-journal",
+    "id": "Article",
+    "citation-key": "Article",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "container-title": "The BibTeX Journal",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "volume": "5",
+    "issue": "6",
+    "page": "200-210",
+    "note": "This is a note."
+  },
+  {
+    "type": "book",
+    "id": "Book",
+    "citation-key": "Book",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "editor": [
+      {
+        "family": "Coburn",
+        "given": "Carol"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "BibTeX Publishers",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "volume": "5",
+    "collection-number": "6",
+    "collection-title": "Good Series",
+    "publisher-place": "Goodville",
+    "edition": "Second",
+    "note": "This is a note."
+  },
+  {
+    "type": "book",
+    "id": "Booklet",
+    "citation-key": "Booklet",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "publisher": "BibTeX",
+    "publisher-place": "Goodville",
+    "note": "This is a note."
+  },
+  {
+    "type": "chapter",
+    "id": "InBook",
+    "citation-key": "InBook",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "editor": [
+      {
+        "family": "Coburn",
+        "given": "Carol"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "chapter-number": "3",
+    "page": "200-210",
+    "publisher": "BibTeX Publishers",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "volume": "5",
+    "collection-number": "6",
+    "collection-title": "Good Series",
+    "genre": "Section",
+    "publisher-place": "Goodville",
+    "edition": "Second",
+    "note": "This is a note."
+  },
+  {
+    "type": "chapter",
+    "id": "InCollection",
+    "citation-key": "InCollection",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "container-title": "Dolor Sit Amet",
+    "publisher": "BibTeX Publishers",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "editor": [
+      {
+        "family": "Coburn",
+        "given": "Carol"
+      }
+    ],
+    "volume": "5",
+    "collection-number": "6",
+    "collection-title": "Good Series",
+    "genre": "Section",
+    "chapter-number": "3",
+    "page": "200-210",
+    "publisher-place": "Goodville",
+    "edition": "Second",
+    "note": "This is a note."
+  },
+  {
+    "type": "paper-conference",
+    "id": "InProceedings",
+    "citation-key": "InProceedings",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "container-title": "Dolor Sit Amet",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "editor": [
+      {
+        "family": "Coburn",
+        "given": "Carol"
+      }
+    ],
+    "volume": "5",
+    "issue": "6",
+    "collection-title": "Good Series",
+    "page": "200-210",
+    "publisher-place": "Goodville",
+    "publisher": "BibTeX Publishers",
+    "note": "This is a note."
+  },
+  {
+    "type": "report",
+    "id": "Manual",
+    "citation-key": "Manual",
+    "title": "Lorem Ipsum",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "publisher": "The Organizers",
+    "publisher-place": "Goodville",
+    "edition": "Second",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "note": "This is a note."
+  },
+  {
+    "type": "thesis",
+    "id": "MastersThesis",
+    "citation-key": "MastersThesis",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "The University",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "genre": "Diploma Thesis",
+    "note": "This is a note."
+  },
+  {
+    "type": "document",
+    "id": "Misc",
+    "citation-key": "Misc",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "Online",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "note": "This is a note."
+  },
+  {
+    "type": "thesis",
+    "id": "PhdThesis",
+    "citation-key": "PhdThesis",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "The University",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "genre": "Doctoral Thesis",
+    "publisher-place": "Goodville",
+    "note": "This is a note."
+  },
+  {
+    "type": "book",
+    "id": "Proceedings",
+    "citation-key": "Proceedings",
+    "title": "Lorem Ipsum",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "editor": [
+      {
+        "family": "Coburn",
+        "given": "Carol"
+      }
+    ],
+    "volume": "5",
+    "collection-number": "6",
+    "collection-title": "Good Series",
+    "publisher-place": "Goodville",
+    "publisher": "BibTeX Publishers",
+    "note": "This is a note."
+  },
+  {
+    "type": "report",
+    "id": "TechReport",
+    "citation-key": "TechReport",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "The Institution",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "genre": "Recommendation",
+    "number": "ABC-123",
+    "publisher-place": "Goodville",
+    "note": "This is a note."
+  },
+  {
+    "type": "manuscript",
+    "id": "Unpublished",
+    "citation-key": "Unpublished",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      },
+      {
+        "family": "Brody",
+        "given": "Bob"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "note": "This is a note.",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    }
+  },
+  {
+    "type": "thesis",
+    "id": "MastersThesis2",
+    "citation-key": "MastersThesis2",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "The University",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "genre": "Master's thesis",
+    "note": "This is a note."
+  },
+  {
+    "type": "thesis",
+    "id": "PhdThesis2",
+    "citation-key": "PhdThesis2",
+    "author": [
+      {
+        "family": "Adams",
+        "given": "Alice"
+      }
+    ],
+    "title": "Lorem Ipsum",
+    "publisher": "The University",
+    "issued": {
+      "date-parts": [
+        [
+          2020,
+          2
+        ]
+      ]
+    },
+    "genre": "PhD thesis",
+    "publisher-place": "Goodville",
+    "note": "This is a note."
+  },
+  {
+    "author": [
+      {
+        "given": "Petr",
+        "family": "Bogusch"
+      },
+      {
+        "given": "Jakub",
+        "family": "Straka"
+      }
+    ],
+    "container-title": "Zootaxa",
+    "type": "article-journal",
+    "id": "loir:B6",
+    "citation-key": "loir:B6",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          2012,
+          5,
+          14
+        ]
+      ]
+    },
+    "page": "1-41",
+    "title": "Review and identification of the cuckoo bees of central Europe (Hymenoptera: Halictidae: Sphecodes)",
+    "volume": "3311"
+  }
+]

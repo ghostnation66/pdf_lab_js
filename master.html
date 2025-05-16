@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<!--
+ * HTML-Sheets-of-Paper (https://github.com/delight-im/HTML-Sheets-of-Paper)
+ * Copyright (c) delight.im (https://www.delight.im/)
+ * Licensed under the MIT License (https://opensource.org/licenses/MIT)
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Emulating real sheets of paper in web documents (using HTML and CSS)">
+    <title>pdf_lab_js</title>
+    <link rel="stylesheet" type="text/css" href="css/prism_local/prism.css">
+    <link rel="stylesheet" type="text/css" href="css/sheets-of-paper-a4.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/citation-js" type="text/javascript"></script>
+
+    <!-- Mathjax CDN -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  </head>
+  <body class="document">
+        <div class="page" contenteditable="true">
+
+            <div class="dual-column">
+                <div class="column">
+                    <div>
+                        <img class="svg" src="assets/images/mj-logo-prime.png" alt="Description of the SVG image">
+                    </div>
+                    <br>
+                    <div class="header-table">
+                        <div class="titletab">
+                            <span>
+                                <div class="titletab-number">file_data</div>
+                            </span>
+                            <div class='titletab-text'></div>
+                        </div>
+                        <div>
+                            <table style="width:100%;">
+                              <tr>
+                                <td><b>file_name</b></td>
+                                <td>assignment_3.pdf</td>
+                              </tr>
+                              <tr>
+                                <td><b>author</b></td>
+                                <td>ghostnation</td>
+                              </tr>
+                              <tr>
+                                <td><b>course</b></td>
+                                <td>ECE595</td>
+                              </tr>
+                              <tr>
+                                <td><b>date</b></td>
+                                <td>13MAY2025</td>
+                              </tr>
+                            </table>
+                    </div>
+
+                    </div>
+                    <div class="slashtab">
+                        <span>
+                            <div class="slashtab-number">1.0</div>
+                        </span>
+                        <div class='slashtab-text'>Fundamentals of Convolutional Neural Networks </div>
+                    </div>
+                    <div class="numberingGrid">
+                      The advent and implementation of computer vision applications is one of the most significant advances in computer paradigms in human history due to its revolutionizing impact in a variety of critical sectors and ubiquitous presence in the modern world. Throughout this exposition, we will draw many details from the work of Lecun et. al and develop the underlying framework for an MNIST trained CNN from the insights into the CNN strucutures presented in the paper <span class="text-citation">726791</span>. CNNs represent a profound migration away from tranditional MLPs: whereas MLPS require vectorized data that overlooks the rich subtleties of grouped data (as is present in image data), CNNs perform operations that intend to preserve associativity among neighboring regions of data, which lends to it's precedence over other techniques in image recognition tasks. It is also serendipitous that these techniques are well suited to parallelization and vectorization. When desciribing the core advantages of CNNs, we must first investigate the exploitable traits of images: hierarchy, locality, equivariance, and invariance.
+                    </div>
+                    <div class="subsection-label">
+                      <div>1.1</div>
+                      <div>Locality, Feature Selection, and Kernels</div>
+                    </div>
+                    <div class="numberingGrid">
+                      CNNs implement the concept of locality via defining structure within a "receptive-field", which is a small, local, region of 2D space (at least in the image paradigm), that is screened with a particular window of weights, referred to as a kernel. Kernels applied to images rely on the concept of translational invariance, such that relevant features in the image will remain consistent despite their location in the image. This allows for significant parameter reudction (in many cases, reducing it to a square root of the total number of parameters that would be needed in a translation variant, or location dependent, circumstance). We may further reduce the number of parameters by localizing on a specific region within 2D space, ignoring the bulk of data outside of the window region. This further reduces the number of parameters to train over, but we must now compensate by implementing an architecture that sequentially evaluates a highly local feature map (image patch + kernel transform output) and passes data to kernels that evaluate larger subspaces of the image to obtain more specificity to the training objective The mathematical exposition below shows the utility of implementing a localizing CNN over raw MLP that trains on translationally invariant data <span class="text-citation">zhang2023dive</span>.
+                    </div>
+                    <div class="proof">
+                      <span>1.0</span>
+                      Raw MLP with Translationally Variant Data
+                      <br>
+                      <br>
+                      $$
+                      [\mathbf{H}]_{i,j} = [\mathbf{U}]_{i,j} + \sum_k \sum_l [\mathbf{W}]_{i,j,k,l} [\mathbf{X}]_{k,l} \\
+                      $$
+                    </div>
+                    <div class="numberingGrid">
+                      In the previous equations, the traditional MLP is recharacterized to represent the aforementioned tenets of image data, and we observe that the final equation (4) renders out a unique system that relies on far fewer trainable parameters than the previous model. This equation encapsulates the shifting window functionality endemic to CNNS, which is effective in reducing the parameter count of the training architecture as well as respecting the local topology present throughout the image, which affords correlated data that is salient to the effective learning of the CNN.
+                    </div>
+                </div>
+          <div class="column">
+            <!-- <div class="numberingGrid"></div> -->
+            <div class="proof">
+              <span>1.1</span>
+              Raw MLP with Translationally Invariant Data Assumption
+              <br>
+              <br>
+              $$
+              [\mathbf{H}]_{i,j} = u + \sum_a \sum_b [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
+              $$
+              <span>1.2</span>
+              Locality Restriction (\(\Delta\) is the kernal dimension boundary)
+              <br>
+              $$
+              [\mathbf{H}]_{i,j} = u + \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
+              $$
+              <span>1.3</span>
+              Convolution with Feature Summation
+              <br>
+              <br>
+              $$
+              [\mathbf{H}]_{i,j,d} = \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} \sum_{c} [\mathbf{V}]_{a,b,c,d} [\mathbf{X}]_{i+a,j+b,c}.
+              $$
+            </div>
+            <div class="numberingGrid">
+
+            </div>
+            <div class="subsection-label">
+              <div>1.2</div>
+              <div>CNN Design Protocols</div>
+            </div>
+            <div class="numberingGrid">
+              The nomeclature regarding "convolution" in the design of CNNs is a reference to the conversion of an image data into a feature map via a sliding operation of the kernel. The units (hardcoded weights) in a kernal are varied between kernels that seek to identify different information features, and kernel weights may be a combination of hardcoded weight parameters, and malleable, trainable weights that are learned from the data. The ouput of a kernel referred to as a feature map, and a single convolutional layer may produce several maps with respect to convolutions of the image over different kernel operations (edge detection, noise reduction, cropping, etc.). Because precise position is not only irrelevant in the context of image recognitiion, but potentially hazardous due to variances in the position of data represented by the same class, CNNS utilize a blurring operation, referred to as subsampling, that performs pooling of the "general" signal values of the images (max pooling or pooling averages are an example of this). Subsampling offers the benefit of allowing discretion of classes despite geometric transformations provided that the number of feature maps be set accordingly <span class="text-citation">726791</span>.
+             </div>
+            <div class="figure">
+              <div class="figure-label">
+                Cross Correlation Operation
+              </div>
+              <div class="figure-content">
+                <img src="assets/images/cross.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+              </div>
+              <div></div>
+              <div>
+                The cross-correlation operation (applying a kernel and matrix multiplication), not to be confused with convolution, which is essentially the same procedure with the exception that the kernel is flipped prior to performing the multiplication operation.
+              </div>
+            </div>
+            <div class="numberingGrid">
+              Recall that kernels can be hardcoded, such as the finite difference operator, which is a simple kernel that does bounds checking, of the form [1,-1]; kernels are also learnable features (simply a structured collection of weights in 2D space with a bias), and CNNs can be designed to output learned kernel weights after training.
+            </div>
+          </div>
+                </div>
+
+            <div class="page-break" contentEditable="true"></div>
+
+            <div class="dual-column">
+                <div class="column">
+                  <div class="slashtab">
+                    <span>
+                      <div class="slashtab-number">2.0</div>
+                    </span>
+                    <div class='slashtab-text'>CNN implementation for Handwriting recognition</div>
+                    <div></div>
+                  </div>
+                  <div class="numberingGrid">
+                    In the following sections, we outline the build for a network based on certain protocol criteria (for example, a defined kernel size, pooling layer, number of convolution layers, etc). The parameters of the network architecture are defined in <b>Table 1</b>.
+                  </div>
+                  <table>
+                  <tr>
+                  <th>Feature</th>
+                  <th>Implementation</th>
+                  </tr>
+                  <tr>
+                  <td>color_mode</td>
+                  <td>greyscale</td>
+                  </tr>
+                  <tr>
+                  <td>convolution_layer_number</td>
+                  <td>3</td>
+                  </tr>
+                  <tr>
+                  <td>input_dimension</td>
+                  <td>28 x 28</td>
+                  </tr>
+                  <tr>
+                  <td>stride_value</td>
+                  <td>1</td>
+                  </tr>
+                  <tr>
+                  <td>padding_value</td>
+                  <td>0</td>
+                  </tr>
+                  <tr>
+                  <td>subsample_dimensions</td>
+                  <td>Maxpooling (2x2)</td>
+                  </tr>
+                  <tr>
+                  <td>feature_map_count</td>
+                  <td>10</td>
+                  </tr>
+                  <tr>
+                  <td>kernel_dimensions</td>
+                  <td>3x3</td>
+                  </tr>
+                  <caption>MNIST CNN Feature Implementations</caption>
+                  </table>
+                  <div class="numberingGrid">
+                    In order to design the most comprehensive CNN, we implement a framework based ONLY on the numpy library. The <code>MNIST_CNN</code> object serves as a scaffold to call the representative functions of internal layer objects. In order to keep the code compact, we invoke the convolve2D method that ships with scipy's DSP utilities (this will caue our feature maps to be flipped in the output). All backpropogation and forward propogation mechanics are designe to integrate seamlessly when set up appropriately in the CNN object; we design the three layer system directly, and hardcode the layers in the object (versatility is limited due to this chosen architecture, but can be expanded if desired with dictionary data structures and looping protocols to iterate through more layers). With the from-scratch" numpy implementation, training for 5 epochs on batches of the entire MNIST dataset requires approximately 12 minutes.
+                  </div>
+                  <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="203,210" style="font-size: 6px;" ></pre>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Results of training CNN on MNIST dataset
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/cross.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python line-numbers" data-src="/assets/code/CNN_result.py" style="font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      The progressive reduction of error on a limited, 5 epoch training sample on MNIST. Errors are % values of discrepancy of the loss function (maximum likelihood).
+                    </div>
+                  </div>
+                  <div class="subsection-label">
+                    <div>2.2</div>
+                    <div>Rendering the Feature Maps</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The feature maps are rendered via the <code>visualize_featuremap</code> definition that accompanies the script utilities. The feature maps were obtained by performing a relatively aggressive training scheme (number of batch iterations set to 100) on all images that were identified to have been associated with the number 6. We modify a new loading scheme to feed to batch loader (the batch loader is merely implemented as a system to add "stochasticity" to the batches that are extracted to train the network). The visualization mechanism performs a forward pass at each of the convolutional layers, and renders a colormap to represent the value . The feature maps afford substantial insight into the mechnisms of the learned kernels; as the kernels are being learned during training, the kernels are more capable of discretizing certain characteristics of the images that result in more improved classification, and the feature maps represent the "convolution" of these these "live-learned" kernels on the image. This implies that feature maps are essentially expressions of the learned kernels, and representative feature maps, such as those shown in <b>Figure 1</b> are indicative that the CNN is robustly designed and learning effectively.
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="numberingGrid">
+
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Feature Map of Conv Layer 1
+                    </div>
+                    <div class="figure-content">
+                      <img src="assets/images/conv_1.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/images/conv_1.png" style="white-space:pre-line; font-size: 6px;" ></pre> -->
+                    </div>
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Feature Map of Conv Layer 2
+                    </div>
+                    <div class="figure-content">
+                      <img src="assets/images/conv_2.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
+                    </div>
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      3 Feature Maps (of 128 total) of Conv Layer 3
+                    </div>
+                    <div class="figure-content">
+                      <img src="assets/images/conv_3.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <img src="assets/images/line_graph.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
+                    </div>
+                  </div>
+                  <div class="subsection-label">
+                    <div>2.3</div>
+                    <div>Cross-Comparison of Layer 3 Spectral Graph</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The feature spectra shown in <b>Figure 3</b> provides insight into the representation of the digit "6" prior to ingestion by the fully-connected layer of the network; it displays the "activation" of all 128 feature maps, of size 1 px, that are produced from an input with a known classification of 6. We expect to see these 1px maps to have large discrpancies between high magnitudes and 1, indicating where the learning has found "useful" information in specific "receptive fields" as data is passed through the layers, being abstracted sequentially unti lit reaches layer 3 with a resolution of a single scalar dimension (not necessarily a pixel, as it has a hierarchical nested receptive fields, which were degenerated via the maxpooling operations and kernel trimming).
+                  </div>
+                </div>
+            </div>
+            <div class="page-break" contentEditable="true"></div>
+            <div class="dual-column">
+                <div class="column">
+                  <div class="numberingGrid">
+                    We show the disparity in the spectral representations of samples of class "6" versus samples of class "2" in the following figure.
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Spectral disparity of Layer 3 Maps (6 vs. 2)
+                    </div>
+                    <div class="figure-content">
+                      <img src="assets/images/spectral_comparison.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <img src="assets/images/map_six_two.png" alt="Description of the SVG image" style="display: block; width:60%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/code/MNIST_result_2.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
+                    </div>
+                    <div></div>
+                    <div>
+                      Side-by-side comparison of spectral graphs of feature maps for "6" (a) and "2" (b) classed digits. We expect these differences to be large enough to result in significant probability discrepancies between the two classes when fed into the fully connected layer, allowing the network to accurately predict (with and error of approximately 2%) the correct class given a sample 28x28 image.
+                    </div>
+                  </div>
+                  <div class="slashtab">
+                    <span>
+                      <div class="slashtab-number">3.0</div>
+                    </span>
+                    <div class='slashtab-text'>CNN Scaling (EfficientNet)</div>
+                    <div></div>
+                  </div>
+                  <div class="numberingGrid">
+                    A prominent challenge arises when attempting to scale CNNs to capture more features (by generating more "live-kernels" and yielding more feature maps) or when managing high resolution image data.The research conducted by <span class="text-citation">pmlr-v97-tan19a</span> presents an investigation effort supported by GoogleAI that revolutionized the scalability of CNNs. Traditionally, CNNs are improved by scaling up the size of their architecture, either by depth (the number of convolutional layers), or width (the number of feature extracting kernels that conform to specific learned data, which produce "channels", or different representations of the input based on the parametrization of a specific kernel). The resolution is a metric that typically describes the number of data points contained within an input image sample, but it's meaning extends to the level of granularity that is afforded to CNNs during subsampling phases. The complication is that scaling a specific dimension of a CNN does not generally afford large accuracy improvements as the benefits tend to saturate around 80%. The EfficientNet protocol essentially permutes a combination of depth, width, and resolution paraters, (\(\alpha, \beta, \gamma \)) on a small representative CNN sample and iteratively tests it's performance (this is the "small grid search" referenced in the paper). The search space of the 3 parameters is generally limited and reviewed under the conditions of a constraint condition, which typically manifests as limitations to the availability of computing power (FLOPS). The constraint in the paper is established such that the number of FLOPS scales exponentially by 2. From previosuly supplied data, the research team defined a constraint to limit the growth of the computational requirements by a factor of two respective to the scaling coefficient (for every unit of scale-up, the computational demand doubles), and the constraint is defined as an equation in terms of the three potentially expandable elements of the network. Utilizing this "smart-expansion" technique allows for greater optimizatin of CNN architecture to maximize accuracy gains while respecting constraints to generate a consistent scale up cost for the system.
+                  </div>
+                </div>
+                <div class="column">
+                  <div class="numberingGrid">
+                  </div>
+                  <div class="proof">
+                    <span>1.0</span>
+                    EfficientNet's System Parametrization and Constraint
+                    <br>
+                    <br>
+                    $$\begin{align*}
+                    \text{depth: } & d = \alpha^\phi \\
+                    \text{width: } & w = \beta^\phi \\
+                    \text{resolution: } & r = \gamma^\phi \\
+                    \text{s.t. } & \alpha \cdot \beta^2 \cdot \gamma^2 \approx 2 \\
+                    & \alpha \ge 1, \beta \ge 1, \gamma \ge 1
+                    \end{align*}
+                    $$
+                </div>
+                  <br>
+                  <br>
+                    <div class="bibliography-title">References</div>
+                    <div id="citations"></div>
+                  </div>
+                </div>
+
+
+
+            <div class="page-break" contentEditable="true"></div>
+
+      <div>Appendix</div>
+      <br>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only CNN for MNIST Image Recognition</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="0,80" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+
+
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only CNN for MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="81,160" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only CNN for MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="161,240" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="241,320" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="321,400" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </body>
+
+<script src="js/bibliography.js"></script>
+<script src="js/prism_local/prism.js"></script>
+<!-- Link JS module script -->
+<script type="module" src="js/index.js"></script>
+<!-- <script src="js/source.js"></script> -->
+</html>
+
+
+<!--
+References
+<div class="bibliography-underline"></div>
+<div id="citations"></div> -->
+
+<link rel="stylesheet" href="js/prism/assets/style.css" />
+<link rel="stylesheet" href="js/prism/themes/prism.css" data-noprefix />
+<link rel="stylesheet" href="js/prism/plugins/line-numbers/prism-line-numbers.css" data-noprefix />
+<script src="js/prism/assets/vendor/prefixfree.min.js"></script>

@@ -1,0 +1,15 @@
+$(".import").each(function () {
+		let container = $(this);
+		let path = container.text();
+		container.load(path, function(responseTxt, statusTxt, xhr){
+				if(statusTxt == "success"){
+					console.log("Content loaded successfully for element: ", container);
+				}
+				if(statusTxt == "error"){
+					console.log("Error loading content for element:
+					", container, " Error: " +
+					xhr.status + ": " +
+					xhr.statusText);
+				}
+		});
+});
