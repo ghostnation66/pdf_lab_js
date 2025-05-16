@@ -534,19 +534,21 @@ img.svg{
 .figure-label{
     width: 100%;
     border-top: 2px solid #2e9f40;
+    border-right: 2px solid #2e9f40;
+    border-left: 2px solid #2e9f40;
     /* top-left, top-right, bottom-right, bottom-left */
     border-radius: 7px 7px 0px 0px;
-    background: #2e9f40;
+    background: #abd8b2;
     text-align: left;
     font-size: 8pt;
-    color: white;
+    color: #2e9f40;
     padding-bottom: 4px;
     padding-top: 4px;
     padding-left: 10px;
 }
 
 .figure-label::before{
-    color: white;
+    color: #2e9f40;
     font-weight: bold;
     font-size: 8pt;
     counter-increment: figure-counter;
@@ -561,9 +563,9 @@ img.svg{
     margin-right: auto;
     width: 100%;
     padding: 5px;
-    border-bottom: 2px solid grey;
-    border-right: 2px solid grey;
-    border-left: 2px solid grey;
+    border-bottom: 2px solid #2e9f40;
+    border-right: 2px solid #2e9f40;
+    border-left: 2px solid #2e9f40;
     border-radius: 0px 0px 7px 7px;
     font-size: 4pt;
 }
@@ -668,19 +670,21 @@ pre {
     /* margin-left: auto;
     margin-right: auto; */
     width: 100%;
-    border-top: 2px solid black;
+    border-top: 2px solid grey;
+    border-right: 2px solid grey;
+    border-left: 2px solid grey;
     /* top-left, top-right, bottom-right, bottom-left */
     border-radius: 7px 7px 0px 0px;
-    background: black;
+    background: #D3D3D3;
     text-align: center;
     font-size: 8pt;
-    color: white;
+    color: grey;
     padding-bottom: 4px;
     padding-top: 4px;
 }
 
 .appendix-figure-label::before{
-    color: white;
+    color: grey;
     font-weight: bold;
     font-size: 8pt;
     counter-increment: appendix-figure-counter;
@@ -718,10 +722,10 @@ pre {
     /* margin-left: auto;
     margin-right: auto; */
     width: 100%;
-    border-top: 2px solid black;
+    border-top: 2px solid grey;
     /* top-left, top-right, bottom-right, bottom-left */
     border-radius: 7px 7px 0px 0px;
-    background: black;
+    background: grey;
     text-align: center;
     font-size: 8pt;
     color: white;
@@ -913,51 +917,56 @@ th, td {
 .slashtab{
   display:grid;
   border-bottom: 2px solid #2e9f40;
-  line-height: 5px;
+  /* line-height: 4px; */
+  height: 20px;
 	padding: 0px;
 	font-family: 'Courier';
 	overflow: hidden;
-	z-index: 1;
+  z-index: 0;
 	grid-template-columns: 1fr 3fr;
   margin-top: 10px;
 }
 
 
 .slashtab span{
-    background: #90EE90;
+    background: #abd8b2;
 		width: 60%;
-		display: inline-block;
+		/* display: inline-block; */
 		padding-left: 15px;
-		padding-top:5px;
+		/* padding-top:5px; */
 		position: relative;
-		z-index: 2;
+    z-index: 2;
 		font-size: 10px;
 		color: white;
+    /* height:auto; */
 		/* border-top-left-radius: 10px; */
 
 		/* overflow: hidden; */
-		/* border: 10px solid white; */
+    border-top: 2px solid #2e9f40;
+    border-left: 2px solid #2e9f40;
 }
 
 .slashtab span:before{
-	width: 60px;
+  transform:translate(10px, 10px);
+  width: 30px;
 	height: 40px;
-  background: #90EE90;
+  background: #abd8b2;
 	content: "";
-	position: absolute;
+  position: relative;
 	display: inline-block;
-	z-index: -1;
-	transform:translate(10px, 0px) rotate(45deg);
+  z-index: -3;
+  transform:translate(18px, 4px) rotate(-45deg);
+  border-right: 2px solid #2e9f40;
 }
 
 .slashtab-number{
-  color: grey;
-  background:#90EE90;
+  color: #2e9f40;
+  background:#abd8b2;
 	border-radius: 0px;
 	padding-left: 13px;
   padding-top: 3px;
 	padding-bottom: 0px;
-  transform: translate(-6px,-3px);
+  transform: translate(-10px,-45px);
   font-size: 8px;
   font-weight: bold;
   font-family: 'monospace';
@@ -989,7 +998,7 @@ th, td {
 	height: 50%;
 	width: 100%;
 	font-size: 10pt;
-	color: #2e9f40;
+  color: #abd8b2;
 
 
 	border-top: 5px solid #2e9f40;
@@ -1001,7 +1010,7 @@ th, td {
 }
 
 .page-number-marker span{
-		background: #2e9f40;
+    background: #abd8b2;
 		width: 15%;
 		left: 295px;
 		/* top: 10px; */
@@ -1021,7 +1030,7 @@ th, td {
 .page-number-marker span:before{
 	width: 60px;
 	height: 30px;
-	background: #2e9f40;
+  background: #abd8b2;
 	content: "";
 	position: absolute;
 	display: inline-block;
@@ -1030,8 +1039,8 @@ th, td {
 }
 
 .page-number-marker-index{
-  color: white;
-  background:#2e9f40;
+  color: #2e9f40;
+  /* background:#2e9f40; */
 	width: 60%;
 	border-radius: 10px;
 	padding-left: 0px;
@@ -1394,7 +1403,7 @@ li::marker {
 
 
 .subsection-label div:nth-child(1){
-  color:#2e9f40;
+  color:grey;
   background: #D3D3D3;
   border: 2px solid grey;
   /* border-radius: 10px; */
@@ -1422,10 +1431,10 @@ li::marker {
 .figure div:nth-child(3){
   display: inline;
   /* border-bottom: 2px solid #2e9f40; */
-  border-bottom: 2px solid grey;
+  border-bottom: 2px solid #2e9f40;
   width: 10%;
   /* border-left: 2px solid #2e9f40; */
-  border-left: 2px solid grey;
+  border-left: 2px solid #2e9f40;
   height: 20px;
   transform: translate(20px, 0px);
 }
@@ -1435,7 +1444,7 @@ li::marker {
   color: grey;
   background: #D3D3D3;
   /* border: 2px solid #2e9f40; */
-  border: 2px solid grey;
+  border: 2px solid #2e9f40;
   width: 270px;
   font-size: 8px;
   padding: 5px;
@@ -1461,12 +1470,13 @@ mjx-container{
 }
 
 .bibliography-title{
-  background: #2e9f40;
-  color: white;
+  background: #abd8b2;
+  color: #2e9f40;
   text-align: center;
   font-size:12px;
   /* text-decoration: underline; */
   padding: 8px;
+  border: 2px solid #2e9f40;
   border-radius: 10px;
   margin: auto;
   width: 50%;
