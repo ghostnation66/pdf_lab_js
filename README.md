@@ -10,11 +10,12 @@ Because the margins are so large, using the pdfcrop utility provided by a tex li
 
 # Upcoming patch updates
 
-Patch: Alphabetize all CSS rules
-Patch: Reduce HTML footprint of section markers, rename to section-tab
-Patch: Generate dual-figure CSS object (2 equally spaced regions to insert images, with independent scalability)
-Patch: Generate quad-figure CSS object (4 equally spaced regions to insert images, with independent scalability)
-Patch: Generate HTML line rendering; instead of rendering sequential line numbers, we need to implement line numbers that utilize a regex function to screen the raw HTML file and output a line number for each new line in document, correlating them to the page render lines.
+*Patch: Alphabetize all CSS rules
+*Patch: Reformat the page-marker so as to allow for footnotes
+*Patch: Reduce HTML footprint of section markers, rename to section-tab
+*Patch: Generate dual-figure CSS object (2 equally spaced regions to insert images, with independent scalability)
+*Patch: Generate quad-figure CSS object (4 equally spaced regions to insert images, with independent scalability)
+*Patch: Generate HTML line rendering; instead of rendering sequential line numbers, we need to implement line numbers that utilize a regex function to screen the raw *HTML file and output a line number for each new line in document, correlating them to the page render lines.
 
 
 

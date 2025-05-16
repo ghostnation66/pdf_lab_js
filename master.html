@@ -40,7 +40,7 @@
                             <table style="width:100%;">
                               <tr>
                                 <td><b>file_name</b></td>
-                                <td>assignment_2_1.pdf</td>
+                                <td>assignment_3.pdf</td>
                               </tr>
                               <tr>
                                 <td><b>author</b></td>
@@ -52,7 +52,7 @@
                               </tr>
                               <tr>
                                 <td><b>date</b></td>
-                                <td>10MAY2025</td>
+                                <td>13MAY2025</td>
                               </tr>
                             </table>
                     </div>
@@ -62,208 +62,252 @@
                         <span>
                             <div class="slashtab-number">1.0</div>
                         </span>
-                        <div class='slashtab-text'>Fundamentals of Neural Network Optimization </div>
+                        <div class='slashtab-text'>Fundamentals of Convolutional Neural Networks </div>
                     </div>
                     <div class="numberingGrid">
-                      In order to implement optimizers within <span class="text-citation">1396737</span> neural network training schemes, we must first define the effect of such techniques relative to unoptimized frameworks. Neural networks that do not optimize and use Vanilla Gradient Descent (VGD) have a stationary, predetermined learning rate (\(\alpha\)) that influences the degree to which a loss gradient contribute to the weight update step in backpropagation. Optimized learning methods implement a protocol by which the learning rate is modified based on the dynamics of the loss gradient; these methods typically utilize a momentum-based concept to influence the learning rate, in which the network is provided with introspection of the cumulative change of previous gradients (analogous to the "integral" term in PID control), and utilizes the information to accelerate or decelerate learning at specific regions of the loss landscape. In general, when large gradients are encountered, the learning rate will be downscaled to allow for more intensive training in a particular region exhibiting minimizing potential, so as to not overstep a potential minimum; the opposite is true for small gradients, where the learning rate is augmented to increase the traversal through the loss landscape where the loss is less dynamic, and can be "skipped" via large learning steps in order to more quickly encounter larger gradients. The implementation of this "self-optimizing" learning rate was initially applied to SGD networks (the stochasticity alludes to the batching of input data to compute incremental gradients) by Polyak in 1964; a velocity term is applied to a weight update. The velocity term itself is influenced by the gradient term, and characterizes the "resistance" of the weight change to an experience of the gradient. The association is provided below:
+                      The advent and implementation of computer vision applications is one of the most significant advances in computer paradigms in human history due to its revolutionizing impact in a variety of critical sectors and ubiquitous presence in the modern world. Throughout this exposition, we will draw many details from the work of Lecun et. al and develop the underlying framework for an MNIST trained CNN from the insights into the CNN strucutures presented in the paper <span class="text-citation">726791</span>. CNNs represent a profound migration away from tranditional MLPs: whereas MLPS require vectorized data that overlooks the rich subtleties of grouped data (as is present in image data), CNNs perform operations that intend to preserve associativity among neighboring regions of data, which lends to it's precedence over other techniques in image recognition tasks. It is also serendipitous that these techniques are well suited to parallelization and vectorization. When desciribing the core advantages of CNNs, we must first investigate the exploitable traits of images: hierarchy, locality, equivariance, and invariance.
+                    </div>
+                    <div class="subsection-label">
+                      <div>1.1</div>
+                      <div>Locality, Feature Selection, and Kernels</div>
+                    </div>
+                    <div class="numberingGrid">
+                      CNNs implement the concept of locality via defining structure within a "receptive-field", which is a small, local, region of 2D space (at least in the image paradigm), that is screened with a particular window of weights, referred to as a kernel. Kernels applied to images rely on the concept of translational invariance, such that relevant features in the image will remain consistent despite their location in the image. This allows for significant parameter reudction (in many cases, reducing it to a square root of the total number of parameters that would be needed in a translation variant, or location dependent, circumstance). We may further reduce the number of parameters by localizing on a specific region within 2D space, ignoring the bulk of data outside of the window region. This further reduces the number of parameters to train over, but we must now compensate by implementing an architecture that sequentially evaluates a highly local feature map (image patch + kernel transform output) and passes data to kernels that evaluate larger subspaces of the image to obtain more specificity to the training objective The mathematical exposition below shows the utility of implementing a localizing CNN over raw MLP that trains on translationally invariant data <span class="text-citation">zhang2023dive</span>.
                     </div>
                     <div class="proof">
-                      <div>1</div>
-                      SGD with momentum
+                      <span>1.0</span>
+                      Raw MLP with Translationally Variant Data
+                      <br>
                       <br>
                       $$
-                        \mathbf{w}_{t+1} = \mathbf{w_t} + \mathbf{v}_{t+1}
-                      $$
-                      <br>
-                      $$
-                        \mathbf{v}_{t+1} = \rho \mathbf{v}_t - \mu \nabla \mathbf{w}_t
+                      [\mathbf{H}]_{i,j} = [\mathbf{U}]_{i,j} + \sum_k \sum_l [\mathbf{W}]_{i,j,k,l} [\mathbf{X}]_{k,l} \\
                       $$
                     </div>
                     <div class="numberingGrid">
-                        This "classical" momentum (which defines the weights as "particles in space") was improved by Nesterov via the implementation of "look-ahead" velocity, which evaluates \(\mathbf{v}_{t+1} = \rho \mathbf{v}_t - \mu \nabla (\mathbf{w}_t + \mathbf{v}_t ) \); With this parametrization, the weights are adjusted based upon a successor velocity state, allowing for more predictive adjustment of weight updates. Adaptive gradient methods (AdaGrad) utilize an expression that defines an operation for modulating the learning rate with respect to the gradient, permitting larger step sizes when the gradient is small, and forcing a reduction in the learning rate when the gradient grows, preventing an overshoot of  potential minima. The equations in Box 2 depcit the evaluation of succesor weight during each iteration of training in an AdaGrad training scheme, the first showing no veolcity implementation, the second showing a velocity implementation
+                      In the previous equations, the traditional MLP is recharacterized to represent the aforementioned tenets of image data, and we observe that the final equation (4) renders out a unique system that relies on far fewer trainable parameters than the previous model. This equation encapsulates the shifting window functionality endemic to CNNS, which is effective in reducing the parameter count of the training architecture as well as respecting the local topology present throughout the image, which affords correlated data that is salient to the effective learning of the CNN.
                     </div>
                 </div>
           <div class="column">
             <!-- <div class="numberingGrid"></div> -->
             <div class="proof">
-              <div>2</div>
-              Adaptive Gradient (AdaGrad) without \(v\)
+              <span>1.1</span>
+              Raw MLP with Translationally Invariant Data Assumption
+              <br>
+              <br>
               $$
-              \omega_{i, t+1} = \omega_{i, t} - \frac{\eta}{\sqrt{\varepsilon + \sum_{j=1}^{t} g(\omega_{i, j})^2}} g(\omega_{i, t})
+              [\mathbf{H}]_{i,j} = u + \sum_a \sum_b [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
               $$
-              Adaptive Gradient (AdaGrad) with \(v\)
+              <span>1.2</span>
+              Locality Restriction (\(\Delta\) is the kernal dimension boundary)
+              <br>
               $$
-              \mathbf{v}_{t+1} = \mathbf{v}_{t} + g(\mathbf{w}_{t})^2
+              [\mathbf{H}]_{i,j} = u + \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
               $$
+              <span>1.3</span>
+              Convolution with Feature Summation
+              <br>
+              <br>
               $$
-              \mathbf{w}_{t+1} = \mathbf{w}_{t} - \frac{\eta}{\sqrt{\varepsilon + \mathbf{v}_{t+1}}} g(\mathbf{w}_{t})
-              $$
-            </div>
-            <div class="numberingGrid">
-              AdaGrad suffers from an egregious impairment that involves an asymptotically decaying learning rate due to the summatrion of cumulative gradients. In order to allow a network to have temporarily persistent memeory, RMSProp was developed to minimize the magnitude of the "integrator" term, along the training schedule, reforumlating the velocity update term with a discount factor \(\eta\), as shown in Box 3. The coefficient on \(v\) is not merely discounting, but obtianing a weighted average of the gradient and velocity term: if \(\beta\) is large, then the system will be "heavy", resistant to changes in the gradient, and vice-versa for the opposite case. One thing to note is that RMSProp applies gradients to each parameter separately, and can thus localize effective training rates per parameter, simultaneously (assuming parallel processing) during training.
-            </div>
-            <div class="proof">
-              <div>3</div>
-              RMSProp Discounted Velocity
-              $$
-              \mathbf{v}_{t+1} = \beta \mathbf{v}_{t} + (1 - \beta) g(\mathbf{w}_{t})^2
+              [\mathbf{H}]_{i,j,d} = \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} \sum_{c} [\mathbf{V}]_{a,b,c,d} [\mathbf{X}]_{i+a,j+b,c}.
               $$
             </div>
             <div class="numberingGrid">
-              The Adam optimizer was developed to address the shortcomings of RMSProp, and applies the classical momentum reformulation to the gradient term. Aptly named, the Adam optimizer provides adaptable reconfiguration of the moments of the gradient, as opposed to gradients themselves, resulting in smoothing of potentially unproductive oscialltory motion along eigenvectors of the weight matrix that do not move aggressively toward a minimum. The first and second moments are multiplied by respective bias correction terms to prevent initial training iterations from underestimating during the initial phase of training (\(\beta_1 \text{and}~\beta_2\) are generally set to 0.9 and 0.99 respectively, which can delay training without the bias correction terms. As is the case with all geometric series multipliers, the convergence to the reciprocal value is expected after some time).
+
             </div>
-            <div class="proof">
-              <div>4</div>
-              Adam (RMSProp + Gradient Momentum)
-              $$
-              \mathbf{w}_{t+1} = \mathbf{w}_{t} - \frac{\eta}{\sqrt{\varepsilon + \mathbf{\hat{v}}_{t+1}}} \mathbf{\hat{m}}_{t+1}
-              $$
-              $$
-              \mathbf{m}_{t+1} = \beta_1 \mathbf{m}_{t} + (1 - \beta_1) g(\mathbf{w}_{t})
-              $$
+            <div class="subsection-label">
+              <div>1.2</div>
+              <div>CNN Design Protocols</div>
             </div>
             <div class="numberingGrid">
-              The loss landscape (or error surface) will dictate the utility of either Vanilla SGD or any of the aforementioned techniques. Typically, sparse data tends to observe a significant performance loss in the latter as eigenvalues are generally inflated for one parameter over its partner parameters, and thus we may observe optimization along one feature against the others. The Adam optimizier implements a dual-moment technique where the first moment (mean) is acknowledged along with the second moment (uncentered variance).
-            </div>
-            <div class="slashtab">
-              <span>
-                <div class="slashtab-number">2.0</div>
-              </span>
-              <div class='slashtab-text'>MNIST Dataset Analysis (numpy only)</div>
+              The nomeclature regarding "convolution" in the design of CNNs is a reference to the conversion of an image data into a feature map via a sliding operation of the kernel. The units (hardcoded weights) in a kernal are varied between kernels that seek to identify different information features, and kernel weights may be a combination of hardcoded weight parameters, and malleable, trainable weights that are learned from the data. The ouput of a kernel referred to as a feature map, and a single convolutional layer may produce several maps with respect to convolutions of the image over different kernel operations (edge detection, noise reduction, cropping, etc.). Because precise position is not only irrelevant in the context of image recognitiion, but potentially hazardous due to variances in the position of data represented by the same class, CNNS utilize a blurring operation, referred to as subsampling, that performs pooling of the "general" signal values of the images (max pooling or pooling averages are an example of this). Subsampling offers the benefit of allowing discretion of classes despite geometric transformations provided that the number of feature maps be set accordingly <span class="text-citation">726791</span>.
+             </div>
+            <div class="figure">
+              <div class="figure-label">
+                Cross Correlation Operation
+              </div>
+              <div class="figure-content">
+                <img src="assets/images/cross.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+              </div>
               <div></div>
+              <div>
+                The cross-correlation operation (applying a kernel and matrix multiplication), not to be confused with convolution, which is essentially the same procedure with the exception that the kernel is flipped prior to performing the multiplication operation.
+              </div>
             </div>
             <div class="numberingGrid">
-              In the following sections, we outline the procedure to process the MNIST dataset, preparing it for training, and feeding the data into a neural network that only uses the numpy library (we do not utilize any prebuilt network functionality provided by external python libraries). We conclude with a demonstration of the training and loss minimization compared to Vanilla SGD.
+              Recall that kernels can be hardcoded, such as the finite difference operator, which is a simple kernel that does bounds checking, of the form [1,-1]; kernels are also learnable features (simply a structured collection of weights in 2D space with a bias), and CNNs can be designed to output learned kernel weights after training.
             </div>
           </div>
                 </div>
 
-
             <div class="page-break" contentEditable="true"></div>
+
             <div class="dual-column">
                 <div class="column">
-                  <div class="subsection-label">
-                    <div>2.1</div>
-                    <div>Preprocessing MNIST Data</div>
+                  <div class="slashtab">
+                    <span>
+                      <div class="slashtab-number">2.0</div>
+                    </span>
+                    <div class='slashtab-text'>CNN implementation for Handwriting recognition</div>
+                    <div></div>
                   </div>
                   <div class="numberingGrid">
-                    The MNIST dataset requires converstion to a vectorized array to represent the 10 character classes via "one-hot" encoding. By default, the MNIST dataset output classes are provided as  \(y \in [0,10]\); however, the network requires the data outputs to be rendered in an array with a binary label indicating true classification value:
+                    In the following sections, we outline the build for a network based on certain protocol criteria (for example, a defined kernel size, pooling layer, number of convolution layers, etc). The parameters of the network architecture are defined in <b>Table 1</b>.
                   </div>
-                  <pre class="language-python" data-src="/assets/code/one_hot_encoding.py" style="white-space:pre-line; font-size: 6px;" ></pre>
+                  <table>
+                  <tr>
+                  <th>Feature</th>
+                  <th>Implementation</th>
+                  </tr>
+                  <tr>
+                  <td>color_mode</td>
+                  <td>greyscale</td>
+                  </tr>
+                  <tr>
+                  <td>convolution_layer_number</td>
+                  <td>3</td>
+                  </tr>
+                  <tr>
+                  <td>input_dimension</td>
+                  <td>28 x 28</td>
+                  </tr>
+                  <tr>
+                  <td>stride_value</td>
+                  <td>1</td>
+                  </tr>
+                  <tr>
+                  <td>padding_value</td>
+                  <td>0</td>
+                  </tr>
+                  <tr>
+                  <td>subsample_dimensions</td>
+                  <td>Maxpooling (2x2)</td>
+                  </tr>
+                  <tr>
+                  <td>feature_map_count</td>
+                  <td>10</td>
+                  </tr>
+                  <tr>
+                  <td>kernel_dimensions</td>
+                  <td>3x3</td>
+                  </tr>
+                  <caption>MNIST CNN Feature Implementations</caption>
+                  </table>
                   <div class="numberingGrid">
-                    In order to reformat the data, the <code>to_categorical</code> method provided by the keras library will be invoked, and it performs the necessary structural alterations to provide categorical data as an array of binary values as expected in one-hot-encoding.
+                    In order to design the most comprehensive CNN, we implement a framework based ONLY on the numpy library. The <code>MNIST_CNN</code> object serves as a scaffold to call the representative functions of internal layer objects. In order to keep the code compact, we invoke the convolve2D method that ships with scipy's DSP utilities (this will caue our feature maps to be flipped in the output). All backpropogation and forward propogation mechanics are designe to integrate seamlessly when set up appropriately in the CNN object; we design the three layer system directly, and hardcode the layers in the object (versatility is limited due to this chosen architecture, but can be expanded if desired with dictionary data structures and looping protocols to iterate through more layers). With the from-scratch" numpy implementation, training for 5 epochs on batches of the entire MNIST dataset requires approximately 12 minutes.
+                  </div>
+                  <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="203,210" style="font-size: 6px;" ></pre>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Results of training CNN on MNIST dataset
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/cross.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python line-numbers" data-src="/assets/code/CNN_result.py" style="font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      The progressive reduction of error on a limited, 5 epoch training sample on MNIST. Errors are % values of discrepancy of the loss function (maximum likelihood).
+                    </div>
                   </div>
                   <div class="subsection-label">
                     <div>2.2</div>
-                    <div>Neural Network Design</div>
+                    <div>Rendering the Feature Maps</div>
                   </div>
                   <div class="numberingGrid">
-                    The neural network is designed to implement 2 hidden layers, which have a specific dimensional strucutre at the input and output positions of each layer.
+                    The feature maps are rendered via the <code>visualize_featuremap</code> definition that accompanies the script utilities. The feature maps were obtained by performing a relatively aggressive training scheme (number of batch iterations set to 100) on all images that were identified to have been associated with the number 6. We modify a new loading scheme to feed to batch loader (the batch loader is merely implemented as a system to add "stochasticity" to the batches that are extracted to train the network). The visualization mechanism performs a forward pass at each of the convolutional layers, and renders a colormap to represent the value . The feature maps afford substantial insight into the mechnisms of the learned kernels; as the kernels are being learned during training, the kernels are more capable of discretizing certain characteristics of the images that result in more improved classification, and the feature maps represent the "convolution" of these these "live-learned" kernels on the image. This implies that feature maps are essentially expressions of the learned kernels, and representative feature maps, such as those shown in <b>Figure 1</b> are indicative that the CNN is robustly designed and learning effectively.
                   </div>
-                  <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="146,151" style="font-size: 6px;" ></pre>
-                  <div class="numberingGrid">
-                    The first layer receives an input vector of 784 units, because the MNIST image samples are 28 x 28 pixels, resulting in a "linearized" array of 784 elements. The output layer must generate a 10 dimensional prediction, as there are 10 classes to evaluate in the dataset. The internal dimensions between the two hidden layers are semi-arbitrary, although there are many exmples of directed research toward setting up semantically effective hidden layer structures for classification objectives. In general, we see to to set up a hidden layer connection dimension that are powers of 2 (for computation efficiency) and to some value between the input dimension and the output dimension (in descending order) to abide by the general heuristic that the earlier layers (in this case, layer 1) are implemented for broad training/learning of features, and the later layers (layer 2) are deisgnated as "refinement" layers to train on aggregated feature characteristics.
-                  </div>
-                  <div class="subsection-label">
-                    <div>2.3</div>
-                    <div>Training on the MNIST Dataset</div>
-                  </div>
-                  <div class="numberingGrid">
-                    The neural network implementation outputs a simple loss metric for the training data. Data is ingested from the provided <code>load_data()</code> method, and both a training set and testing set are rendered. We implement flattening and normalization (normalization tends to enhance the trianing effectiveness, so it is performed as per convention)
-                  </div>
-                  <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="129,141" style="font-size: 6px;" ></pre>
                 </div>
                 <div class="column">
                   <div class="numberingGrid">
-                    The training outputs a simple metric that displays loss after a periodic number of training iterations; the loss represents the sum of the categorial cross entropies of the sample data, which are the objectives for the minimization of the maximum log-likelihood function (the softmax class contiains a built-in loss evaluation method that provides the predicted probability distribution of the class vector from sample data). Train/test sessions are provided in the figures below with and without Adam optimization. We note that the Adam optimizer provides nearly 8% accuracy boost to the classification prediction.
+
                   </div>
                   <div class="figure">
                     <div class="figure-label">
-                      Train and Test Session of MNIST-NN (Adam = True)
+                      Feature Map of Conv Layer 1
                     </div>
                     <div class="figure-content">
-                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre>
-                    </div>
-                    <div></div>
-                    <div>
-                      The output of a training session on the MNIST neural network, designated with two hidden layers (reLU) and an softmax output layer. Adam optimizer was toggled on.
+                      <img src="assets/images/conv_1.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/images/conv_1.png" style="white-space:pre-line; font-size: 6px;" ></pre> -->
                     </div>
                   </div>
                   <div class="figure">
                     <div class="figure-label">
-                      Train and Test Session of MNIST-NN (Adam = False)
+                      Feature Map of Conv Layer 2
                     </div>
                     <div class="figure-content">
-                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python" data-src="/assets/code/MNIST_result_2.py" style="white-space:pre-line; font-size: 6px;" ></pre>
-                    </div>
-                    <div></div>
-                    <div>
-                      The output of a training session on the MNIST neural network, designated with two hidden layers (reLU) and an softmax output layer. Adam optimizer was toggled off.
+                      <img src="assets/images/conv_2.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
                     </div>
                   </div>
-            <div class="slashtab">
-              <span>
-                <div class="slashtab-number">3.0</div>
-              </span>
-              <div class='slashtab-text'>MNIST Dataset Analysis (pytorch)</div>
-              <div></div>
-            </div>
-            <div class="numberingGrid">
-              In the following investigation, we reconstruct the previous neural architecture using pytorch, and perform testing to evaluate the performance of an adam optimized network to one without optimization on the learning rate. the pytorch implementation enables us to design a more compact network setup as it arrives with built in neural network modules (<code>nn.module</code>), and supplies classification loss methods,thus we will not need to programatically define a softmax function, parametrize a crossentropy loss, and other such auxiliary calculations).
-            </div>
-            <div class="subsection-label">
-              <div>3.1</div>
-              <div>MNIST Data Setup</div>
-            </div>
-            <div class="numberingGrid">
-              The pytorch module ships with an MNIST dataset and thus we are able to access it directly from the packaged <code>datasets</code> library. In this particular scenario, we choose not to normalize the data as it requires implementation of a pytorch pipeline which is out of the scope for the assignment, we expect to observe some detriment to the performance of the network. The train and test datasets are imported via similar funcitonality into the root of the script directory; the MNIST function requires several parameters to define the output (whether data is designated for training or testing), and the directory within which the information resides. The transform object simply converts the MNIST data into a pytorch compatible tensor object.
-            </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      3 Feature Maps (of 128 total) of Conv Layer 3
+                    </div>
+                    <div class="figure-content">
+                      <img src="assets/images/conv_3.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <img src="assets/images/line_graph.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
+                    </div>
+                  </div>
+                  <div class="subsection-label">
+                    <div>2.3</div>
+                    <div>Cross-Comparison of Layer 3 Spectral Graph</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The feature spectra shown in <b>Figure 3</b> provides insight into the representation of the digit "6" prior to ingestion by the fully-connected layer of the network; it displays the "activation" of all 128 feature maps, of size 1 px, that are produced from an input with a known classification of 6. We expect to see these 1px maps to have large discrpancies between high magnitudes and 1, indicating where the learning has found "useful" information in specific "receptive fields" as data is passed through the layers, being abstracted sequentially unti lit reaches layer 3 with a resolution of a single scalar dimension (not necessarily a pixel, as it has a hierarchical nested receptive fields, which were degenerated via the maxpooling operations and kernel trimming).
+                  </div>
                 </div>
             </div>
             <div class="page-break" contentEditable="true"></div>
             <div class="dual-column">
                 <div class="column">
-                  <pre class="language-python line-numbers" data-src="/assets/code/pytorch_network.py" data-range="8,16" style="font-size: 6px;" ></pre>
                   <div class="numberingGrid">
-                    The batch size of the train and test dataset are designated accordingly (the batch size of 64 and toggled shuffle parameter imply that SGD, with a selectable optimizer, is set up automatically by the DataLoader utility function).
-                  </div>
-                  <div class="subsection-label">
-                    <div>3.2</div>
-                    <div>PyTorch Neural Network for MNIST data</div>
-                  </div>
-                  <div class="numberingGrid">
-                    The neural network set up in pytorch is very compact, and the torch <code>functional</code> module supplies many essential components, including the relu activation function (we avoid using sigmoid in this network due to vanishing gradient challenges with sigmoid). In this implementation, the training scheme is applied outside of the class definition. The <code>train_model</code> function implements Adam optimization, and defaults to SGD without Adam. The <code>test_model</code> function allows for model evaluation in a separate environment space. The output is ultimately rendered via the <code>argmax()</code> method. The advantage offered by pytorch is that it provides high level abstraction of the neural network design, and enables the neural network to run on separate, non CPU devices. The training and testing mechanism, however, obfuscate the internals of the network functionality, so implementation of RNNs, reservoir networks, or inception network would require a large amount of repurposing or using a different framework, entirely. We reserve the implementation details of the testing and training mechanism for the code maintained within the <b>Appendix</b>. We show rapid convergence with merely 5 epoch in the PyTorch implementation, which attests to it's rapid characterization and well-designed framework that is built on the <code>nn</code> module, designed for optimized minimization of the objective function. In the model using the Adam optimizer, our accuracy was 97.64%, and in the subsequent training session, with vaniilla SGD, the accuracy dropped to 64.19%. Further testing would involve trianing over larger epoch ranges and testing other activation functions. It may also be salient to time the trianing sessions as there is considerable overhead in setting up the architecture in the GPUs provided by the Google Collab Workspace (which, by default, offers Tesla Nvidia GPUs).
+                    We show the disparity in the spectral representations of samples of class "6" versus samples of class "2" in the following figure.
                   </div>
                   <div class="figure">
                     <div class="figure-label">
-                      Train and Test Session of Pytorch Model (Adam = True)
+                      Spectral disparity of Layer 3 Maps (6 vs. 2)
                     </div>
                     <div class="figure-content">
-                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python line-numbers" data-src="/assets/code/pytorch_result_1.py" style="word-break:break-all;font-size: 6px;" ></pre>
+                      <img src="assets/images/spectral_comparison.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <img src="assets/images/map_six_two.png" alt="Description of the SVG image" style="display: block; width:60%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python" data-src="/assets/code/MNIST_result_2.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
                     </div>
                     <div></div>
                     <div>
-                      Training and testing (test data originates from <code>test_loader</code> results for PyTorch neural network training on MNIST Handwriting Data), using the Adam Optimizer
+                      Side-by-side comparison of spectral graphs of feature maps for "6" (a) and "2" (b) classed digits. We expect these differences to be large enough to result in significant probability discrepancies between the two classes when fed into the fully connected layer, allowing the network to accurately predict (with and error of approximately 2%) the correct class given a sample 28x28 image.
                     </div>
+                  </div>
+                  <div class="slashtab">
+                    <span>
+                      <div class="slashtab-number">3.0</div>
+                    </span>
+                    <div class='slashtab-text'>CNN Scaling (EfficientNet)</div>
+                    <div></div>
+                  </div>
+                  <div class="numberingGrid">
+                    A prominent challenge arises when attempting to scale CNNs to capture more features (by generating more "live-kernels" and yielding more feature maps) or when managing high resolution image data.The research conducted by <span class="text-citation">pmlr-v97-tan19a</span> presents an investigation effort supported by GoogleAI that revolutionized the scalability of CNNs. Traditionally, CNNs are improved by scaling up the size of their architecture, either by depth (the number of convolutional layers), or width (the number of feature extracting kernels that conform to specific learned data, which produce "channels", or different representations of the input based on the parametrization of a specific kernel). The resolution is a metric that typically describes the number of data points contained within an input image sample, but it's meaning extends to the level of granularity that is afforded to CNNs during subsampling phases. The complication is that scaling a specific dimension of a CNN does not generally afford large accuracy improvements as the benefits tend to saturate around 80%. The EfficientNet protocol essentially permutes a combination of depth, width, and resolution paraters, (\(\alpha, \beta, \gamma \)) on a small representative CNN sample and iteratively tests it's performance (this is the "small grid search" referenced in the paper). The search space of the 3 parameters is generally limited and reviewed under the conditions of a constraint condition, which typically manifests as limitations to the availability of computing power (FLOPS). The constraint in the paper is established such that the number of FLOPS scales exponentially by 2. From previosuly supplied data, the research team defined a constraint to limit the growth of the computational requirements by a factor of two respective to the scaling coefficient (for every unit of scale-up, the computational demand doubles), and the constraint is defined as an equation in terms of the three potentially expandable elements of the network. Utilizing this "smart-expansion" technique allows for greater optimizatin of CNN architecture to maximize accuracy gains while respecting constraints to generate a consistent scale up cost for the system.
                   </div>
                 </div>
                 <div class="column">
-                  <div class="figure">
-                    <div class="figure-label">
-                      Train and Test Session of Pytorch Model (Adam = False)
-                    </div>
-                    <div class="figure-content">
-                      <!-- <img src="assets/images/shrinking_D.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python line-numbers" data-src="/assets/code/pytorch_result_2.py" style="word-break:break-all; font-size: 6px;" ></pre>
-                    </div>
-                    <div></div>
-                    <div>
-                      Training and testing (test data originates from <code>test_loader</code> results for PyTorch neural network training on MNIST Handwriting Data), using vanilla SGD.
-                    </div>
-                    </div>
+                  <div class="numberingGrid">
+                  </div>
+                  <div class="proof">
+                    <span>1.0</span>
+                    EfficientNet's System Parametrization and Constraint
+                    <br>
+                    <br>
+                    $$\begin{align*}
+                    \text{depth: } & d = \alpha^\phi \\
+                    \text{width: } & w = \beta^\phi \\
+                    \text{resolution: } & r = \gamma^\phi \\
+                    \text{s.t. } & \alpha \cdot \beta^2 \cdot \gamma^2 \approx 2 \\
+                    & \alpha \ge 1, \beta \ge 1, \gamma \ge 1
+                    \end{align*}
+                    $$
+                </div>
+                  <br>
+                  <br>
                     <div class="bibliography-title">References</div>
                     <div id="citations"></div>
                   </div>
@@ -276,9 +320,9 @@
       <div>Appendix</div>
       <br>
       <div class="appendix-figure">
-        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-label">Numpy-only CNN for MNIST Image Recognition</div>
         <div class="appendix-figure-content">
-          <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="0,80" style="font-size: 6px;" ></pre>
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="0,80" style="font-size: 6px;" ></pre>
         </div>
 
       </div>
@@ -288,15 +332,31 @@
       <div class="appendix-figure">
         <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
         <div class="appendix-figure-content">
-          <pre class="language-python line-numbers" data-src="/assets/code/MNIST_network.py" data-range="81," style="font-size: 6px;" ></pre>
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="81,160" style="font-size: 6px;" ></pre>
         </div>
 
       </div>
     <div class="page-break" contentEditable="true"></div>
       <div class="appendix-figure">
-        <div class="appendix-figure-label">PyTorch MNIST Network Implementation</div>
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
         <div class="appendix-figure-content">
-          <pre class="language-python line-numbers" data-src="/assets/code/pytorch_network.py" style="font-size: 6px;" ></pre>
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="161,240" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="241,320" style="font-size: 6px;" ></pre>
+        </div>
+
+      </div>
+    <div class="page-break" contentEditable="true"></div>
+      <div class="appendix-figure">
+        <div class="appendix-figure-label">Numpy-only MNIST Network Implementation</div>
+        <div class="appendix-figure-content">
+          <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="321,400" style="font-size: 6px;" ></pre>
         </div>
 
       </div>

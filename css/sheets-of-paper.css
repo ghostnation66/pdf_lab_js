@@ -924,7 +924,7 @@ th, td {
 
 
 .slashtab span{
-    background: #2e9f40;
+    background: #90EE90;
 		width: 60%;
 		display: inline-block;
 		padding-left: 15px;
@@ -942,7 +942,7 @@ th, td {
 .slashtab span:before{
 	width: 60px;
 	height: 40px;
-  background: #2e9f40;
+  background: #90EE90;
 	content: "";
 	position: absolute;
 	display: inline-block;
@@ -951,8 +951,8 @@ th, td {
 }
 
 .slashtab-number{
-  color: white;
-  background:#2e9f40;
+  color: grey;
+  background:#90EE90;
 	border-radius: 0px;
 	padding-left: 13px;
   padding-top: 3px;
@@ -1046,28 +1046,44 @@ th, td {
 }
 
 .proof{
+  color:black;
 	/* display: flex; */
 	/* flex-direction: column; */
 	/* margin-left: 25px; */
 	/* margin-right: 30px; */
 	/* width: 90%; */
-	border-top: 2px dashed #2e9f40;
-	border-bottom: 2px dashed #2e9f40;
+  border-top: 2px dashed #2e9f40;
+  border-bottom: 2px dashed #2e9f40;
+  /* border-right: 2px dashed #2e9f40; */
 	font-size: 7pt;
 	padding-left: 5px;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	background: #D3D3D3;
+  background: white;
   overflow:hidden;
 }
 
 /* Styles the box number for proof elements */
-.proof div:nth-child(1){
-  color: white;
-  background: #2e9f40;
-  padding: 5px;
-  position:absolute;
-  transform:translate(294px, -12px)
+.proof span{
+  color: grey;
+  background: #D3D3D3;
+  padding: 4px;
+  width: 16px;
+  border: dashed 4px #000;/*optional*/
+
+  /* the initial value of border-style is "none", so it must be set to a different value for the border-image to show*/
+  border-style: dashed;
+  border-image-source: url("https://i.sstatic.net/wLdVc.png");
+  border-image-slice: 1;
+  border-image-repeat: round;  border: 2px dashed grey;
+  margin-bottom: auto;
+  /* position:fixed; */
+  font-size: 8px;
+  font-weight: bold;
+  margin-left: auto;
+  /* z-index: -3; */
+  /* border-radius: 10px; */
+  margin-right: 5px;
 }
 
 .header-table{
@@ -1137,8 +1153,8 @@ th, td {
 }
 
 .titletab-number{
-  color: white;
-  background: #2e9f40;
+  color: grey;
+  background: #D3D3D3;
 	border-radius: 10px;
 	padding-left: 13px;
 	padding-top: 2px;
@@ -1378,8 +1394,8 @@ li::marker {
 
 
 .subsection-label div:nth-child(1){
-  color:white;
-  background: grey;
+  color:#2e9f40;
+  background: #D3D3D3;
   border: 2px solid grey;
   /* border-radius: 10px; */
   transform: translate(-15px, -5px);
@@ -1416,8 +1432,8 @@ li::marker {
 
 .figure div:nth-child(4){
   display: inline;
-  background: grey;
-  color:white;
+  color: grey;
+  background: #D3D3D3;
   /* border: 2px solid #2e9f40; */
   border: 2px solid grey;
   width: 270px;

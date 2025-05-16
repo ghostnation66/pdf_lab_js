@@ -18,7 +18,7 @@ export function render_text_citation(){
       format: 'html',
       template: 'apa',
       lang: 'en-US',
-      entry: node.textContent,
+      // entry: node.textContent,
       // prepend (entry){
       // return `${entry.address}`
       // }
@@ -27,6 +27,7 @@ export function render_text_citation(){
       },
     });
     //The outputArray ingests the ENTIRE bibliography and converts it to a list delimited by newlines
+    debugger
     let outputArray = output.split('\n');
     //The textCitation value is an empty string to store the matched regex function
     let textCitationIndex = ""
