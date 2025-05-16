@@ -40,7 +40,7 @@
                             <table style="width:100%;">
                               <tr>
                                 <td><b>file_name</b></td>
-                                <td>assignment_3.pdf</td>
+                                <td>assignment_4.pdf</td>
                               </tr>
                               <tr>
                                 <td><b>author</b></td>
@@ -52,7 +52,7 @@
                               </tr>
                               <tr>
                                 <td><b>date</b></td>
-                                <td>13MAY2025</td>
+                                <td>15MAY2025</td>
                               </tr>
                             </table>
                     </div>
@@ -62,17 +62,17 @@
                         <span>
                             <div class="slashtab-number">1.0</div>
                         </span>
-                        <div class='slashtab-text'>Fundamentals of Convolutional Neural Networks </div>
+                        <div class='slashtab-text'>Fundamentals of Recurrent Neural Networks </div>
                     </div>
                     <div class="numberingGrid">
-                      The advent and implementation of computer vision applications is one of the most significant advances in computer paradigms in human history due to its revolutionizing impact in a variety of critical sectors and ubiquitous presence in the modern world. Throughout this exposition, we will draw many details from the work of Lecun et. al and develop the underlying framework for an MNIST trained CNN from the insights into the CNN strucutures presented in the paper <span class="text-citation">726791</span>. CNNs represent a profound migration away from tranditional MLPs: whereas MLPS require vectorized data that overlooks the rich subtleties of grouped data (as is present in image data), CNNs perform operations that intend to preserve associativity among neighboring regions of data, which lends to it's precedence over other techniques in image recognition tasks. It is also serendipitous that these techniques are well suited to parallelization and vectorization. When desciribing the core advantages of CNNs, we must first investigate the exploitable traits of images: hierarchy, locality, equivariance, and invariance.
+                      Recurrent Neural Networks (RNNs) are the foundation for the design of many sophisticated network architectures that ingest variable length inputs, such as Long Short-term Memory Network (LSTMs) and Transformers. Although RNNs are unique in their structure (at least insofar that they differ from CNNs and MLPs due to a unique configuration), RNNs are fundamentally processing input data, but performing an "exploit" based on the fact that time series data, being sequential and correlated. Thus, a network architecture has been developed and standardized over the years that represents a time-series aware system with memory persistence. RNNs are constructed in a way in which they are provided with a memory window within which data is accumulated and cumulatively integrated into the next available data inputs over a temporal period.
                     </div>
                     <div class="subsection-label">
                       <div>1.1</div>
-                      <div>Locality, Feature Selection, and Kernels</div>
+                      <div>Objective Function (Classification)</div>
                     </div>
                     <div class="numberingGrid">
-                      CNNs implement the concept of locality via defining structure within a "receptive-field", which is a small, local, region of 2D space (at least in the image paradigm), that is screened with a particular window of weights, referred to as a kernel. Kernels applied to images rely on the concept of translational invariance, such that relevant features in the image will remain consistent despite their location in the image. This allows for significant parameter reudction (in many cases, reducing it to a square root of the total number of parameters that would be needed in a translation variant, or location dependent, circumstance). We may further reduce the number of parameters by localizing on a specific region within 2D space, ignoring the bulk of data outside of the window region. This further reduces the number of parameters to train over, but we must now compensate by implementing an architecture that sequentially evaluates a highly local feature map (image patch + kernel transform output) and passes data to kernels that evaluate larger subspaces of the image to obtain more specificity to the training objective The mathematical exposition below shows the utility of implementing a localizing CNN over raw MLP that trains on translationally invariant data <span class="text-citation">zhang2023dive</span>.
+                      As with any optimization paradigm, the structure of the loss function will dictate it's utility and allow for testing, validation, and deployment of the system once trained. RNNs are designed to ingest time-series data, and thus, when trained, is afforded observed values to reference at each time step within the temporal window. For classification data, the objective 
                     </div>
                     <div class="proof">
                       <span>1.0</span>

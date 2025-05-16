@@ -973,7 +973,7 @@ th, td {
 }
 
 .slashtab-text{
-  color: grey;
+  color: #2e9f40;
 	background:white;
 	border-radius: 10px;
 	padding-left: 5px;
@@ -981,7 +981,7 @@ th, td {
 	justify-self: start;
   font-size: 8px;
   /* font-weight: 500; */
-  transform: translate(0px,2px);
+  transform: translate(-8px,0px);
   font-family: none;
 
 
