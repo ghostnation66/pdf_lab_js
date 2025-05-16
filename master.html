@@ -98,13 +98,13 @@
               [\mathbf{H}]_{i,j} = u + \sum_a \sum_b [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
               $$
               <span>1.2</span>
-              Locality Restriction (\(\Delta\) is the kernal dimension boundary)
+              Locality Restriction (\(\Delta\) is the kernel dimension boundary)
               <br>
               $$
               [\mathbf{H}]_{i,j} = u + \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
               $$
               <span>1.3</span>
-              Convolution with Feature Summation
+              Convolution with Feature Summation (c: # of channels)
               <br>
               <br>
               $$
@@ -235,16 +235,18 @@
                       Feature Map of Conv Layer 2
                     </div>
                     <div class="figure-content">
-                      <img src="assets/images/conv_2.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <img src="assets/images/convolution_layer_2.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
                       <!-- <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
                     </div>
+                    <div></div>
+                    <div>The effect of downsampling is observed after the maxpooling operation is performed on the original resolution. The receptive field of each downsampled pixel represents some localized space of 2x2 area of the original image, and provides the network with an abstract basis upon which to parametrize a new set of kernel weights in the second layer.</div>
                   </div>
                   <div class="figure">
                     <div class="figure-label">
-                      3 Feature Maps (of 128 total) of Conv Layer 3
+                      Full set of 1x1  Feature Maps (128 total) of Conv Layer 3
                     </div>
                     <div class="figure-content">
-                      <img src="assets/images/conv_3.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <img src="assets/images/conv_3.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
                       <img src="assets/images/line_graph.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
                       <!-- <pre class="language-python" data-src="/assets/code/MNIST_result.py" style="white-space:pre-line; font-size: 6px;" ></pre> -->
                     </div>
@@ -254,7 +256,7 @@
                     <div>Cross-Comparison of Layer 3 Spectral Graph</div>
                   </div>
                   <div class="numberingGrid">
-                    The feature spectra shown in <b>Figure 3</b> provides insight into the representation of the digit "6" prior to ingestion by the fully-connected layer of the network; it displays the "activation" of all 128 feature maps, of size 1 px, that are produced from an input with a known classification of 6. We expect to see these 1px maps to have large discrpancies between high magnitudes and 1, indicating where the learning has found "useful" information in specific "receptive fields" as data is passed through the layers, being abstracted sequentially unti lit reaches layer 3 with a resolution of a single scalar dimension (not necessarily a pixel, as it has a hierarchical nested receptive fields, which were degenerated via the maxpooling operations and kernel trimming).
+                    The feature spectra shown in <b>Figure 3</b> provides insight into the representation of the digit "6" prior to ingestion by the fully-connected layer of the network; it displays the "activation" of all 128 feature maps, of size 1 px, that are produced from an input with a known classification of 6. We expect to see these 1px maps to have large discrpancies between high magnitudes and 1, indicating where the learning has found "useful" information in specific "receptive fields" as data is passed through the layers, being abstracted sequentially unti lit reaches layer 3 with a resolution of a single scalar dimension (not necessarily a pixel, as it has a hierarchical nested receptive fields, which were degenerated via the maxpooling operations and kernel trimming). Alternative methods of subsampling such as averaging or minimum selection will yield different results, although we expect a degree of convergence to "accurate" predictions given enough data because the network will expectedly have been exposed to enough data so that the learned kernel weights are capable of discretizing important features for prediction of classes out of the set.
                   </div>
                 </div>
             </div>
