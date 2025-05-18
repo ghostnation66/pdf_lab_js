@@ -65,23 +65,26 @@
                         <div class='slashtab-text'>Fundamentals of Recurrent Neural Networks </div>
                     </div>
                     <div class="numberingGrid">
-                      Recurrent Neural Networks (RNNs) are the foundation for the design of many sophisticated network architectures that ingest variable length inputs, such as Long Short-term Memory Network (LSTMs) and Transformers. Although RNNs are unique in their structure (at least insofar that they differ from CNNs and MLPs due to a unique configuration), RNNs are fundamentally processing input data, but performing an "exploit" based on the fact that time series data, being sequential and correlated. Thus, a network architecture has been developed and standardized over the years that represents a time-series aware system with memory persistence. RNNs are constructed in a way in which they are provided with a memory window within which data is accumulated and cumulatively integrated into the next available data inputs over a temporal period.
+                      Recurrent Neural Networks (RNNs) are the foundation for the design of many sophisticated network architectures that ingest variable length inputs, such as Long Short-term Memory Network (LSTMs) and Transformers. Although RNNs are unique in their structure (at least insofar that they differ from CNNs and MLPs due to a unique configuration), RNNs are fundamentally processing input data, but performing an "exploit" based on the fact that time series data, being sequential and correlated. Thus, a network architecture has been developed and standardized over the years that represents a time-series aware system with memory persistence. RNNs are constructed in a way in which they are provided with a memory window within which data is accumulated and cumulatively integrated into the next available data inputs over a temporal period. This is generally referred to as the hidden state, which serves as a memory repository upon which the discrete time instances of states and observations are given perception of their previous experiences. This hidden state (\(h_t\)) is parametrized by a set of weights and biases that enables to to engage in a standard training procedure endemic to all neural networks: backpropogation.
+                    </div>
+                    <div class="figure">
+                      <div class="figure-label">
+                        Unrolled RNN Intuition
+                      </div>
+                      <div class="figure-content">
+                        <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      </div>
+                      <div></div>
+                      <div>
+                        The unrolled visual representation of an RNN that passes a parametrizable hidden state between sequence iterations, designed in such a way that historical data contributes to the value of the hidden state. Parametrizations of the weight matrices are invariant between time steps, thus affording an architecture that does not implement \(O^n\) growth of parameters for increasing hisotorical perception.
+                      </div>
                     </div>
                     <div class="subsection-label">
                       <div>1.1</div>
-                      <div>Objective Function (Classification)</div>
+                      <div>Challenges with Traditional RNNs</div>
                     </div>
                     <div class="numberingGrid">
-                      As with any optimization paradigm, the structure of the loss function will dictate it's utility and allow for testing, validation, and deployment of the system once trained. RNNs are designed to ingest time-series data, and thus, when trained, is afforded observed values to reference at each time step within the temporal window. For classification data, the objective 
-                    </div>
-                    <div class="proof">
-                      <span>1.0</span>
-                      Raw MLP with Translationally Variant Data
-                      <br>
-                      <br>
-                      $$
-                      [\mathbf{H}]_{i,j} = [\mathbf{U}]_{i,j} + \sum_k \sum_l [\mathbf{W}]_{i,j,k,l} [\mathbf{X}]_{k,l} \\
-                      $$
+                      Because RNNs pass the error signal down through the chain of time-series data, linked through a trainable hidden state weight matrix, a predicament emerges when the gradient response is magnified or dimished, and is referred to as an exploding or vanishining gradient in the ltierature. This prevents traditional RNNs with the classical three stage tunable matrix from having long-term memory utility, as it tends to overtrain (with scignificant oscillations along the eignvalues of the hidden state weight matrix), or undertrain (with no movement of the hidden state weight matrix that would result in adequate response to any error signal that would persist at earlier time steps). RNNs also have a fixed "temporal" window, or memory capacity, for which transient data can be acknowledged; expanding this window requires exponentially more computing power and memory storage. Finally, RNNs, due to the inherent reliance on sequential data are generally slow to train due to serialization of the trianing phase, instead of parallelization, in hardware. A mechanism by which to address these aforementioned issues is to compact both the input and output vectors, which eliminates the problem elicited by recurrence, but introduces new complications, because the system is no longer scalable, memory persistent, and comprised of ordinal data. This mechanism requires a new scheme that "attends" to data that is discovered to be salient, and affords such data with an "attention" metric, which assesses similarities between a query (prompt) and key (data samples), and builds a value that dictates the relevance of the latter to the former. Thus, perhaps ironically, the most effective method available to evaluated sequential data is indeed one that removes the nature of sequential inputs and instead directs the system to maintain anembedded memeory of salient events.
                     </div>
                     <div class="numberingGrid">
                       In the previous equations, the traditional MLP is recharacterized to represent the aforementioned tenets of image data, and we observe that the final equation (4) renders out a unique system that relies on far fewer trainable parameters than the previous model. This equation encapsulates the shifting window functionality endemic to CNNS, which is effective in reducing the parameter count of the training architecture as well as respecting the local topology present throughout the image, which affords correlated data that is salient to the effective learning of the CNN.
@@ -89,52 +92,28 @@
                 </div>
           <div class="column">
             <!-- <div class="numberingGrid"></div> -->
-            <div class="proof">
-              <span>1.1</span>
-              Raw MLP with Translationally Invariant Data Assumption
-              <br>
-              <br>
-              $$
-              [\mathbf{H}]_{i,j} = u + \sum_a \sum_b [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
-              $$
-              <span>1.2</span>
-              Locality Restriction (\(\Delta\) is the kernal dimension boundary)
-              <br>
-              $$
-              [\mathbf{H}]_{i,j} = u + \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} [\mathbf{V}]_{a,b} [\mathbf{X}]_{i+a,j+b}.
-              $$
-              <span>1.3</span>
-              Convolution with Feature Summation
-              <br>
-              <br>
-              $$
-              [\mathbf{H}]_{i,j,d} = \sum_{a=-\Delta}^{\Delta} \sum_{b=-\Delta}^{\Delta} \sum_{c} [\mathbf{V}]_{a,b,c,d} [\mathbf{X}]_{i+a,j+b,c}.
-              $$
-            </div>
             <div class="numberingGrid">
 
             </div>
             <div class="subsection-label">
               <div>1.2</div>
-              <div>CNN Design Protocols</div>
+              <div>Data Representations in RNNs</div>
             </div>
             <div class="numberingGrid">
-              The nomeclature regarding "convolution" in the design of CNNs is a reference to the conversion of an image data into a feature map via a sliding operation of the kernel. The units (hardcoded weights) in a kernal are varied between kernels that seek to identify different information features, and kernel weights may be a combination of hardcoded weight parameters, and malleable, trainable weights that are learned from the data. The ouput of a kernel referred to as a feature map, and a single convolutional layer may produce several maps with respect to convolutions of the image over different kernel operations (edge detection, noise reduction, cropping, etc.). Because precise position is not only irrelevant in the context of image recognitiion, but potentially hazardous due to variances in the position of data represented by the same class, CNNS utilize a blurring operation, referred to as subsampling, that performs pooling of the "general" signal values of the images (max pooling or pooling averages are an example of this). Subsampling offers the benefit of allowing discretion of classes despite geometric transformations provided that the number of feature maps be set accordingly <span class="text-citation">726791</span>.
-             </div>
-            <div class="figure">
-              <div class="figure-label">
-                Cross Correlation Operation
-              </div>
-              <div class="figure-content">
-                <img src="assets/images/cross.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
-              </div>
-              <div></div>
-              <div>
-                The cross-correlation operation (applying a kernel and matrix multiplication), not to be confused with convolution, which is essentially the same procedure with the exception that the kernel is flipped prior to performing the multiplication operation.
-              </div>
+              In order to begin the discussion of how an RNN functions, and the fundamental theoretical alterations that enable RNNs to dominate serial prediction tasks, we must first begin with an exposition of sequential data. Sequential models originate from an initial directive to characterize a prediction based on past inputs, commonly referred to as autoregressive modeling; the objective is to define an expected value of a system given parameters: \(\mathbb{E}[x_t | x_{t-1}, \dots, x_1]\). The predicament with pure autoregressive datasets is that they do not accommodate variable length data, which is the case with most sequential, data driven scenrios, where some data has been recorded over long periods of time, and other data has only been tracked over a short time period. Typically, we are interested in some finite temporal window, which is the fundamental induction that allows these datasets to be "trainable" by a neural network, because it affords structure to each element in the window so that it can be parametrized by weights and biases. The implementation of memory, as mentioned previously, is accomplished with some tracking state, \(h_t\) that maintains a record of previous epxeriences.
+              As with any optimization paradigm, the structure of the loss function will dictate it's utility and allow for testing, validation, and deployment of the system once trained. RNNs are designed to ingest time-series data, and thus, when trained, is afforded observed values to reference at each time step within the temporal window. For classification data, the objective tends to minimize the negative log likelihood of predictions at each time step, as sequential data is afforded predictions at every logged event.
+            </div>
+            <div class="proof">
+              <span>1.0</span>
+              Joint Probability Decomp Objective (Autoregressive Prediction)
+              <br>
+              <br>
+              $$
+              P(x_1, \dots, x_T) = P(x_1) \prod_{t=2}^{T} P(x_t | x_{t-1}, \dots, x_1).
+              $$
             </div>
             <div class="numberingGrid">
-              Recall that kernels can be hardcoded, such as the finite difference operator, which is a simple kernel that does bounds checking, of the form [1,-1]; kernels are also learnable features (simply a structured collection of weights in 2D space with a bias), and CNNs can be designed to output learned kernel weights after training.
+              We will briefly mention that in order to structure sequential data in a way that is suitable for processing, the data must be tokenized, and perhaps grouped in contrived, secondary structures (such as n-grams) in order to perform statistical analysis. Due to the impetus driven by language models on RNNs, we typically refer to models that ingest time-series data as language models, even if data is not representative of a language system. Markov Models are the theoretical foundation of erecting the foundation of predictive mechanisms in sequential data, and the order of the model is a reference to how many steps ahead the system is capable of predicting a result, and conversely, how many dependencies an individual prediction relies on when generated. These concepts allude heavily to information theory heuristics, and the reader is suggested to refer to such work for more fundamental understanding of cross-entropy, surprisal, perplexity, and design terminology such as corpus, vocabulary, tokens, etc., <span class="text-citation">zhang2023dive</span>.
             </div>
           </div>
                 </div>
@@ -143,83 +122,109 @@
 
             <div class="dual-column">
                 <div class="column">
+                  <div class="numberingGrid">
+                  </div>
+
                   <div class="slashtab">
                     <span>
                       <div class="slashtab-number">2.0</div>
                     </span>
-                    <div class='slashtab-text'>CNN implementation for Handwriting recognition</div>
+                    <div class='slashtab-text'>Analysis of LSTM networks for Prediction</div>
                     <div></div>
                   </div>
                   <div class="numberingGrid">
-                    In the following sections, we outline the build for a network based on certain protocol criteria (for example, a defined kernel size, pooling layer, number of convolution layers, etc). The parameters of the network architecture are defined in <b>Table 1</b>.
+                    In the following sections, we outline two LSTM architectures based on certain protocol criteria (for example, a defined kernel size, pooling layer, number of convolution layers, etc). The parameters of the network architecture are defined in <b>Table 1</b>. In the following section, we briefly discuss the deficiencies of RNNs that LSTMs attempt to mitigate.
                   </div>
-                  <table>
-                  <tr>
-                  <th>Feature</th>
-                  <th>Implementation</th>
-                  </tr>
-                  <tr>
-                  <td>color_mode</td>
-                  <td>greyscale</td>
-                  </tr>
-                  <tr>
-                  <td>convolution_layer_number</td>
-                  <td>3</td>
-                  </tr>
-                  <tr>
-                  <td>input_dimension</td>
-                  <td>28 x 28</td>
-                  </tr>
-                  <tr>
-                  <td>stride_value</td>
-                  <td>1</td>
-                  </tr>
-                  <tr>
-                  <td>padding_value</td>
-                  <td>0</td>
-                  </tr>
-                  <tr>
-                  <td>subsample_dimensions</td>
-                  <td>Maxpooling (2x2)</td>
-                  </tr>
-                  <tr>
-                  <td>feature_map_count</td>
-                  <td>10</td>
-                  </tr>
-                  <tr>
-                  <td>kernel_dimensions</td>
-                  <td>3x3</td>
-                  </tr>
-                  <caption>MNIST CNN Feature Implementations</caption>
-                  </table>
-                  <div class="numberingGrid">
-                    In order to design the most comprehensive CNN, we implement a framework based ONLY on the numpy library. The <code>MNIST_CNN</code> object serves as a scaffold to call the representative functions of internal layer objects. In order to keep the code compact, we invoke the convolve2D method that ships with scipy's DSP utilities (this will caue our feature maps to be flipped in the output). All backpropogation and forward propogation mechanics are designe to integrate seamlessly when set up appropriately in the CNN object; we design the three layer system directly, and hardcode the layers in the object (versatility is limited due to this chosen architecture, but can be expanded if desired with dictionary data structures and looping protocols to iterate through more layers). With the from-scratch" numpy implementation, training for 5 epochs on batches of the entire MNIST dataset requires approximately 12 minutes.
-                  </div>
-                  <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="203,210" style="font-size: 6px;" ></pre>
+            <div class="subsection-label">
+              <div>2.1</div>
+              <div>LSTMs vs. RNNs</div>
+            </div>
+            <div class="numberingGrid">
+              Despite the fact that both model architectures attempt to solve the same space of problems, LSTMs are designed in a way that is directed towards eliminating the problem of exploding/vanishing gradients. The conventional approach implemented on traditional RNNs, the gradients, when propogated through recurrent evaluations, are clipped via some bound associated with The Lipschitz Coefficient of the gradient.
+            </div>
+            <div class="proof">
+              <span>2.0</span>
+              Lipschitz association between Input Vector Distance
+              <br>
+              <br>
+              $$
+              |f(\mathbf{x}) - f(\mathbf{x} - \eta \mathbf{g})| \leq L \eta \|\mathbf{g}\|.
+              $$
+              <br>
+              <span>2.1</span>
+              Gradient-Clipper Ball (receives projected gradients)
+              <br>
+              <br>
+              $$
+              \mathbf{g} \leftarrow \min\left(1, \frac{\theta}{\|\mathbf{g}\|}\right) \mathbf{g}.
+              $$
+            </div>
+            <div class="numberingGrid">
+              At best, the gradient clip via projection onto a ball is a useful hack that happens to be relatively ubuquitous in RNNs training schemes because it directly affects the learning rate down a change of recurrent events. Other methods to ensure numerical stability and computational feasibility include truncation (randomized or unrandomized) or asymptotic gradient modification to compensate for a vanishing or exploding gradient. Ultimately, the "recursive" resopnse chaing grows exponentially depending on the eigenvalues of the hidden state's weight matrix, which is problematic if any eigenvalues differ from 1. LSTMs introduce the concept of a memory cell, which is engineered to have gated connections and constant derivative edge weights. The gates affect how the hidden state is updated, and manage appropriate changes to maximize likelihood of output predictions across a time window for each event. These gate events are learned by the network, and thus the sctructure of their respective parametrizations is entirely self-managed during training. The visual representation of a memory cell is provided in the following figure. Essentially, a memory cell is comprised of 3 layers, an input gate, regulating the portion of input data that influences a hidden state update, a forget gate, regulating the amount of memory to cache or flush, and an ouput node, regulating the amount that memory of token values contributes to values at any arbitrary time step (assuming all previous data is recorded prior to the time step). Sigmoidal activations are implemented in each of the gates in order to bind \(\textbf{I}_T\) (input gate), \(\textbf{F}_T\) (forget gate), \(\textbf{O}_T\) (output gate) \(\in (0,1] \). An input node is placed as a mechanism by which to reconfigure the forget and input gates prior to passing data to the output gate, so as to allow for incremental increases or decreases in the magnitude of weighted input vectors to the output gate. Because it is activate by a tanh function, certain magnitudes of weights and biases can be associated with either decreases in output magnitudes (indicating classification "detours") or increases in output magnitudes (indicating increased classification confidence). With such precisely dedicated mechanisms, LSTMs are highly effective at time-series prediction while also having recalcitrance to the previously mentioned complications of RNNs. Despite the fact that Transformer networks ahve largely superseded LSTMs, key concepts of transformer networks such as similarity identification and attention mechanisms are, in fact, inspired from the "physics" of LSTMs.
+            </div>
+                </div>
+                <div class="column">
                   <div class="figure">
                     <div class="figure-label">
-                      Results of training CNN on MNIST dataset
+                      LSTM Memory Cell
                     </div>
                     <div class="figure-content">
-                      <!-- <img src="assets/images/cross.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python line-numbers" data-src="/assets/code/CNN_result.py" style="font-size: 6px;" ></pre>
+                      <img src="assets/images/LSTM_cell.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
                     </div>
                     <div></div>
                     <div>
-                      The progressive reduction of error on a limited, 5 epoch training sample on MNIST. Errors are % values of discrepancy of the loss function (maximum likelihood).
+                      Visual render of the LSTM memory cell (hidden unit). The cell is effectively a 3 layer MLP (with the input node mechanism serving and a "combiner" for the forget and input gates). Having multiple cells in a hidden layer permits more approximation dynamics (the consequence of not having enough memory cells in a hidden layer would be poor fitting to the training data, high bias. Low bias and high variance is the consequence of having an excess number of hidden units; thus, the accompanying experimental procedure in the study attempts to identify the best parameters to select.
                     </div>
                   </div>
-                  <div class="subsection-label">
-                    <div>2.2</div>
-                    <div>Rendering the Feature Maps</div>
-                  </div>
+            <div class="subsection-label">
+              <div>2.2</div>
+              <div>LSTM Cross-Comparison: Single vs.Double Stacked Networks</div>
+            </div>
+            <div class="numberingGrid">
+              We set up two LSTMs, one with a single layer and another with a "double" stacked hidden layer. The ostensible result of adding this second hidden layer is that the LSTM will be equipped with the capacity to learn more abstract patters from "simpler" dynamics present in the sequential data, such as how groups of sequences influence the prediction error. This is similar to a subsample in a CNN to reduce the resolution, generalizing a receptive field, and running a kernel that traverses more "image data" using the data passed through from the previous layer, which effectively allows the network to learn how to minimize error on compressions of the earlier layer.
+            </div>
+            <br>
+                  <table>
+                    <tr>
+                      <th>Critera</th>
+                      <th>1-Layer</th>
+                      <th>2-Layer</th>
+                    </tr>
+                    <tr>
+                      <td>hidden_layer_count</td>
+                      <td>1</td>
+                      <td>2</td>
+                    </tr>
+                    <tr>
+                      <td>hidden_size_count</td>
+                      <td>hyperparameter</td>
+                      <td>hyperparameter</td>
+                    </tr>
+                    <tr>
+                      <td>window_length</td>
+                      <td>hyperparameter</td>
+                      <td>hyperparameter</td>
+                    </tr>
+                    <tr>
+                      <td>projection_horizon</td>
+                      <td>3</td>
+                      <td>3</td>
+                    </tr>
+                    <tr>
+                      <td>system_dynamics</td>
+                      <td>\(y = sin(6t) +0.1 t + \epsilon\)</td>
+                      <td>\(y = sin(6t) +0.1 t + \epsilon\)</td>
+                    </tr>
+                    <tr>
+                      <td>noise_feature (\(\epsilon\))</td>
+                      <td>Gaussian, \(\mu\) = 0, \(\sigma\) = 1</td>
+                      <td>Gaussian, \(\mu\) = 0, \(\sigma\) = 1</td>
+                    </tr>
+                    <caption>Experiment 1: Cross-Comparison of single and stacked LSTM</caption>
+                  </table>
+                  <pre class="language-python line-numbers" data-src="/assets/code/CNN_MNIST.py" data-range="203,210" style="font-size: 6px;" ></pre>
                   <div class="numberingGrid">
-                    The feature maps are rendered via the <code>visualize_featuremap</code> definition that accompanies the script utilities. The feature maps were obtained by performing a relatively aggressive training scheme (number of batch iterations set to 100) on all images that were identified to have been associated with the number 6. We modify a new loading scheme to feed to batch loader (the batch loader is merely implemented as a system to add "stochasticity" to the batches that are extracted to train the network). The visualization mechanism performs a forward pass at each of the convolutional layers, and renders a colormap to represent the value . The feature maps afford substantial insight into the mechnisms of the learned kernels; as the kernels are being learned during training, the kernels are more capable of discretizing certain characteristics of the images that result in more improved classification, and the feature maps represent the "convolution" of these these "live-learned" kernels on the image. This implies that feature maps are essentially expressions of the learned kernels, and representative feature maps, such as those shown in <b>Figure 1</b> are indicative that the CNN is robustly designed and learning effectively.
-                  </div>
-                </div>
-                <div class="column">
-                  <div class="numberingGrid">
-
+                    Our goal was to implement a numpy only network (so as to expose all of the underlying complexity of the bacpropogation mechanism, which involves some degree of recursion within the temporal window of the network.
                   </div>
                   <div class="figure">
                     <div class="figure-label">
