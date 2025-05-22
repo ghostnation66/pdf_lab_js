@@ -1,0 +1,150 @@
+{
+  "bibtex": {
+    "plain text": [[
+      {
+        "id": "Q23571040",
+        "type": "article-journal",
+        "title": "Correlation of the Base Strengths of Amines 1",
+        "DOI": "10.1021/ja01577a030",
+        "author": [{"given": "H. K.", "family": "Hall"}],
+        "issued": {"date-parts": [[1957, 1, 1]]},
+        "container-title": "Journal of the American Chemical Society",
+        "volume": "79",
+        "issue": "20",
+        "page": "5441-5444"
+      }
+    ]],
+    "complex title": [[
+      {"title": "the bug"},
+      {"title": "?\"the bug\"?"},
+      {"title": "?!BUG?!"}
+    ]],
+    "rich text title": [[
+      {"title": "<i>i</i><b>b</b><sc>sc</sc><sup>sup</sup><sub>sub</sub>"},
+      {"title": "<span style=\"font-variant:small-caps;\">sc</span>"},
+      {"title": "<span class=\"nocase\">sc</span>"},
+      {"title": "a<i>i</i>a"}
+    ]],
+    "invalid rich text title": [[
+      {"title": "<span class=\"\"subscript\"\">sub</span>"}
+    ]],
+    "unicode escapes": [[
+      {"title": "Foo —"},
+      {"title": "Bar ⸘"},
+      {"title": "Qux Γ"},
+      {"title": "Baz 🙂"}
+    ]],
+    "list with and": [[
+      {
+        "type": "book",
+        "author": [{"literal": "Organizations and Institutions"}],
+        "publisher": "Organizations and Institutions Ltd.",
+        "title": "Publication",
+        "issued": {"date-parts": [[2021]]}
+      }
+    ]],
+    "editor": [[
+      {
+        "id": "Q37108228",
+        "year-suffix": "a",
+        "DOI": "10.1109/MIS.2013.119",
+        "type": "article-journal",
+        "title": "The Rise of Wikidata",
+        "issue": "4",
+        "page": "90-95",
+        "volume": "28",
+        "issued": {"date-parts": [[2013, 1, 1]]},
+        "accessed": {"date-parts": [[2018, 7, 21]]},
+        "number-of-pages": "6",
+        "editor": [
+          {"given": "James", "family": "Hendler", "_ordinal": -1},
+          {"given": "Elena", "family": "Simperl", "_ordinal": -1}
+        ],
+        "container-title": "IEEE Intelligent Systems",
+        "author": [
+          {"given": "Denny", "family": "Vrandečić", "_ordinal": 1}
+        ]
+      }
+    ]],
+    "label": [[
+      {"id": "b", "citation-key": "foo", "type": "book"},
+      {"id": "b", "author": [{"given": "foo"}], "type": "book"},
+      {"id": "b", "type": "book"},
+      {"id": 123, "type": "book"},
+      {"id": 0, "type": "book"},
+      {"type": "book"},
+      {"id": null, "type": "book"}
+    ]],
+    "safe labels": [[
+      {
+        "id": "b",
+        "title": "An Introduction: \"Safety\"",
+        "issued": {
+          "date-parts": [[2050]]
+        },
+        "author": [{"literal": "The Foundation"}],
+        "type": "book"
+      }
+    ]],
+    "object": [
+      [
+        {
+          "id": "Q23571040",
+          "type": "article-journal",
+          "title": "Correlation of the Base Strengths of Amines 1",
+          "DOI": "10.1021/ja01577a030",
+          "author": [{"given": "H. K.", "family": "Hall"}],
+          "issued": {"date-parts": [[1957, 1, 1]]},
+          "container-title": "Journal of the American Chemical Society",
+          "volume": "79",
+          "issue": "20",
+          "page": "5441-5444"
+        }
+      ],
+      [
+        {
+          "label": "Hall1957Correlation",
+          "type": "article",
+          "properties": {
+            "author": "Hall, H. K.",
+            "journal": "Journal of the American Chemical Society",
+            "doi": "10.1021/ja01577a030",
+            "number": "20",
+            "pages": "5441--5444",
+            "title": "Correlation of the {Base} {Strengths} of {Amines} 1",
+            "volume": "79",
+            "month": "jan 1",
+            "year": "1957"
+          }
+        }
+      ],
+      {"format": "object"}
+    ]
+  },
+  "biblatex": {
+    "no type": [
+      [{
+        "id": "Q23571040",
+        "title": "Correlation of the Base Strengths of Amines 1",
+        "author": [{"given": "H. K.", "family": "Hall"}],
+        "issued": {"date-parts": [[1957, 1, 1]]}
+      }]
+    ]
+  },
+  "bibtxt": {
+    "simple": [[
+      {
+        "id": "Q23571040",
+        "type": "article-journal",
+        "title": "Correlation of the Base Strengths of Amines 1",
+        "DOI": "10.1021/ja01577a030",
+        "author": [{"given": "H. K.", "family": "Hall"}],
+        "issued": {"date-parts": [[1957, 1, 1]]},
+        "container-title": "Journal of the American Chemical Society",
+        "volume": "79",
+        "issue": "20",
+        "page": "5441-5444"
+      }
+    ]]
+  }
+}
