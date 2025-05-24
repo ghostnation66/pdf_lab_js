@@ -40,19 +40,15 @@
                             <table style="width:100%;">
                               <tr>
                                 <td><b>file_name</b></td>
-                                <td>assignment_4.pdf</td>
+                                <td>reservoir_computer_code_review.pdf</td>
                               </tr>
                               <tr>
                                 <td><b>author</b></td>
                                 <td>ghostnation</td>
                               </tr>
                               <tr>
-                                <td><b>course</b></td>
-                                <td>ECE595</td>
-                              </tr>
-                              <tr>
                                 <td><b>date</b></td>
-                                <td>15MAY2025</td>
+                                <td>22MAY2025</td>
                               </tr>
                             </table>
                     </div>
@@ -62,26 +58,59 @@
                         <span>
                             <div class="slashtab-number">1.0</div>
                         </span>
-                        <div class='slashtab-text'>Fundamentals of Recurrent Neural Networks </div>
+                        <div class='slashtab-text'>Code structure</div>
                     </div>
                     <div class="numberingGrid">
-                      Recurrent Neural Networks (RNNs) are the foundation for the design of many sophisticated network architectures that ingest variable length inputs, such as Long Short-term Memory Network (LSTMs) and Transformers. Although RNNs are unique in their structure (at least insofar that they differ from CNNs and MLPs due to a unique configuration), RNNs are fundamentally processing input data, but performing an "exploit" due to the fact that time series data is ostensibly sequential and thus correlated. Thus, a network architecture has been developed and standardized over the years that represents a time-series aware system with memory persistence. RNNs are constructed in a way in which they are provided with a memory window within which data is accumulated and cumulatively integrated into the next available data inputs over a temporal period. This is generally referred to as the hidden state, which serves as a memory repository upon which the discrete time instances of states and observations are given perception of their previous experiences. This hidden state (\(h_t\)) is parametrized by a set of weights and biases that enables to to engage in a standard training procedure endemic to all neural networks: backpropogation.
+                      The reservoir compute (RC) architecture is designed to ingest and learn the dynamics of a <code>Chua</code> chaotic system, also known as a double-scroll attractor. It is often described by a system of 3 nonlinear ODEs (to represent positional information along 3 axes). The dynamics along each of the "positional" elements of the chaotic system are described below, and a figure presenting the hyperparameters is provided.
+                    </div>
+                    <div class="proof">
+                      <span>1.0</span>
+                      Double-Scroll Attractor Dynamics
+                      <br>
+                      <br>
+                      $$
+                      \begin{align*}
+                      \frac{dx(t)}{dt} &= a(y(t) - x(t)) \\
+                      \frac{dy(t)}{dt} &= (c - a)x(t) - x(t)z(t) + cy(t) \\
+                      \frac{dz(t)}{dt} &= x(t)y(t) - bz(t)
+                      \end{align*}
+                      $$
                     </div>
                     <div class="figure">
                       <div class="figure-label">
-                        Unrolled RNN Intuition
+                        RC Hyperparameters
                       </div>
                       <div class="figure-content">
-                        <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                        <!-- <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                        <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="5,23" style="font-size: 6px;" ></pre>
                       </div>
                       <div></div>
                       <div>
                         The unrolled visual representation of an RNN that passes a parametrizable hidden state between sequence iterations, designed in such a way that historical data contributes to the value of the hidden state. Parametrizations of the weight matrices are invariant between time steps, thus affording an architecture that does not implement \(O^n\) growth of parameters for increasing hisotorical perception.
                       </div>
                     </div>
-                    <div class="subsection-label">
-                      <div>1.1</div>
-                      <div>Challenges with Traditional RNNs</div>
+                    <div class="numberingGrid">
+                      The purpose of the hyperparameters are as follows:<br>
+                      &#8226; <code>options</code> = odeset('RelTol',1e-10,'AbsTol',1e-8);: Sets the relative and absolute tolerances for the ode45 solver, which is used to solve ordinary differential equations.<br>
+                      &#8226; <code>transient_span</code> = 500;: The duration of the initial "transient" phase of the chaotic system. Data from this phase is typically discarded because the system hasn't settled into its chaotic attractor yet.<br>
+                      &#8226; <code>train_span</code> = 500;: The duration of the time series used for training the reservoir computer.<br>
+control_span = 1000;: The duration of the time series used for testing the trained reservoir computer.
+ts = 0.01;: The time step for the simulation. A smaller ts means more data points and a more detailed simulation, but also longer computation time.
+total_span = transient_span + train_span + control_span;: The total duration of the simulation.
+full_span = [0:ts:total_span];: Creates a time vector from 0 to total_span with steps of ts.
+transient_idx, train_idx, control_idx: These variables calculate the indices corresponding to the end of the transient, training, and control (testing) spans, respectively. These indices are used to divide the generated time series into different segments.
+y0 = rand(3,1)*10^-2;: Sets the initial conditions for the Chen system. It's a small random vector to ensure the system starts from a slightly different point each time, which is characteristic of chaotic systems.
+[T,XD] = ode45('Chen',full_span,y0);: This is the core line for generating the chaotic time series.
+
+    ode45 is a MATLAB function for solving ordinary differential equations.
+    'Chen' refers to a separate MATLAB function (not provided in your snippet, but assumed to exist) that defines the Chen chaotic system's differential equations.
+    full_span is the time vector over which the system is integrated.
+    y0 is the initial condition.
+    T will contain the time points, and XD will contain the solutions (the x,y,z values of the Chen attractor) at each time point.
+
+drive_sig = XD(:,1);: Extracts the first component (x-component) of the Chen system's output. This is often used as the "driving" signal for the reservoir, meaning it's fed into the reservoir computing system.
+train_sig = XD(transient_idx+1:train_idx,2);: Extracts the second component (y-component) for the training phase, after discarding the transient. This is the signal the reservoir will learn to predict.
+test_sig = XD(train_idx+1:end,2);: Extracts the y-component for the testing phase. This is the signal used to evaluate the trained reservoir's performance.
                     </div>
                     <div class="numberingGrid">
                       Because RNNs pass the error signal down through the chain of time-series data, linked through a trainable hidden state weight matrix, a predicament emerges when the gradient response is magnified or dimished, and is referred to as an exploding or vanishining gradient in the ltierature. This prevents traditional RNNs with the classical three stage tunable matrix from having long-term memory utility, as it tends to overtrain (with scignificant oscillations along the eignvalues of the hidden state weight matrix), or undertrain (with no movement of the hidden state weight matrix that would result in adequate response to any error signal that would persist at earlier time steps). RNNs also have a fixed "temporal" window, or memory capacity, for which transient data can be acknowledged; expanding this window requires exponentially more computing power and memory storage. Finally, RNNs, due to the inherent reliance on sequential data are generally slow to train due to serialization of the trianing phase, instead of parallelization, in hardware. A mechanism by which to address these aforementioned issues is to compact both the input and output vectors, which eliminates the problem elicited by recurrence, but introduces new complications, because the system is no longer scalable, memory persistent, and comprised of ordinal data. This mechanism requires a new scheme that "attends" to data that is discovered to be salient, and affords such data with an "attention" metric, which assesses similarities between a query (prompt) and key (data samples), and builds a value that dictates the relevance of the latter to the former. Thus, perhaps ironically, the most effective method available to evaluated sequential data is indeed one that removes the nature of sequential inputs and instead directs the system to maintain anembedded memeory of salient events.
@@ -92,7 +121,7 @@
           <div class="column">
             <!-- <div class="numberingGrid"></div> -->
             <div class="numberingGrid">
-
+              none
             </div>
             <div class="subsection-label">
               <div>1.2</div>
