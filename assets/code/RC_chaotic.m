@@ -46,12 +46,12 @@ while test_err > 6e-4
 
     %% reservoir training and testing
 
-    [RC_mat] = LeakyTanh(alpha,A,win,drive_sig,r0); %reservoir training function
+    [RC_mat] = LeakyTanh(alpha,A,win,drive_sig,r0);
 
     %Training
     Omega_tr = RC_mat(transient_idx+1:train_idx,:);
     Omega_tr(:,end+1) = 1;
-    % invOmega = Chinv2(Omega_tr,1e-8); %1e-4 is the regression parameter, feel free to change
+    % invOmega = Chinv2(Omega_tr,1e-8);
     % kappa = invOmega*(train_sig);
     kappa = lsqminnorm(Omega_tr, train_sig);
     fit_signal_tr = Omega_tr*kappa;

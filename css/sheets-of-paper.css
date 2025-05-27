@@ -1074,8 +1074,8 @@ th, td {
 
 /* Styles the box number for proof elements */
 .proof span{
-  color: #2e9f40;
-  background: #abd8b2;
+  color: grey;
+  background: #D3D3D3;
   padding: 4px;
   width: 16px;
   border: dashed 4px #000;/*optional*/
@@ -1084,7 +1084,7 @@ th, td {
   border-style: dashed;
   border-image-source: url("https://i.sstatic.net/wLdVc.png");
   border-image-slice: 1;
-  border-image-repeat: round;  border: 2px dashed #2e9f40;
+  border-image-repeat: round;  border: 2px dashed grey;
   margin-bottom: auto;
   /* position:fixed; */
   font-size: 8px;

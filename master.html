@@ -86,7 +86,7 @@
                       </div>
                       <div></div>
                       <div>
-                        The unrolled visual representation of an RNN that passes a parametrizable hidden state between sequence iterations, designed in such a way that historical data contributes to the value of the hidden state. Parametrizations of the weight matrices are invariant between time steps, thus affording an architecture that does not implement \(O^n\) growth of parameters for increasing hisotorical perception.
+                        The user-defined parameters that are implemented in the network to set up the Reservoir Compute Network
                       </div>
                     </div>
                     <div class="numberingGrid">
@@ -94,28 +94,16 @@
                       &#8226; <code>options</code> = odeset('RelTol',1e-10,'AbsTol',1e-8);: Sets the relative and absolute tolerances for the ode45 solver, which is used to solve ordinary differential equations.<br>
                       &#8226; <code>transient_span</code> = 500;: The duration of the initial "transient" phase of the chaotic system. Data from this phase is typically discarded because the system hasn't settled into its chaotic attractor yet.<br>
                       &#8226; <code>train_span</code> = 500;: The duration of the time series used for training the reservoir computer.<br>
-control_span = 1000;: The duration of the time series used for testing the trained reservoir computer.
-ts = 0.01;: The time step for the simulation. A smaller ts means more data points and a more detailed simulation, but also longer computation time.
-total_span = transient_span + train_span + control_span;: The total duration of the simulation.
-full_span = [0:ts:total_span];: Creates a time vector from 0 to total_span with steps of ts.
-transient_idx, train_idx, control_idx: These variables calculate the indices corresponding to the end of the transient, training, and control (testing) spans, respectively. These indices are used to divide the generated time series into different segments.
-y0 = rand(3,1)*10^-2;: Sets the initial conditions for the Chen system. It's a small random vector to ensure the system starts from a slightly different point each time, which is characteristic of chaotic systems.
-[T,XD] = ode45('Chen',full_span,y0);: This is the core line for generating the chaotic time series.
-
-    ode45 is a MATLAB function for solving ordinary differential equations.
-    'Chen' refers to a separate MATLAB function (not provided in your snippet, but assumed to exist) that defines the Chen chaotic system's differential equations.
-    full_span is the time vector over which the system is integrated.
-    y0 is the initial condition.
-    T will contain the time points, and XD will contain the solutions (the x,y,z values of the Chen attractor) at each time point.
-
-drive_sig = XD(:,1);: Extracts the first component (x-component) of the Chen system's output. This is often used as the "driving" signal for the reservoir, meaning it's fed into the reservoir computing system.
-train_sig = XD(transient_idx+1:train_idx,2);: Extracts the second component (y-component) for the training phase, after discarding the transient. This is the signal the reservoir will learn to predict.
-test_sig = XD(train_idx+1:end,2);: Extracts the y-component for the testing phase. This is the signal used to evaluate the trained reservoir's performance.
-                    </div>
-                    <div class="numberingGrid">
-                      Because RNNs pass the error signal down through the chain of time-series data, linked through a trainable hidden state weight matrix, a predicament emerges when the gradient response is magnified or dimished, and is referred to as an exploding or vanishining gradient in the ltierature. This prevents traditional RNNs with the classical three stage tunable matrix from having long-term memory utility, as it tends to overtrain (with scignificant oscillations along the eignvalues of the hidden state weight matrix), or undertrain (with no movement of the hidden state weight matrix that would result in adequate response to any error signal that would persist at earlier time steps). RNNs also have a fixed "temporal" window, or memory capacity, for which transient data can be acknowledged; expanding this window requires exponentially more computing power and memory storage. Finally, RNNs, due to the inherent reliance on sequential data are generally slow to train due to serialization of the trianing phase, instead of parallelization, in hardware. A mechanism by which to address these aforementioned issues is to compact both the input and output vectors, which eliminates the problem elicited by recurrence, but introduces new complications, because the system is no longer scalable, memory persistent, and comprised of ordinal data. This mechanism requires a new scheme that "attends" to data that is discovered to be salient, and affords such data with an "attention" metric, which assesses similarities between a query (prompt) and key (data samples), and builds a value that dictates the relevance of the latter to the former. Thus, perhaps ironically, the most effective method available to evaluated sequential data is indeed one that removes the nature of sequential inputs and instead directs the system to maintain anembedded memeory of salient events.
-                    </div>
-                    <div class="numberingGrid">
+                      &#8226; <code>control_span = 1000</code>;: The duration of the time series used for testing the trained reservoir computer.<br>
+                      &#8226; <code>ts = 0.01</code>;: The time step for the simulation. A smaller ts means more data points and a more detailed simulation, but also longer computation time.
+                      &#8226; <code>total_span = transient_span + train_span + control_span</code>;: The total duration of the simulation.<br>
+                      &#8226; <code>full_span = [0:ts:total_span]</code>;: Creates a time vector from 0 to total_span with steps of ts.<br>
+                      &#8226; <code>transient_idx, train_idx, control_idx</code>: These variables calculate the indices corresponding to the end of the transient, training, and control (testing) spans, respectively. These indices are used to divide the generated time series into different segments.<br>
+                      &#8226; <code>y0 = rand(3,1)*10^-2</code>;: Sets the initial conditions for the Chen system. It's a small random vector to ensure the system starts from a slightly different point each time, which is characteristic of chaotic systems.<br>
+                      &#8226; <code>[T,XD] = ode45('Chen',full_span,y0)</code>;: This is the core line for generating the chaotic time series.<br>
+                      &#8226; <code>drive_sig = XD(:,1)</code>;: Extracts the first component (x-component) of the Chen system's output. This is often used as the "driving" signal for the reservoir, meaning it's fed into the reservoir computing system.<br>
+                      &#8226; <code>train_sig = XD(transient_idx+1:train_idx,2)</code>;: Extracts the second component (y-component) for the training phase, after discarding the transient. This is the signal the reservoir will learn to predict.<br>
+                      &#8226; <code>test_sig = XD(train_idx+1:end,2)</code>;: Extracts the y-component for the testing phase. This is the signal used to evaluate the trained reservoir's performance.<br>
                     </div>
                 </div>
           <div class="column">
@@ -125,23 +113,33 @@ test_sig = XD(train_idx+1:end,2);: Extracts the y-component for the testing phas
             </div>
             <div class="subsection-label">
               <div>1.2</div>
-              <div>Data Representations in RNNs</div>
+              <div>Mathematical Foundations of RC Networks</div>
             </div>
             <div class="numberingGrid">
-              In order to begin the discussion of how an RNN functions, and the fundamental theoretical alterations that enable RNNs to dominate serial prediction tasks, we must first begin with an exposition of sequential data. Sequential models originate from an initial directive to characterize a prediction based on past inputs, commonly referred to as autoregressive modeling; the objective is to define an expected value of a system given parameters: \(\mathbb{E}[x_t | x_{t-1}, \dots, x_1]\). The predicament with pure autoregressive datasets is that they do not accommodate variable length data, which is the case with most sequential, data driven scenrios, where some data has been recorded over long periods of time, and other data has only been tracked over a short time period. Typically, we are interested in some finite temporal window, which is the fundamental induction that allows these datasets to be "trainable" by a neural network, because it affords structure to each element in the window so that it can be parametrized by weights and biases. The implementation of memory, as mentioned previously, is accomplished with some tracking state, \(h_t\) that maintains a record of previous epxeriences.
-              As with any optimization paradigm, the structure of the loss function will dictate it's utility and allow for testing, validation, and deployment of the system once trained. RNNs are designed to ingest time-series data, and thus, when trained, is afforded observed values to reference at each time step within the temporal window. For classification data, the objective tends to minimize the negative log likelihood of predictions at each time step, as sequential data is afforded predictions at every logged event.
+              The objective of a reservoir compute network is somewhat twofold, the first is to define an appropriate structure for the hidden states, and the second is to train on observed values to adjust the parametrization of the function (at the output layer, because the internal weight matrix is static) in a way that minimizes the objective function (Crossentropy for classification tasks, or Mean Squared Error for quantitative tasks). Below we show the mathematical renders for the hidden state evaluation and the evaluation of the output prediction.
             </div>
             <div class="proof">
-              <span>1.0</span>
-              Joint Probability Decomp Objective (Autoregressive Prediction)
+              <span>1.1</span>
+              Hidden State Equation
               <br>
               <br>
               $$
-              P(x_1, \dots, x_T) = P(x_1) \prod_{t=2}^{T} P(x_t | x_{t-1}, \dots, x_1).
+              x_i(n+1) = \tanh\left[ \sum_{j=0}^{N-1} a_{ij} x_j(n) + b_i u(n) \right]
+              $$
+              <span>1.2</span>
+              Prediction Equation
+              <br>
+              <br>
+              $$
+              \hat{y}(n) = \sum_{i=0}^{N-1} W_i x_i(n).
               $$
             </div>
+            <div class="subsection-label">
+              <div>1.3</div>
+              <div>Training the Network</div>
+            </div>
             <div class="numberingGrid">
-              We will briefly mention that in order to structure sequential data in a way that is suitable for processing, the data must be tokenized, and perhaps grouped in contrived, secondary structures (such as n-grams) in order to perform statistical analysis. Due to the impetus driven by language models on RNNs, we typically refer to models that ingest time-series data as language models, even if data is not representative of a language system. Markov Models are the theoretical foundation of erecting the foundation of predictive mechanisms in sequential data, and the order of the model is a reference to how many steps ahead the system is capable of predicting a result, and conversely, how many dependencies an individual prediction relies on when generated. These concepts allude heavily to information theory heuristics, and the reader is suggested to refer to such work for more fundamental understanding of cross-entropy, surprisal, perplexity, and design terminology such as corpus, vocabulary, tokens, etc., <span class="text-citation">zhang2023dive</span>.
+              The RC network is trained in via looping construct in order to minimize the output to an arbitary error value. This particular network does not implement a gradient descent mechanism (these mechanisms are used in Deep RNNs or Trainable RCs), because RC networks are typically instanced with random parametrizations and a regression is performed a single time during the fitting phase. When the fit yields an error value that exceeds the threshold, a new RC is generated with random internal variables and retested. The random "adjacency" matrix A is initially set up to generate a number of neurons (scalar value) and is linked via the Erdos-Renyi function, which will generate linkages among an arbitrary set of nodes. The design of the network also requires that self-connections are removed from the weight matrix to ensure inter-neuron interactions have an opportunity to be featured in the network system, as opposed to intra-neuron, self connections that can potentially dominate the network (which would violate the Echo State Property as self-sustained activations would not decay). Perhaps most importantly, the reservoir is scaled so that the spectral radius is bounded by 1 (which requires extraction of eigenvalues and normalization of the weights generated via ER on the maximum eigenvalue). The trianing step is provided in the following figure.
             </div>
           </div>
                 </div>
@@ -152,221 +150,110 @@ test_sig = XD(train_idx+1:end,2);: Extracts the y-component for the testing phas
                 <div class="column">
                   <div class="numberingGrid">
                   </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      RC Training Scheme
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="27,67" style="font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      The user-defined parameters that are implemented in the network to set up the Reservoir Compute Network
+                    </div>
+                  </div>
 
                   <div class="slashtab">
                     <span>
                       <div class="slashtab-number">2.0</div>
                     </span>
-                    <div class='slashtab-text'>Analysis of LSTM networks for Prediction</div>
+                    <div class='slashtab-text'>Experimental Analysis of RC Network</div>
                     <div></div>
                   </div>
                   <div class="numberingGrid">
-                    In the following sections, we outline two LSTM architectures based on certain protocol criteria (for example, a defined kernel size, pooling layer, number of convolution layers, etc). The parameters of the network architecture are defined in <b>Table 1</b>. In the following section, we briefly discuss the deficiencies of RNNs that LSTMs attempt to mitigate.
+                    In the following section, we design several test cases to evaluate the effect of altering the number of nodes, connection density, and spectral radius of the network. The sections will examine the test cases with the aforementione dobjectives separately.
                   </div>
             <div class="subsection-label">
               <div>2.1</div>
-              <div>LSTMs vs. RNNs</div>
+              <div>Node Parameter Manipulation</div>
             </div>
             <div class="numberingGrid">
-              Despite the fact that both model architectures attempt to solve the same space of problems, LSTMs are designed in a way that is directed towards eliminating the problem of exploding/vanishing gradients. The conventional approach implemented on traditional RNNs, the gradients, when propogated through recurrent evaluations, are clipped via some bound associated with The Lipschitz Coefficient of the gradient.
-            </div>
-            <div class="proof">
-              Lipschitz association between Input Vector Distance
-              <span>2.0</span>
-              <br>
-              <br>
-              $$
-              |f(\mathbf{x}) - f(\mathbf{x} - \eta \mathbf{g})| \leq L \eta \|\mathbf{g}\|.
-              $$
-              <br>
-              <span>2.1</span>
-              Gradient-Clipper Ball (receives projected gradients)
-              <br>
-              <br>
-              $$
-              \mathbf{g} \leftarrow \min\left(1, \frac{\theta}{\|\mathbf{g}\|}\right) \mathbf{g}.
-              $$
+              The following figures and error metrics show the effects on system performance as nodes are instanced with values of n=1, n= 100, n = 250, n = 500 in order. We modify the looping construct to instead perform number of iterations to completion as opposed to completing at a desired accuracy, as particular text conditions may not permit such high accuracies and cause infinite recursion. The modified code is shown below:
             </div>
             <div class="numberingGrid">
-              At best, the gradient clip via projection onto a ball is a useful hack that happens to be relatively ubuquitous in RNNs training schemes because it directly affects the learning rate down a change of recurrent events. Other methods to ensure numerical stability and computational feasibility include truncation (randomized or unrandomized) or asymptotic gradient modification to compensate for a vanishing or exploding gradient. Ultimately, the "recursive" resopnse chaing grows exponentially depending on the eigenvalues of the hidden state's weight matrix, which is problematic if any eigenvalues differ from 1. LSTMs introduce the concept of a memory cell, which is engineered to have gated connections and constant derivative edge weights. The gates affect how the hidden state is updated, and manage appropriate changes to maximize likelihood of output predictions across a time window for each event. These gate events are learned by the network, and thus the sctructure of their respective parametrizations is entirely self-managed during training. The visual representation of a memory cell is provided in the following figure. Essentially, a memory cell is comprised of 3 layers, an input gate, regulating the portion of input data that influences a hidden state update, a forget gate, regulating the amount of memory to cache or flush, and an ouput node, regulating the amount that memory of token values contributes to values at any arbitrary time step (assuming all previous data is recorded prior to the time step). Sigmoidal activations are implemented in each of the gates in order to bind \(\textbf{I}_T\) (input gate), \(\textbf{F}_T\) (forget gate), \(\textbf{O}_T\) (output gate) \(\in (0,1] \). An input node is placed as a mechanism by which to reconfigure the forget and input gates prior to passing data to the output gate, so as to allow for incremental increases or decreases in the magnitude of weighted input vectors to the output gate. Because it is activate by a tanh function, certain magnitudes of weights and biases can be associated with either decreases in output magnitudes (indicating classification "detours") or increases in output magnitudes (indicating increased classification confidence). With such precisely dedicated mechanisms, LSTMs are highly effective at time-series prediction while also having recalcitrance to the previously mentioned complications of RNNs. Despite the fact that Transformer networks have largely superseded LSTMs, key concepts of transformer networks such as similarity identification and attention mechanisms are, in fact, inspired from the "physics" of LSTMs.
+              none
             </div>
                 </div>
                 <div class="column">
                   <div class="figure">
                     <div class="figure-label">
-                      LSTM Memory Cell
+                      Quad-array of Test Results
                     </div>
-                    <div class="figure-content">
-                      <img src="assets/images/LSTM_cell.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                    <div>
+                      <table>
+                      <tr>
+                      <td>
+                        <img src="assets/images/n_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                      </td>
+                      <td>
+                        <img src="assets/images/n_5.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>
+                        <img src="assets/images/n_50.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                      </td>
+                      <td>
+                        <img src="assets/images/n_500.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                      </td>
+                      </tr>
+                      </table>
                     </div>
                     <div></div>
                     <div>
-                      Visual render of the LSTM memory cell (hidden unit). The cell is effectively a 3 layer MLP (with the input node mechanism serving and a "combiner" for the forget and input gates). Having multiple cells in a hidden layer permits more approximation dynamics (the consequence of not having enough memory cells in a hidden layer would be poor fitting to the training data, high bias. Low bias and high variance is the consequence of having an excess number of hidden units; thus, the accompanying experimental procedure in the study attempts to identify the best parameters to select.
+                      a) nodes = 1, b) nodes = 5, c) nodes = 50, d) nodes = 500
                     </div>
                   </div>
             <div class="subsection-label">
               <div>2.2</div>
-              <div>Experiment 1: Sinusoidal + Linear Dynamics</div>
+              <div>Spectral Radius Manipulation</div>
             </div>
             <div class="numberingGrid">
-              We set up two LSTMs, one with a single layer and another with a "double" stacked hidden layer. The ostensible result of adding this second hidden layer is that the LSTM will be equipped with the capacity to learn more abstract patters from "simpler" dynamics present in the sequential data, such as how groups of sequences influence the prediction error. This is similar to a subsample in a CNN to reduce the resolution, generalizing a receptive field, and running a kernel that traverses more "image data" using the data passed through from the previous layer, which effectively allows the network to learn how to minimize error on compressions of the earlier layer. The figure below shows the initial run of a trained LSTM, which is trained from a window of data on a corrupted signal with a linear trend. We utilize a pre-supplied dataset loader, which features the <code>sliding_windows</code> function, and generate a set of input samples x that are assocaited with "y + t" output signal (look ahead data). The window itself defines how many previous instances of sequential data will be batched into an input, and the horizon value provides the ground truth observations, with the value dictating how many steps ahead the observations will be supplied. The system dyanmics, being relatively simple to generate, are produced on demand; if we intended to have 500 training samples, window size of 20, and 10 step projection horizon, the <code>sliding_windows</code> function would "attempt" to generate 500 samples of input data, but would only end up making "windows" up to the 471st data point;the last window would need 20 elements in it because of the window size (471 + 20) and we would need an additional 10 increments of projection to select the appropriate y value (491 + 10). Thus, the data would be able to train on 471 windows of length 20. The objective of this experimental procedure will be to identify an appropriate window_length \(\in [1,12]\) and hidden_size_count \(\in [1,100]\) that provides a good fit. We provide the experimentation trials and results in the following quad figure.
+              The RC network is hardcoded to normalize the spectral radius of the arbitrarily generated weight matrix. In the following capture, we display the effect of RC performance by restricting the spectral radius to 0.1, 0.2, 0.5, and 0.9 respectively (with the expectation that lower values of sepctral radii bring the system to a more "overdamped" state). We identified n=500 to be our optimal parameter for generated high quality predictions in the previous example, and fix this parameter accordingly.
+            </div>
+            <div class="figure">
+              <div class="figure-label">
+                Quad-array of Test Results
+              </div>
+              <div>
+                <table>
+                <tr>
+                <td>
+                  <img src="assets/images/eig_0_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                </td>
+                <td>
+                  <img src="assets/images/eig_0_2.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                </td>
+                </tr>
+                <tr>
+                <td>
+                  <img src="assets/images/eig_0_5.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                </td>
+                <td>
+                  <img src="assets/images/eig_0_9.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                </td>
+                </tr>
+                </table>
+              </div>
+              <div></div>
+              <div>
+                a) SR = 0.1, b) SR = 0.2, c) SR = 0.5, d) SR = 0.9
+              </div>
             </div>
             <br>
-                  <table>
-                    <tr>
-                      <th>Critera</th>
-                      <th>1-Layer</th>
-                      <th>2-Layer</th>
-                    </tr>
-                    <tr>
-                      <td>hidden_layer_count</td>
-                      <td>1</td>
-                      <td>2</td>
-                    </tr>
-                    <tr>
-                      <td>hidden_size_count</td>
-                      <td>hyperparameter</td>
-                      <td>hyperparameter</td>
-                    </tr>
-                    <tr>
-                      <td>window_length</td>
-                      <td>hyperparameter</td>
-                      <td>hyperparameter</td>
-                    </tr>
-                    <tr>
-                      <td>projection_horizon</td>
-                      <td>3</td>
-                      <td>3</td>
-                    </tr>
-                    <tr>
-                      <td>system_dynamics</td>
-                      <td>\(y = sin(6t) +0.1 t + \epsilon\)</td>
-                      <td>\(y = sin(6t) +0.1 t + \epsilon\)</td>
-                    </tr>
-                    <tr>
-                      <td>noise_feature (\(\epsilon\))</td>
-                      <td>Gaussian, \(\mu\) = 0, \(\sigma\) = 1</td>
-                      <td>Gaussian, \(\mu\) = 0, \(\sigma\) = 1</td>
-                    </tr>
-                    <caption>Experiment 1: Comparison of single and stacked LSTM</caption>
-                  </table>
-                </div>
-            </div>
-            <div class="page-break" contentEditable="true"></div>
-            <div class="dual-column">
-                <div class="column">
-                  <div class="figure">
-                    <div class="figure-label">
-                      Windowing Data Generator
-                    </div>
-                    <div class="figure-content">
-                      <!-- <img src="assets/images/LSTM_cell.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python line-numbers" data-src="/assets/code/LSTM.py" data-range="13,22" style="font-size: 6px;" ></pre>
-                    </div>
-                    <div></div>
-                    <div>
-                      The data generator is designed to generate a sequence of x inputs the size of the <code style="font-size:6px;">window_length</code> parameter, and a corresponding y observation point a distance away from the most recent x point equal to <code style="font-size:6px;">projection_horizon</code>. This forces the LSTM to learn a specific "future observation" based on a window of x inputs. A batching operation would merely select random "windows" for training (stochasticity).
-                    </div>
-                  </div>
-                  <div class="figure">
-                    <div class="figure-label">
-                      LSTM (low performance baseline)
-                    </div>
-                    <div class="figure-content">
-                      <img src="assets/images/LSTM_0.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
-                      <!-- <pre class="language-python line-numbers" data-src="/assets/code/LSTM.py" data-range="13,22" style="font-size: 6px;" ></pre> -->
-                    </div>
-                    <div></div>
-                    <div>
-                      The data generator is designed to generate a sequence of x inputs the size of the <code style="font-size:6px;">window_length</code> parameter, and a corresponding y observation point a distance away from the most recent x point equal to <code style="font-size:6px;">projection_horizon</code>. This forces the LSTM to learn a specific "future observation" based on a window of x inputs. A batching operation would merely select random "windows" for training (stochasticity). This model was trained for 100 epochs and had an MSE error of 3% after training.
-                    </div>
-                  </div>
-                  <div class="figure">
-                    <div class="figure-label">
-                      LSTM 1 Testing Array (parameters in description), E1
-                    </div>
-                    <div>
-                      <table>
-                      <tr>
-                      <td>
-                        <img src="assets/images/LSTM_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_2.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      <tr>
-                      <td>
-                        <img src="assets/images/LSTM_3.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_4.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      </table>
-                    </div>
-                    <div></div>
-                    <div>
-                      a) window_size: 20, hidden_nodes: 10, error: 0.041; b) window_size: 10, hidden_nodes: 20, error: 0.032; c) window_size: 8, hidden_nodes: 40, error: 0.03; d) window_size: 12 , hidden_nodes: 80, error: 0.019.
-                    </div>
-                  </div>
-                  <div class="numberingGrid">
-                    We expect to find a window length and hidden node parameter that would allow for accurate prediction of of a three step-ahead horizon, but does not overfit on the data (which may occur if the window is chosen to be too long/specific as it narrows the learning increasingly towards the dynamics of the sequence). We expect that a window that is adequately representative of the sinusoidal data (and thus we require, at a minimum, 1 period of the signal) and the linear trend. We perform the same test on LSTM 2 (which has a penultimate relu activated output later) and present our findings in the following figures. The parametrizations for the figure (in order from a, b, c, d) are different from the parametrizations that were used in the previous testing iteration with LSTM 1 (which are maintained within the caption text of <b> Figure 5</b>).
-                  </div>
-                </div>
-                <div class="column">
-                  <div class="numberingGrid">
-                  </div>
-                  <div class="figure">
-                    <div class="figure-label">
-                      LSTM 2 Testing Array (parameters in description), E1
-                    </div>
-                    <div>
-                      <table>
-                      <tr>
-                      <td>
-                        <img src="assets/images/LSTM_5.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_6.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      <tr>
-                      <td>
-                        <img src="assets/images/LSTM_7.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_8.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      </table>
-                    </div>
-                    <div></div>
-                    <div>
-                      a) window_size: 1, hidden_nodes: 10, error: 0.041; b) window_size: 4, hidden_nodes: 20, error: 0.032; c) window_size: 8, hidden_nodes: 80, error: 0.03; d) window_size: 12 , hidden_nodes: 100, error: 0.019.
-                    </div>
-                  </div>
-                  <div class="numberingGrid">
-                    In review, we observe that LSTMs with more hidden cells are able to better approximate noisy, sinusoidally shaped, sequential data, and short "horizons" result in much better characterization beause fewer errors have propogated over an elapse of time. This is an endemic phenomenon of RNN based architectures; for example, reservoir compute networks, which are RNNs with static weights and biases throughout except at the output layer, are able to efficiently train on data but predict only a few time steps ahead, and are thus effective for interpolative tasks or brief extrapolations of chaotic systems <span class="text-citation">cucchi2022hands</span>. As expected, we should expect to see convergence of accuracy metrics as the number of hidden cells increases, as the network is able to learn and characterize more dynamic patterns in the set. Abstraction via adding more layers is certianly beneficial, as shown in the following graphical representation with MSE errors populated from the data generated from the experimental procedure, which presents the loss trajectories over various projection distances for the 2-layer networkd standardized on a window of 12 and hidden size of 100 memory cells.
-                  </div>
-                  <div class="figure">
-                    <div class="figure-label">
-                      MSE Loss for Optimized LSTM (2-layer), E1
-                    </div>
-                    <div class="figure-content">
-                      <img src="assets/images/E1_loss.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
-                      <!-- <pre class="language-python line-numbers" data-src="/assets/code/LSTM.py" data-range="13,22" style="font-size: 6px;" ></pre> -->
-                    </div>
-                  </div>
-                  <div class="subsection-label">
-                    <div>2.3</div>
-                    <div>Experiment 2: Constant Sinusoidal Dynamics</div>
-                  </div>
-                  <div class="numberingGrid">
-                    The following experimental procedure is a replication of Experiment, with the exception that the signal dynamics no longer possess non-oscillatory linear dynamics, and the equation appears as \(y = sin(6t) + 0.1g(t)\). We include two quad figures to represent the efficacy in prediction for the 1-layer and 2-layer LSTMs respectively along with their MSE loss expansions for the best performing LSTM from 1 to 10 projections along the time horizon.
-                  </div>
-                  </div>
-                </div>
+          </div>
+        </div>
 
 
 
