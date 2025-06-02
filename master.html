@@ -61,7 +61,7 @@
                         <div class='slashtab-text'>Code structure</div>
                     </div>
                     <div class="numberingGrid">
-                      The <a href="#fig1"></a> hidden state of a reservoir compute network is evaluated via a sum of a portion of the previous state and a portion of the forcing function. In <i>autoregressive</i> modeling, the previous values of the inputs are evaluated (within a certain window to ensure variable length data is not fitted, introducing bias) with least squares regression methods. Utilizing a simple least square regression ostensibly (although not in all cases) enables forecasting of trends in the data, which is modeled by a function that ingests a window of time series data and applies some coefficient to all lagging values. In the following investigation, we will scrutinize the effect of manipulating the spectral radius of the weight matrix on the lagging coefficients and the convergent and divergent effects of such parametrizations on the evolution of the system. The equation below shows how a hidden state evolves over time.
+                      The <a href="#fig1"></a> hidden state of a reservoir compute network is evaluated via a sum of a portion of the previous state and a portion of the forcing function. In <i>autoregressive</i> modeling, the previous values of the inputs are evaluated (within a certain window to ensure variable length data is not fitted, introducing bias) with least squares regression methods. Utilizing a simple least square regression ostensibly (although not in all cases) enables forecasting of trends in the data, which is modeled by a function that ingests a window of time series data and applies some coefficient to all lagging values. In the following investigation, we will scrutinize the effect of manipulating the spectral radius of the weight matrix on the lagging coefficients and the convergent and divergent effects of such parametrizations on the evolution of the system. The equation below shows how a hidden state evolves over time. <a href="#fig1"></a>
                     </div>
                     <div class="proof">
                       <span>1</span>
@@ -100,21 +100,8 @@
             <div class="numberingGrid">
               The program that will be implemented to demonstrate the effects of arbitrarily selected \(\mathbf{a}\) coefficient matrices. The user is able to set the dimensionality of the hidden state, analysis time window, and frequency of the sinusoidal function.
             </div>
-            <div id="FIGURE NAME HERE" data-title="HERRO ALL" class="figure">
-              <div class="figure-label">
-                RC Spectral Analyzer Setup
-              </div>
-              <div class="figure-content">
-                <!-- <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                <pre class="language-python line-numbers" data-src="/assets/code/spectral_radius.py" data-range="1,31" style="font-size: 6px;" ></pre>
-              </div>
-              <div></div>
-              <div>
-                The user-defined parameters that are implemented in the network to set up the time series data. Here we design a forcing function, and set up the transformation matrix \(a_i\) and scalar coefficient \(b_i\), to appropriate dimensions.
-              </div>
-            </div>
             <div class="numberingGrid">
-              In this program, we utilize numpy's random number generator utility to generate the coefficient matrix; although, if we are to design the matrix manually, we must ensure that \(\mathbf{A}\) is of full rank, mapping the vector \(\mathbf{x}\) to the same space \(\cal{R}^N\). In order to ensure that the spectral radius can be arbitrarily set to a certain value (accepting some degree of stochasticity), we implement a multiplier variable <code>spectral_multiplier</code> that allows us to arbitrarily scale the coefficient matrix (for no effect, the value should be set to 1) to reach target spectral radii. For purposes of controllability, we establish our base coefficient matrix as a matrix of ones
+              In this program, we <a href="#fig2"></a> utilize numpy's random number generator utility to generate the coefficient matrix; although, if we are to design the matrix manually, we must ensure that \(\mathbf{A}\) is of full rank, mapping the vector \(\mathbf{x}\) to the same space \(\cal{R}^N\). In order to ensure that the spectral radius can be arbitrarily set to a certain value (accepting some degree of stochasticity), we implement a multiplier variable <code>spectral_multiplier</code> that allows us to arbitrarily scale the coefficient matrix (for no effect, the value should be set to 1) to reach target spectral radii. For purposes of controllability, we establish our base coefficient matrix as a matrix of ones
             </div>
             <div class="subsection-label">
               <div>1.2</div>
@@ -141,6 +128,10 @@
 
             <div class="dual-column">
                 <div class="column">
+                    <div id="fig2" data-title="test_figure" class="figure">
+                      <img src="assets/images/rank_1_matrix.png" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <div>test captio data forcing the figure element here</div>
+                    </div>
                   <div class="figure">
                     <div class="figure-label">
                       Rank 1 A Matrix Convergence

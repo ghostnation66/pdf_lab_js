@@ -48,12 +48,15 @@ export function formatFigures(){
     figure.replaceWith(figure_container_div);
 
     // Any <a> elements with the .figure class and an href are automatically formatted so that their innerText contains the word "Figure" and the index of the specific figure in question
-    debugger
     const selector = `a[href="#${figure_id}"]`;
-    let hyperlink = document.querySelectorAll(selector)[0];
-    hyperlink.textContent = 'Figure ' + figure_index;
-    hyperlink.style.color = "blue";
-    hyperlink.style.textDecorationLine = "underline";
+    let hyperlinks = document.querySelectorAll(selector);
+    if(hyperlinks){
+      for(let hyperlink of hyperlinks){
+        hyperlink.textContent = 'Figure ' + figure_index;
+        hyperlink.style.color = "blue";
+        hyperlink.style.textDecorationLine = "underline";
+      };
+    };
     figure_index++;
     // let hyperlink_text = document.createElement('div');
     // hyperlink_text.textContent = "HERRO ALL";
