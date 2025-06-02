@@ -21,7 +21,7 @@
 
   </head>
   <body class="document">
-        <div class="page" contenteditable="true">
+        <div class="page" contenteditable="false">
 
             <div class="dual-column">
                 <div class="column">
@@ -56,90 +56,83 @@
                     </div>
                     <div class="slashtab">
                         <span>
-                            <div class="slashtab-number">1.0</div>
+                            <div class="slashtab-number">1</div>
                         </span>
                         <div class='slashtab-text'>Code structure</div>
                     </div>
                     <div class="numberingGrid">
-                      The reservoir compute (RC) architecture is designed to ingest and learn the dynamics of a <code>Chua</code> chaotic system, also known as a double-scroll attractor. It is often described by a system of 3 nonlinear ODEs (to represent positional information along 3 axes). The dynamics along each of the "positional" elements of the chaotic system are described below, and a figure presenting the hyperparameters is provided.
+                      The <a href="#fig1"></a> hidden state of a reservoir compute network is evaluated via a sum of a portion of the previous state and a portion of the forcing function. In <i>autoregressive</i> modeling, the previous values of the inputs are evaluated (within a certain window to ensure variable length data is not fitted, introducing bias) with least squares regression methods. Utilizing a simple least square regression ostensibly (although not in all cases) enables forecasting of trends in the data, which is modeled by a function that ingests a window of time series data and applies some coefficient to all lagging values. In the following investigation, we will scrutinize the effect of manipulating the spectral radius of the weight matrix on the lagging coefficients and the convergent and divergent effects of such parametrizations on the evolution of the system. The equation below shows how a hidden state evolves over time.
                     </div>
                     <div class="proof">
-                      <span>1.0</span>
-                      Double-Scroll Attractor Dynamics
+                      <span>1</span>
+                      Hidden State Equation
                       <br>
                       <br>
                       $$
-                      \begin{align*}
-                      \frac{dx(t)}{dt} &= a(y(t) - x(t)) \\
-                      \frac{dy(t)}{dt} &= (c - a)x(t) - x(t)z(t) + cy(t) \\
-                      \frac{dz(t)}{dt} &= x(t)y(t) - bz(t)
-                      \end{align*}
+                      x_i(n+1) = \tanh\left[ \sum_{j=0}^{N-1} a_{ij} x_j(n) + b_i u(n) \right]
                       $$
                     </div>
-                    <div class="figure">
-                      <div class="figure-label">
-                        RC Hyperparameters
-                      </div>
-                      <div class="figure-content">
-                        <!-- <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                        <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="5,23" style="font-size: 6px;" ></pre>
-                      </div>
-                      <div></div>
-                      <div>
-                        The user-defined parameters that are implemented in the network to set up the Reservoir Compute Network
-                      </div>
+                    <div id="fig1" data-title="test_figure" class="figure">
+                      <img src="assets/images/rank_1_matrix.png" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <div>test captio data forcing the figure element here</div>
                     </div>
                     <div class="numberingGrid">
-                      The purpose of the hyperparameters are as follows:<br>
-                      &#8226; <code>options</code> = odeset('RelTol',1e-10,'AbsTol',1e-8);: Sets the relative and absolute tolerances for the ode45 solver, which is used to solve ordinary differential equations.<br>
-                      &#8226; <code>transient_span</code> = 500;: The duration of the initial "transient" phase of the chaotic system. Data from this phase is typically discarded because the system hasn't settled into its chaotic attractor yet.<br>
-                      &#8226; <code>train_span</code> = 500;: The duration of the time series used for training the reservoir computer.<br>
-                      &#8226; <code>control_span = 1000</code>;: The duration of the time series used for testing the trained reservoir computer.<br>
-                      &#8226; <code>ts = 0.01</code>;: The time step for the simulation. A smaller ts means more data points and a more detailed simulation, but also longer computation time.
-                      &#8226; <code>total_span = transient_span + train_span + control_span</code>;: The total duration of the simulation.<br>
-                      &#8226; <code>full_span = [0:ts:total_span]</code>;: Creates a time vector from 0 to total_span with steps of ts.<br>
-                      &#8226; <code>transient_idx, train_idx, control_idx</code>: These variables calculate the indices corresponding to the end of the transient, training, and control (testing) spans, respectively. These indices are used to divide the generated time series into different segments.<br>
-                      &#8226; <code>y0 = rand(3,1)*10^-2</code>;: Sets the initial conditions for the Chen system. It's a small random vector to ensure the system starts from a slightly different point each time, which is characteristic of chaotic systems.<br>
-                      &#8226; <code>[T,XD] = ode45('Chen',full_span,y0)</code>;: This is the core line for generating the chaotic time series.<br>
-                      &#8226; <code>drive_sig = XD(:,1)</code>;: Extracts the first component (x-component) of the Chen system's output. This is often used as the "driving" signal for the reservoir, meaning it's fed into the reservoir computing system.<br>
-                      &#8226; <code>train_sig = XD(transient_idx+1:train_idx,2)</code>;: Extracts the second component (y-component) for the training phase, after discarding the transient. This is the signal the reservoir will learn to predict.<br>
-                      &#8226; <code>test_sig = XD(train_idx+1:end,2)</code>;: Extracts the y-component for the testing phase. This is the signal used to evaluate the trained reservoir's performance.<br>
+                      Although typically not the case in reservoir compute networks, for the sake of intuition, assume that the input is a one dimensional scalar value, and that the hidden state \(x_i\) evolves as a one dimensional scalar value over the elapse of the training window. If the coefficient \(a_i\) is arbitrarily set to a value greater than 1, then we expect that for each time step in which the coefficient is applied (recall that \(a_i ~\text{and}~ b_i \) are static parameters in an RC network), the value of \(x\) would grow in that particular dimension if the hidden state is unbounded. However, RC networks implement the activation of the cumulative sum term with tanh, such that large parameters converge to 1 or -1, an effect often referred to as "saturation". In a multidimensional scenario where the input, and thus the hidden state, are comprised of multiple dimensions, we must identify the spectral radius of the coefficient matrix \(\mathbf{a}\), which will now be represented as a square matrix of the same dimensions as the input. Knowledge of the spectral radius provides knowledge of the supremum (lowest upper bound) of the eigenvalues, which will be used as a metric to determine the stability or instability of the system. We are interested in the spectral radius due to the insights provided by Gelfand's formula:
+                    </div>
+                    <div class="proof">
+                      <span>2</span>
+                      Gelfand's Formula
+                      <br>
+                      <br>
+                      $$
+                      \rho(A) = \lim_{k\to\infty} \|A^k\|^{1/k}
+                      $$
                     </div>
                 </div>
           <div class="column">
-            <!-- <div class="numberingGrid"></div> -->
             <div class="numberingGrid">
-              none
+              Gelfand's formula evinces the fact that over time (and many subsequent applications of the matrix), the growth rate of the matrix's powers, as measured by any matrix norm, will always converge to its spectral radius. This is salient to our analysis of RC networks as each previous time step is fed into the subsequent time step to calculate the hidden state, with a matrix transformation occuring during the process of being a fundamental component of the transformation. However, due to the "clipping" effect of <i>tanh</i>, we will only observe saturation at the upper and lower boundaries [-1,1] (although we provide an example of non-activated time series data to show instability in a later figure).
+            </div>
+            <div class="subsection-label">
+              <div>1.1</div>
+              <div>Implementation</div>
+            </div>
+            <div class="numberingGrid">
+              The program that will be implemented to demonstrate the effects of arbitrarily selected \(\mathbf{a}\) coefficient matrices. The user is able to set the dimensionality of the hidden state, analysis time window, and frequency of the sinusoidal function.
+            </div>
+            <div id="FIGURE NAME HERE" data-title="HERRO ALL" class="figure">
+              <div class="figure-label">
+                RC Spectral Analyzer Setup
+              </div>
+              <div class="figure-content">
+                <!-- <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                <pre class="language-python line-numbers" data-src="/assets/code/spectral_radius.py" data-range="1,31" style="font-size: 6px;" ></pre>
+              </div>
+              <div></div>
+              <div>
+                The user-defined parameters that are implemented in the network to set up the time series data. Here we design a forcing function, and set up the transformation matrix \(a_i\) and scalar coefficient \(b_i\), to appropriate dimensions.
+              </div>
+            </div>
+            <div class="numberingGrid">
+              In this program, we utilize numpy's random number generator utility to generate the coefficient matrix; although, if we are to design the matrix manually, we must ensure that \(\mathbf{A}\) is of full rank, mapping the vector \(\mathbf{x}\) to the same space \(\cal{R}^N\). In order to ensure that the spectral radius can be arbitrarily set to a certain value (accepting some degree of stochasticity), we implement a multiplier variable <code>spectral_multiplier</code> that allows us to arbitrarily scale the coefficient matrix (for no effect, the value should be set to 1) to reach target spectral radii. For purposes of controllability, we establish our base coefficient matrix as a matrix of ones
             </div>
             <div class="subsection-label">
               <div>1.2</div>
-              <div>Mathematical Foundations of RC Networks</div>
+              <div>Pathology of Singular Matrices</div>
             </div>
             <div class="numberingGrid">
-              The objective of a reservoir compute network is somewhat twofold, the first is to define an appropriate structure for the hidden states, and the second is to train on observed values to adjust the parametrization of the function (at the output layer, because the internal weight matrix is static) in a way that minimizes the objective function (Crossentropy for classification tasks, or Mean Squared Error for quantitative tasks). Below we show the mathematical renders for the hidden state evaluation and the evaluation of the output prediction.
-            </div>
-            <div class="proof">
-              <span>1.1</span>
-              Hidden State Equation
+              During testing, several observations were made for matrices that did not have full rank. The first of which involved designing a rank 1 matrix consisting entirely of ones via <code>A = np.ones((N, N)) * spectral_multiplier</code>. This particular matrix forces all dimensions to have dynamics that are dependent on other dimensions, and so a single application of the transformation matrices results in convergence (note that the transformation is a dot product, and thus, taking the dot product of a dimension consisting of ones, and doing the same on a different dimension generates identical outputs for both dimensions). The figure shows the result of the phenomenon when a 3D transformation matrix possesses a rank of 1.
               <br>
               <br>
-              $$
-              x_i(n+1) = \tanh\left[ \sum_{j=0}^{N-1} a_{ij} x_j(n) + b_i u(n) \right]
-              $$
-              <span>1.2</span>
-              Prediction Equation
+              \(
+              \mathbf{A}_1 = \begin{pmatrix}
+              0.1 & 0.1 & 0.1 \\
+              0.1 & 0.1 & 0.1 \\
+              0.1 & 0.1 & 0.1
+              \end{pmatrix},~
+              \lambda_1 = 0.3, \lambda_2 = 0, \lambda_3 = 0
+              \)
               <br>
-              <br>
-              $$
-              \hat{y}(n) = \sum_{i=0}^{N-1} W_i x_i(n).
-              $$
-            </div>
-            <div class="subsection-label">
-              <div>1.3</div>
-              <div>Training the Network</div>
-            </div>
-            <div class="numberingGrid">
-              The RC network is trained in via looping construct in order to minimize the output to an arbitary error value. This particular network does not implement a gradient descent mechanism (these mechanisms are used in Deep RNNs or Trainable RCs), because RC networks are typically instanced with random parametrizations and a regression is performed a single time during the fitting phase. When the fit yields an error value that exceeds the threshold, a new RC is generated with random internal variables and retested. The random "adjacency" matrix A is initially set up to generate a number of neurons (scalar value) and is linked via the Erdos-Renyi function, which will generate linkages among an arbitrary set of nodes. The design of the network also requires that self-connections are removed from the weight matrix to ensure inter-neuron interactions have an opportunity to be featured in the network system, as opposed to intra-neuron, self connections that can potentially dominate the network (which would violate the Echo State Property as self-sustained activations would not decay). Perhaps most importantly, the reservoir is scaled so that the spectral radius is bounded by 1 (which requires extraction of eigenvalues and normalization of the weights generated via ER on the maximum eigenvalue). The trianing step is provided in the following figure.
             </div>
           </div>
                 </div>
@@ -148,109 +141,110 @@
 
             <div class="dual-column">
                 <div class="column">
-                  <div class="numberingGrid">
-                  </div>
                   <div class="figure">
                     <div class="figure-label">
-                      RC Training Scheme
+                      Rank 1 A Matrix Convergence
                     </div>
                     <div class="figure-content">
-                      <!-- <img src="assets/images/unrolled_rnn.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
-                      <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="27,67" style="font-size: 6px;" ></pre>
+                      <img src="assets/images/rank_1_matrix.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="27,67" style="font-size: 6px;" ></pre> -->
                     </div>
                     <div></div>
                     <div>
-                      The user-defined parameters that are implemented in the network to set up the Reservoir Compute Network
+                      Abrupt convergence due to the effect of transforming via a singular, rank 1 matrix. Diversity of the dimensions is lost, and the information on two dimensions out of three is made redundant.
                     </div>
                   </div>
-
-                  <div class="slashtab">
-                    <span>
-                      <div class="slashtab-number">2.0</div>
-                    </span>
-                    <div class='slashtab-text'>Experimental Analysis of RC Network</div>
+                  <div class="numberingGrid">
+                    For 3D matrices of rank 2, within which only one of the vectors is dependent, we make the following observation
+                    <br>
+                    <br>
+                    \(
+                    \mathbf{A}_2 = \begin{pmatrix}
+                    0.1 & 0.1 & 0.1 \\
+                    0.3 & 0.1 & 0.5 \\
+                    0.3 & 0.5 & 0.1
+                    \end{pmatrix},~
+                    \lambda_1 = 0, \lambda_2 = -0.7, \lambda_3 = -0.4
+                    \)
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Rank 2 Matrix, Demo 1
+                    </div>
+                    <div class="figure-content">
+                      <img src="assets/images/rank_2_matrix.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="27,67" style="font-size: 6px;" ></pre> -->
+                    </div>
                     <div></div>
+                    <div>
+                      A non-apparent rank 2 matrix showing not only convergence to the forcing function, but also complete synchronization in phase and amplitude of 2 dimensions.
+                    </div>
                   </div>
                   <div class="numberingGrid">
-                    In the following section, we design several test cases to evaluate the effect of altering the number of nodes, connection density, and spectral radius of the network. The sections will examine the test cases with the aforementione dobjectives separately.
+                    Perhaps, more interestingly, is that a rank 2 matrix can also present full separation of dimensions if configured appropriately. We observer a rank 2 matrix with these properties:
+                    <br>
+                    <br>
+                    \(
+                    \mathbf{A}_3 = \begin{pmatrix}
+                    0.1 & 0.1 & 0.1 \\
+                    0.3 & 0.1 & 0.5 \\
+                    0.2 & 0.2 & 0.2
+                    \end{pmatrix},~
+                    \lambda_1 = 0.57, \lambda_2 = 0, \lambda_3 = -.17
+                    \)
+                    <br>
+                    We culminate this section with a note of interest that transformation matrices that do not have dimensions that map a "null" eigenvector will have some component that results in real space output, although perhaps heavily diminishes as one would expect as a vector becomes more "parallel" with a "null" eigenvector.
                   </div>
-            <div class="subsection-label">
-              <div>2.1</div>
-              <div>Node Parameter Manipulation</div>
-            </div>
-            <div class="numberingGrid">
-              The following figures and error metrics show the effects on system performance as nodes are instanced with values of n=1, n= 100, n = 250, n = 500 in order. We modify the looping construct to instead perform number of iterations to completion as opposed to completing at a desired accuracy, as particular text conditions may not permit such high accuracies and cause infinite recursion. The modified code is shown below:
-            </div>
-            <div class="numberingGrid">
-              none
-            </div>
+
                 </div>
                 <div class="column">
                   <div class="figure">
                     <div class="figure-label">
-                      Quad-array of Test Results
+                      Rank 2 Matrix, Demo 2
                     </div>
-                    <div>
-                      <table>
-                      <tr>
-                      <td>
-                        <img src="assets/images/n_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/n_5.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      <tr>
-                      <td>
-                        <img src="assets/images/n_50.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/n_500.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      </table>
+                    <div class="figure-content">
+                      <img src="assets/images/rank_2_matrix_2.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
+                      <!-- <pre class="language-python line-numbers" data-src="/assets/code/RC_chaotic.m" data-range="27,67" style="font-size: 6px;" ></pre> -->
                     </div>
                     <div></div>
                     <div>
-                      a) nodes = 1, b) nodes = 5, c) nodes = 50, d) nodes = 500
+                      Convergence of all dimensions to the forcing function. Slight phase and amplitude differences are observed.
                     </div>
                   </div>
-            <div class="subsection-label">
-              <div>2.2</div>
-              <div>Spectral Radius Manipulation</div>
-            </div>
-            <div class="numberingGrid">
-              The RC network is hardcoded to normalize the spectral radius of the arbitrarily generated weight matrix. In the following capture, we display the effect of RC performance by restricting the spectral radius to 0.1, 0.2, 0.5, and 0.9 respectively (with the expectation that lower values of sepctral radii bring the system to a more "overdamped" state). We identified n=500 to be our optimal parameter for generated high quality predictions in the previous example, and fix this parameter accordingly.
-            </div>
-            <div class="figure">
-              <div class="figure-label">
-                Quad-array of Test Results
-              </div>
-              <div>
-                <table>
-                <tr>
-                <td>
-                  <img src="assets/images/eig_0_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                </td>
-                <td>
-                  <img src="assets/images/eig_0_2.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                </td>
-                </tr>
-                <tr>
-                <td>
-                  <img src="assets/images/eig_0_5.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                </td>
-                <td>
-                  <img src="assets/images/eig_0_9.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                </td>
-                </tr>
-                </table>
-              </div>
-              <div></div>
-              <div>
-                a) SR = 0.1, b) SR = 0.2, c) SR = 0.5, d) SR = 0.9
-              </div>
-            </div>
+                  <div class="slashtab">
+                      <span>
+                          <div class="slashtab-number">2</div>
+                      </span>
+                      <div class='slashtab-text'>Error Effect of Initial Condition</div>
+                  </div>
+                  <div class="numberingGrid">
+                    The following investigation attempts to characterize the effect of different initial conditions on the divergence of the outputs of two disparate reservoirs. The initial conditions are designated as hyperparameters in the program, which the investigator can set arbitrarily. As was referenced in the previous section, the forcing function is desginated as a sinusoidal function with tunable frequency. The initial conditions of \(\mathbf{x}_1\) and \(\mathbf{x}_2\) are designated manually via setting a variable in the first index. All other conditions are kept the same between the two time series candidates. The objective was to measure the error norm between the two outputs of time series data, as referenced in the caption of the following figure.
+                  </div>
+                  <div class="proof">
+                    <span>3</span>
+                    Quantifying Inter-Error Term (2 reservoir weight matrices)
+                    <br>
+                    <br>
+                    $$
+                    ||\mathbf{x_1}(t) - \mathbf{x_2}(t)|| = error(t)
+                    $$
+                  </div>
+                  <div class="figure">
+                    <div class="figure-label">
+                      Setup of Vectors and Error Evaluation
+                    </div>
+                    <div class="figure-content">
+                      <!-- <img src="assets/images/rank_2_matrix.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto"> -->
+                      <pre class="language-python line-numbers" data-src="/assets/code/spectral_radius.py" data-range="41,54" style="font-size: 6px;" ></pre>
+                    </div>
+                    <div></div>
+                    <div>
+                      Setting up the two candidate vectors, and performing pairwise substraction to render out a Euclidian distance vector. A norm is then taken over the pairwise subtraction of the vectors, producing a value that represents the magnitude of error, which is then plotted on a graph.
+                    </div>
+                  </div>
+                  <div class="numberingGrid">
+                    We present error evolutions with respect to reservoir parametrizations of varying spectral radii in the following figures. Please note that all variables are consistent between the vector candidates, with the exception of the initial conditions.
+                  </div>
             <br>
           </div>
         </div>
@@ -260,82 +254,37 @@
             <div class="page-break" contentEditable="true"></div>
             <div class="dual-column">
               <div class="column">
-                  <div class="figure">
-                    <div class="figure-label">
-                      LSTM 2 Testing Array (parameters in description), E2
-                    </div>
-                    <div>
-                      <table>
+                <div class="figure">
+                  <div class="figure-label">
+                    Experimental Results
+                  </div>
+                  <div>
+                    <table>
                       <tr>
-                      <td>
-                        <img src="assets/images/LSTM_E2_0.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_E2_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
+                        <td>
+                          <img src="assets/images/test_1.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                        </td>
+                        <td>
+                          <img src="assets/images/test_2.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                        </td>
                       </tr>
                       <tr>
-                      <td>
-                        <img src="assets/images/LSTM_E2_2.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_E2_4.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
+                        <td>
+                          <img src="assets/images/test_3.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                        </td>
+                        <td>
+                          <img src="assets/images/test_4.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
+                        </td>
                       </tr>
-                      </table>
-                    </div>
-                    <div></div>
-                    <div>
-                      a) window_size: 1, hidden_nodes: 10; b) window_size: 4, hidden_nodes: 20; c) window_size: 8, hidden_nodes: 80; d) window_size: 12 , hidden_nodes: 100.
-                    </div>
+                    </table>
                   </div>
-                  <div class="figure">
-                    <div class="figure-label">
-                      LSTM 2 Testing Array (parameters in description), E2
-                    </div>
-                    <div>
-                      <table>
-                      <tr>
-                      <td>
-                        <img src="assets/images/LSTM_E2_5.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_E2_6.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      <tr>
-                      <td>
-                        <img src="assets/images/LSTM_E2_7.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      <td>
-                        <img src="assets/images/LSTM_E2_8.png" alt="Description of the SVG image" style="display: block; width:100%; height:100%; position: relative; margin-left: auto; margin-right: auto">
-                      </td>
-                      </tr>
-                      </table>
-                    </div>
-                    <div></div>
-                    <div>
-                      a) window_size: 1, hidden_nodes: 10; b) window_size: 4, hidden_nodes: 20; c) window_size: 8, hidden_nodes: 40; d) window_size: 8 , hidden_nodes: 80
-                    </div>
+                  <div></div>
+                  <div>
+                    Eigenvalues and Initial Conditions (IC) are provided in the legends for each graph. We performed 4 tests, the first two implemented a system with reservoir dynamics were characterized with spectral radii < 1, differeing in IC values. The second set implemented a system with reservoir dynamics characterized with a spectral radii > 1, differeng in IC values.
                   </div>
-                  <div class="figure">
-                    <div class="figure-label">
-                      MSE Loss for Optimized LSTM (2-layer), E2
-                    </div>
-                    <div class="figure-content">
-                      <img src="assets/images/E2_loss.png" alt="Description of the SVG image" style="display: block; width:90%; height:auto; position: relative; margin-left: auto; margin-right: auto">
-                      <!-- <pre class="language-python line-numbers" data-src="/assets/code/LSTM.py" data-range="13,22" style="font-size: 6px;" ></pre> -->
-                    </div>
-                  </div>
-                  <div class="numberingGrid">
-                    The characterization of the dyanmics in Experiment 2 afforded much better characterization, as indicated by the prediction renders in the quad-figures. This is primarily due to the fact the latter system is not influenced by a secondary dynamic (note that the first system exhibited a sinusoidal and direct proportional response to the elapse of time). With a simpler system, the LSTM is able to characterize the activity more effecitvely and quickly (we note that fewer epochs of training are required to observe training convergence). Due to the nature of this network utilizing the numpy library exclusively, we might expect implementing an optimizer or loading the data on a GPU network to train more aggressively over a longer duration will increase the accuracy to some degree.
-                  </div>
+                </div>
               </div>
               <div class="column">
-                  <div class="numberingGrid">
-                    The characterization of the dyanmics in Experiment 2 afforded much better characterization, as indicated by the prediction renders in the quad-figures. This is primarily due to the fact the latter system is not influenced by a secondary dynamic (note that the first system exhibited a sinusoidal and direct proportional response to the elapse of time). With a simpler system, the LSTM is able to characterize the activity more effecitvely and quickly (we note that fewer epochs of training are required to observe training convergence). Due to the nature of this network utilizing the numpy library exclusively, we might expect implementing an optimizer or loading the data on a GPU network to train more aggressively over a longer duration will increase the accuracy to some degree <span class="text-citation">pearlmutter1990dynamic</span>. Admittedly, the oscillatory nature of the dynamics pose a complication when computing gradients as there are frequent directional changes of the gradients during backpropagation, which is one supporting notion for the "lagging" nature of both LSTMs in both experiments <span class="text-citation">morchdi2023exploring</span>. Undoubtedly, the most significant factor that influences the networks accuracy is the number of hidden cells, as too few cells will prevent the network from characterizing the dynamics of a signal, provided that the window length encompass at LEAST one period of the signal. In both experiments, having an additional hidden layer, and an additional output layer, affords the network with greater evaluation capacity. We designate the 2-layer network as having superior approximation capabilities, with a MSE of > 0.001, whereas the 1-layer network was not found to converge to a lower value than 0.01 within the extent of our testing effort.
-                  </div>
-                  <br>
                     <div class="bibliography-title">References</div>
                     <div id="citations"></div>
               </div>
@@ -344,28 +293,14 @@
             <div class="page-break" contentEditable="true"></div>
       <div>Appendix</div>
       <div class="appendix-figure">
-        <div class="appendix-figure-label">Numpy-only LSTM</div>
+        <div class="appendix-figure-label">Spectral Analyzer Code</div>
         <div class="appendix-figure-content">
-          <pre class="language-python line-numbers" data-src="/assets/code/LSTM_0.py" data-range="0,88" style="font-size: 6px;" ></pre>
+          <pre class="language-python line-numbers" data-src="/assets/code/spectral_radius.py" data-range="0,68" style="font-size: 6px;" ></pre>
         </div>
 
       </div>
 
 
-    <div class="page-break" contentEditable="true"></div>
-      <div class="appendix-figure">
-        <div class="appendix-figure-label">Numpy-only LSTM</div>
-        <div class="appendix-figure-content">
-          <pre class="language-python line-numbers" data-src="/assets/code/LSTM_0.py" data-range="89,177" style="font-size: 6px;" ></pre>
-        </div>
-
-      </div>
-    <div class="page-break" contentEditable="true"></div>
-      <div class="appendix-figure">
-        <div class="appendix-figure-label">Numpy-only LSTM</div>
-        <div class="appendix-figure-content">
-          <pre class="language-python line-numbers" data-src="/assets/code/LSTM_0.py" data-range="178,266" style="font-size: 6px;" ></pre>
-        </div>
 
       </div>
     <!-- <div class="page-break" contentEditable="true"></div>

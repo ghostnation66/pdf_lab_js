@@ -530,7 +530,7 @@ img.svg{
     border: 2px solid transparent;
     border-radius: 10px;
 }
-
+/* figure label */
 .figure-label{
     width: 100%;
     border-top: 2px solid #2e9f40;
@@ -568,6 +568,30 @@ img.svg{
     border-left: 2px solid #2e9f40;
     border-radius: 0px 0px 7px 7px;
     font-size: 4pt;
+}
+
+.figure div:nth-child(3){
+  display: inline;
+  /* border-bottom: 2px solid #2e9f40; */
+  border-bottom: 2px solid #2e9f40;
+  width: 10%;
+  border-bottom-left-radius: 10px;
+  border-left: 2px solid #2e9f40;
+  height: 20px;
+  transform: translate(20px, -2px);
+}
+
+.figure div:nth-last-child(1){
+  display: inline;
+  color: grey;
+  background: #D3D3D3;
+  /* border: 2px solid #2e9f40; */
+  border: 2px solid #2e9f40;
+  width: 270px;
+  font-size: 8px;
+  padding: 5px;
+  transform: translate(40px, -15px);
+  border-radius: 7px;
 }
 
 .dual-column {
@@ -966,22 +990,22 @@ th, td {
 	padding-left: 13px;
   padding-top: 3px;
 	padding-bottom: 0px;
-  transform: translate(-10px,-45px);
+  transform: translate(-5px,-44px);
   font-size: 8px;
   font-weight: bold;
   font-family: 'monospace';
 }
 
 .slashtab-text{
-  color: grey;
+  color: #2e9f40;
 	background:white;
 	border-radius: 10px;
 	padding-left: 5px;
 	padding-top: 3px;
 	justify-self: start;
-  font-size: 8px;
+  font-size: 9px;
   /* font-weight: 500; */
-  transform: translate(0px,2px);
+  transform: translate(-10px,2px);
   font-family: none;
 
 
@@ -1076,7 +1100,10 @@ th, td {
 .proof span{
   color: grey;
   background: #D3D3D3;
-  padding: 4px;
+  padding-right: 6px;
+  padding-left: 6px;
+  padding-top:4px;
+  padding-bottom: 4px;
   width: 16px;
   border: dashed 4px #000;/*optional*/
 
@@ -1409,7 +1436,7 @@ li::marker {
   color:#2e9f40;
   background: #abd8b2;
   border: 2px solid #2e9f40;
-  /* border-radius: 10px; */
+  border-radius: 8px;
   transform: translate(8px, -12px);
   font-size: 8px;
   /* width: 40%; */
@@ -1428,36 +1455,13 @@ li::marker {
   background:white;
   padding-left: 2px;
   border-radius: 0px;
-  transform: translate(48px, -29px);
+  transform: translate(48px, -30px);
   width:380%;
   /* border-bottom: 2px solid grey; */
-  font-size: 9px;
-  font-weight: bold;
+  font-size: 10px;
+  /* font-weight: bold; */
 }
 
-.figure div:nth-child(3){
-  display: inline;
-  /* border-bottom: 2px solid #2e9f40; */
-  border-bottom: 2px solid #2e9f40;
-  width: 10%;
-  /* border-left: 2px solid #2e9f40; */
-  border-left: 2px solid #2e9f40;
-  height: 20px;
-  transform: translate(20px, 0px);
-}
-
-.figure div:nth-child(4){
-  display: inline;
-  color: grey;
-  background: #D3D3D3;
-  /* border: 2px solid #2e9f40; */
-  border: 2px solid #2e9f40;
-  width: 270px;
-  font-size: 8px;
-  padding: 5px;
-  transform: translate(40px, -15px);
-  border-radius: 7px;
-}
 
 .token.treeview-part .entry-name.dir::before {
   content: "\ea02";

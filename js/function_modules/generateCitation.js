@@ -27,7 +27,6 @@ export function render_text_citation(){
       },
     });
     //The outputArray ingests the ENTIRE bibliography and converts it to a list delimited by newlines
-    debugger
     let outputArray = output.split('\n');
     //The textCitation value is an empty string to store the matched regex function
     let textCitationIndex = ""
@@ -61,7 +60,6 @@ export function render_bibliography(){
       }
 
   });
-  debugger
   // Collect the bibliography div element with the "citations" class
   let citationsContainer = document.getElementById('citations');
   // If the div element exists, the innerHTML will render out the entire bibliography with the prepended "bibliography-number" classed element.
